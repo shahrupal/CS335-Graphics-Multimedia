@@ -1,0 +1,7 @@
+Description of Exercise 3, Part 2: 
+The two files (WindowContents & DraggableRectangle) work together to create an ouput for the user.
+WindowContents creates the window itself - it adds the rectangle and buttons to this.
+DraggableRectangle does a multitude of things. It outputs a rectangle, with four squares: one on each of its corners.
+If the user presses and drags a corner, the program will repaint the rectangle, meaning that as the user drags a corner, 
+that specific corner of the rectangle will be re-drawn using the user's mouse point - thus, manipulating the shape of the rectangle.
+In addition, if the user clicks the "reset" button, the rectangle will reset back to its original position.

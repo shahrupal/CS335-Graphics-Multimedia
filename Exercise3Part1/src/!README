@@ -1,0 +1,8 @@
+Description of Exercise 3, Part 1:
+The two files (WindowContents & RotatingRectangle) work together to create an ouput for the user.
+WindowContents creates the window itself - it adds the rectangle and buttons to this.
+The buttons included in WindowContents, stop and reset, stop the rectangle in its current position and resets the rectangle to its
+original position, respectively.
+RotatingRectangle waits for the user to click inside of the rectangle. When this occurs, the rectangle rotates around that point,
+incrementing by 1 degree, every 50 milliseconds. It does this by using the repaint() method to re-draw the rectangle increasingly
+more degrees away from its original position.
