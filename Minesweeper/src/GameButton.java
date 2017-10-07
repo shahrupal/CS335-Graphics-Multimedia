@@ -41,4 +41,15 @@ public class GameButton extends JButton {  //object in form of buttons
     public int getSurroundingBombs(){
         return neighboringBombs;
     }
+
+    //"show" (set) image of JButton to front (blank button)
+    public void showFront(){
+        super.setIcon(front);
+    }
+
+    //"show" (set) image of JButton to number/bomb
+    public void showBack(){
+        super.setIcon(back);
+    }
+
 }

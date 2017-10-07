@@ -12,8 +12,8 @@ public class GameWindow extends JFrame implements ActionListener{
 
         super("Minesweeper");
 
-        numRows = 8;
-        numCols = 8;
+        numRows = 15;
+        numCols = 15;
 
         gridButtons = new JPanel();
         gridButtons.setLayout(new GridLayout(numRows, numCols, 0, 0));
@@ -30,7 +30,10 @@ public class GameWindow extends JFrame implements ActionListener{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public void actionPerformed(ActionEvent e){ }
+    public void actionPerformed(ActionEvent e){
+        GameButton currButton = (GameButton) e.getSource();
+        currButton.showBack();
+    }
 
     public static void main(String args[]){
         GameWindow newGame = new GameWindow();

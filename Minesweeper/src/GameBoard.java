@@ -30,7 +30,7 @@ public class GameBoard {
 
         setBombs(row, col);
         setNumbers(row, col);
-        setImages();
+        setImages(AL);
 
        for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
@@ -133,7 +133,8 @@ public class GameBoard {
     }
 
 
-    public void setImages(){
+    //set back images based on number of surrounding bombs to current position
+    public void setImages(ActionListener AL){
 
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
@@ -152,11 +153,14 @@ public class GameBoard {
                 GameButton newButton = new GameButton(img);
                 newButton.setSurroundingBombs(imageIndex);
 
+                //add action listener to each button
+                newButton.addActionListener(AL);
+
                 //replace old button with new (same but with image)
                 buttonsMatrix[i][j] = newButton;
             }
         }
     }
 
-    /**somewhere set images based on "getSurroundingBombs()"*/
+
 }
