@@ -5,6 +5,7 @@ import javax.swing.*;
 public class GameBoard {
 
     private GameButton buttonsMatrix [][];
+    private ClassLoader loader = getClass().getClassLoader();
 
     private int numRows, numCols;
     private int numBombs;
@@ -29,10 +30,11 @@ public class GameBoard {
 
         setBombs(row, col);
         setNumbers(row, col);
+        setImages();
 
        for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
-                buttonsMatrix[i][j].setText(String.valueOf(buttonsMatrix[i][j].getSurroundingBombs()));
+           //     buttonsMatrix[i][j].setText(String.valueOf(buttonsMatrix[i][j].getSurroundingBombs()));
                 System.out.print(buttonsMatrix[i][j].getSurroundingBombs() + " ");
             }
             System.out.println();
@@ -131,6 +133,30 @@ public class GameBoard {
     }
 
 
+    public void setImages(){
+
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++){
+
+                //set image according to number of surrounding bombs
+                int imageIndex = buttonsMatrix[i][j].getSurroundingBombs();
+                String imgPath = "images/" + imageIndex + "back.jpg";
+                ImageIcon img = new ImageIcon(loader.getResource(imgPath));
+
+                //resize images to fit buttons
+                Image storeImg = img.getImage();
+                Image resizeImg = storeImg.getScaledInstance(20,20, Image.SCALE_SMOOTH);
+                img = new ImageIcon(resizeImg);
+
+                //create a new button -- identical to current one but set with front image
+                GameButton newButton = new GameButton(img);
+                newButton.setSurroundingBombs(imageIndex);
+
+                //replace old button with new (same but with image)
+                buttonsMatrix[i][j] = newButton;
+            }
+        }
+    }
 
     /**somewhere set images based on "getSurroundingBombs()"*/
 }
