@@ -7,6 +7,7 @@ public class GameButton extends JButton {  //object in form of buttons
     private int neighboringBombs;
 
     private ClassLoader loader = getClass().getClassLoader();
+    private ImageIcon error = new ImageIcon(loader.getResource("images/error.jpg"));
     private ImageIcon front = new ImageIcon(loader.getResource("images/front.jpg"));
     private Icon back;
 
@@ -50,6 +51,18 @@ public class GameButton extends JButton {  //object in form of buttons
     //"show" (set) image of JButton to number/bomb
     public void showBack(){
         super.setIcon(back);
+    }
+
+    //show red bomb to convey button user clicked was a bomb
+    public void showError(){
+
+        //resize image to fit button
+        Image errorImg = error.getImage();
+        Image resizeImg = errorImg.getScaledInstance(20,20,Image.SCALE_SMOOTH);
+        error = new ImageIcon(resizeImg);
+
+        //set image to new resized error image
+        super.setIcon(error);
     }
 
 }

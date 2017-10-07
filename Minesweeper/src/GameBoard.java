@@ -163,4 +163,22 @@ public class GameBoard {
     }
 
 
+    //show images of all bombs on the board
+    public void showAllBombs(){
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++){
+                if(buttonsMatrix[i][j].getSurroundingBombs() == -1){  //if a bomb
+                    buttonsMatrix[i][j].showBack();  //show to user
+                }
+            }
+        }
+    }
+
+
+    //if position has no surrounding bombs
+    //show neigbors until no 0 surrounding neighbors left
+    public void clearNeighbors(GameButton current){
+        
+    }
+
 }
