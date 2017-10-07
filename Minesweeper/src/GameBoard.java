@@ -4,13 +4,13 @@ import javax.swing.*;
 
 public class GameBoard {
 
-    private GameButton buttonsMatrix [][];
+    private GameButton buttonsMatrix[][];
     private ClassLoader loader = getClass().getClassLoader();
 
     private int numRows, numCols;
     private int numBombs;
 
-    public GameBoard(int row, int col, ActionListener AL){
+    public GameBoard(int row, int col, ActionListener AL) {
 
         //makes data accessible
         numRows = row;
@@ -20,8 +20,8 @@ public class GameBoard {
         buttonsMatrix = new GameButton[row][col];
 
         //fills matrix with buttons -- each with action listener
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
                 GameButton b = new GameButton();
                 b.addActionListener(AL);
                 buttonsMatrix[i][j] = b;
@@ -32,9 +32,9 @@ public class GameBoard {
         setNumbers(row, col);
         setImages(AL);
 
-       for(int i = 0; i < row; i++){
-            for(int j = 0; j < col; j++){
-           //     buttonsMatrix[i][j].setText(String.valueOf(buttonsMatrix[i][j].getSurroundingBombs()));
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                //     buttonsMatrix[i][j].setText(String.valueOf(buttonsMatrix[i][j].getSurroundingBombs()));
                 System.out.print(buttonsMatrix[i][j].getSurroundingBombs() + " ");
             }
             System.out.println();
@@ -45,9 +45,9 @@ public class GameBoard {
 
 
     //add each button in the matrix to panel
-    public void fillBoard(JPanel board){
-        for(int i = 0; i < numRows; i++){
-            for(int j = 0; j < numCols; j++){
+    public void fillBoard(JPanel board) {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
                 board.add(buttonsMatrix[i][j]);
             }
         }
@@ -56,30 +56,34 @@ public class GameBoard {
 
     //randomly sets bombs across board
     //5x5 grid contains 5 bombs, 8x8 contains 15, 15x15 contains 30
-    public void setBombs(int rows, int columns){
+    public void setBombs(int rows, int columns) {
 
         //set total number of bombs throughout board
-        if(rows == 5){ numBombs = 5; }
-        else if(rows == 8){ numBombs = 15; }
-        else if(rows == 15){ numBombs = 30; }
+        if (rows == 5) {
+            numBombs = 5;
+        } else if (rows == 8) {
+            numBombs = 15;
+        } else if (rows == 15) {
+            numBombs = 30;
+        }
 
         //initialize all positions of matrix to have 0 surrounding bombs
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < columns; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 buttonsMatrix[i][j].setSurroundingBombs(0);
             }
         }
 
         //set numBombs amount of random bombs throughout the matrix (id of -1 will indicate this)
         int bombCount = 0;
-        while(bombCount < numBombs){
+        while (bombCount < numBombs) {
 
             //set random number for row and random number for col -- used to randomize position of bomb
             int randomRow = (int) (Math.random() * rows);
             int randomColumn = (int) (Math.random() * columns);
 
             //check if the position is not already a bomb, make it a bomb
-            if(buttonsMatrix[randomRow][randomColumn].getSurroundingBombs() != -1){
+            if (buttonsMatrix[randomRow][randomColumn].getSurroundingBombs() != -1) {
                 buttonsMatrix[randomRow][randomColumn].setSurroundingBombs(-1);
                 bombCount = bombCount + 1;
             }
@@ -88,22 +92,22 @@ public class GameBoard {
     }
 
 
-    public void setNumbers(int rows, int columns){
+    public void setNumbers(int rows, int columns) {
 
         //iterate through all positions in matrix
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < columns; j++){
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
 
-                if(buttonsMatrix[i][j].getSurroundingBombs() == -1){  //if there is a bomb in the position
+                if (buttonsMatrix[i][j].getSurroundingBombs() == -1) {  //if there is a bomb in the position
 
                     //look at surround positions
-                    for(int m = i - 1; m < i + 2; m++){
-                        for(int n = j - 1; n < j + 2; n++){
+                    for (int m = i - 1; m < i + 2; m++) {
+                        for (int n = j - 1; n < j + 2; n++) {
 
                             buttonsMatrix[i][j].setSurroundingBombs(-1);  //resets bomb position to -1
 
                             //makes sure position is valid (accounts for corners and first/last rows/columns)
-                            if(isValidPosition(m) && isValidPosition(n)) {
+                            if (isValidPosition(m) && isValidPosition(n)) {
                                 int prevNum = buttonsMatrix[m][n].getSurroundingBombs();  //gets previous number of surrounding bombs
 
                                 if (prevNum != -1) {  //if surround position is also a bomb - leave it at -1
@@ -121,23 +125,21 @@ public class GameBoard {
     }
 
 
-
     //check to see if matrix position is valid
     public boolean isValidPosition(int currNum) {
-        if((currNum > -1) && (currNum < numRows) && (currNum < numCols)){
+        if ((currNum > -1) && (currNum < numRows) && (currNum < numCols)) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
 
     //set back images based on number of surrounding bombs to current position
-    public void setImages(ActionListener AL){
+    public void setImages(ActionListener AL) {
 
-        for(int i = 0; i < numRows; i++){
-            for(int j = 0; j < numCols; j++){
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
 
                 //set image according to number of surrounding bombs
                 int imageIndex = buttonsMatrix[i][j].getSurroundingBombs();
@@ -146,7 +148,7 @@ public class GameBoard {
 
                 //resize images to fit buttons
                 Image storeImg = img.getImage();
-                Image resizeImg = storeImg.getScaledInstance(20,20, Image.SCALE_SMOOTH);
+                Image resizeImg = storeImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
                 img = new ImageIcon(resizeImg);
 
                 //create a new button -- identical to current one but set with front image
@@ -164,10 +166,10 @@ public class GameBoard {
 
 
     //show images of all bombs on the board
-    public void showAllBombs(){
-        for(int i = 0; i < numRows; i++){
-            for(int j = 0; j < numCols; j++){
-                if(buttonsMatrix[i][j].getSurroundingBombs() == -1){  //if a bomb
+    public void showAllBombs() {
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (buttonsMatrix[i][j].getSurroundingBombs() == -1) {  //if a bomb
                     buttonsMatrix[i][j].showBack();  //show to user
                 }
             }
@@ -175,10 +177,35 @@ public class GameBoard {
     }
 
 
-    //if position has no surrounding bombs
-    //show neigbors until no 0 surrounding neighbors left
-    public void clearNeighbors(GameButton current){
-        
-    }
+    //if position has no surrounding bombs (already given that the num of surrounding neighbors is 0)
+    //show neighbors until no 0 surrounding neighbors left
+    public void clearNeighbors(GameButton current) {
 
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                if (buttonsMatrix[i][j] == current) {  //find position of current button
+
+                    //look at surrounding positions
+                    for (int m = i - 1; m < i + 2; m++) {
+                        for (int n = j - 1; n < j + 2; n++) {
+
+                            //makes sure position is valid (accounts for corners and first/last rows/columns)
+                            if (isValidPosition(m) && isValidPosition(n)) {
+
+                                buttonsMatrix[m][n].showBack();  //show back of all surrounding positions
+
+
+                            }
+
+
+                        }
+                    }
+                }
+
+
+            }
+
+        }
+
+    }
 }
