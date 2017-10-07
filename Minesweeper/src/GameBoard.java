@@ -32,6 +32,7 @@ public class GameBoard {
 
        for(int i = 0; i < row; i++){
             for(int j = 0; j < col; j++){
+                buttonsMatrix[i][j].setText(String.valueOf(buttonsMatrix[i][j].getSurroundingBombs()));
                 System.out.print(buttonsMatrix[i][j].getSurroundingBombs() + " ");
             }
             System.out.println();
@@ -68,7 +69,8 @@ public class GameBoard {
         }
 
         //set numBombs amount of random bombs throughout the matrix (id of -1 will indicate this)
-        for(int k = 0; k < numBombs; k++){
+        int bombCount = 0;
+        while(bombCount < numBombs){
 
             //set random number for row and random number for col -- used to randomize position of bomb
             int randomRow = (int) (Math.random() * rows);
@@ -77,6 +79,7 @@ public class GameBoard {
             //check if the position is not already a bomb, make it a bomb
             if(buttonsMatrix[randomRow][randomColumn].getSurroundingBombs() != -1){
                 buttonsMatrix[randomRow][randomColumn].setSurroundingBombs(-1);
+                bombCount = bombCount + 1;
             }
 
         }
@@ -88,17 +91,27 @@ public class GameBoard {
         //iterate through all positions in matrix
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < columns; j++){
+
                 if(buttonsMatrix[i][j].getSurroundingBombs() == -1){  //if there is a bomb in the position
+
                     //look at surround positions
                     for(int m = i - 1; m < i + 2; m++){
                         for(int n = j - 1; n < j + 2; n++){
-                            if(isValidPosition(m) && isValidPosition(n)){  //makes sure position is valid (accounts for corners and first/last rows/columns)
+
+                            buttonsMatrix[i][j].setSurroundingBombs(-1);  //resets bomb position to -1
+
+                            //makes sure position is valid (accounts for corners and first/last rows/columns)
+                            if(isValidPosition(m) && isValidPosition(n)) {
                                 int prevNum = buttonsMatrix[m][n].getSurroundingBombs();  //gets previous number of surrounding bombs
-                                buttonsMatrix[m][n].setSurroundingBombs(prevNum + 1);  //notifies (adds) that another bomb is touching position
+
+                                if (prevNum != -1) {  //if surround position is also a bomb - leave it at -1
+                                    buttonsMatrix[m][n].setSurroundingBombs(prevNum + 1);  //notifies (adds) that another bomb is touching position
+
+                                }
                             }
                         }
                     }
-                    buttonsMatrix[i][j].setSurroundingBombs(-1);  //resets bomb position to -1
+
                 }
             }
         }

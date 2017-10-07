@@ -12,10 +12,12 @@ public class GameButton extends JButton {  //object in form of buttons
     }
 
 
+    //set number of bombs the current position is touching
     public void setSurroundingBombs(int numBombs){
         neighboringBombs = numBombs;
     }
 
+    //access number of bombs the current position is touching
     public int getSurroundingBombs(){
         return neighboringBombs;
     }
