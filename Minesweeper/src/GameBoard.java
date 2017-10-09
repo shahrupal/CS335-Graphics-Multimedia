@@ -10,11 +10,15 @@ public class GameBoard {
     private int numRows, numCols;
     private int numBombs;
 
+    private boolean isCleared[][];  //all set to false by default
+
     public GameBoard(int row, int col, ActionListener AL) {
 
         //makes data accessible
         numRows = row;
         numCols = col;
+
+        isCleared = new boolean[numRows][numCols];
 
         //creates empty matrix of row x col size -- expecting GameButton object
         buttonsMatrix = new GameButton[row][col];
@@ -31,6 +35,7 @@ public class GameBoard {
         setBombs(row, col);
         setNumbers(row, col);
         setImages(AL);
+
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
@@ -183,7 +188,10 @@ public class GameBoard {
 
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
+
                 if (buttonsMatrix[i][j] == current) {  //find position of current button
+
+                    isCleared[i][j] = true;  //state that the position has been cleared (meaning it's surrounding positions have been flipped)
 
                     //look at surrounding positions
                     for (int m = i - 1; m < i + 2; m++) {
@@ -194,18 +202,18 @@ public class GameBoard {
 
                                 buttonsMatrix[m][n].showBack();  //show back of all surrounding positions
 
-
+                                if(buttonsMatrix[m][n].getSurroundingBombs() == 0){  //if surrounding bomb also has 0 surrounding bombs
+                                   if(isCleared[m][n] == false){  //if it hasn't been cleared yet
+                                       current = buttonsMatrix[m][n];  //make that the new current button
+                                       isCleared[m][n] = true;  //state that it's been cleared now
+                                       clearNeighbors(current); //clear it by recursively calling this function
+                                   }
+                                }
                             }
-
-
                         }
                     }
                 }
-
-
             }
-
         }
-
     }
 }
