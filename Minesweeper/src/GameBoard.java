@@ -12,6 +12,8 @@ public class GameBoard {
 
     private boolean isCleared[][];  //all set to false by default
 
+    private int clearedCounter = 0;
+
     public GameBoard(int row, int col, ActionListener AL) {
 
         //makes data accessible
@@ -119,6 +121,7 @@ public class GameBoard {
                                     buttonsMatrix[m][n].setSurroundingBombs(prevNum + 1);  //notifies (adds) that another bomb is touching position
 
                                 }
+
                             }
                         }
                     }
@@ -216,4 +219,15 @@ public class GameBoard {
             }
         }
     }
+
+
+/*    public int getClearedCounter(){
+        return clearedCounter;
+    }
+
+    public void resetClearedCounter(){
+        clearedCounter = 0;
+    }
+*/
+
 }
