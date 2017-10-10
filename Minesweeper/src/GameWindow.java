@@ -102,7 +102,7 @@ public class GameWindow extends JFrame implements ActionListener{
         c.add(gridButtons);
 
 
-        setSize((20 * numCols) + 45,(30 * numRows) + 40);  //sets dimensions
+        setSize(numCols*24,115 + (numRows*22));  //sets dimensions
         setLocationRelativeTo(null);  //sets window to show up in middle of screen
         setVisible(true);  //allows user to view window
         setDefaultCloseOperation(EXIT_ON_CLOSE);  //exits window when "x" is clicked
@@ -199,7 +199,7 @@ public class GameWindow extends JFrame implements ActionListener{
 
                 //make sure the num of bombs is greater than 1 - output pop-up warning, if not
                 else if(b < 1){
-                    JOptionPane.showMessageDialog(settings, "Number of bomb must be greater than 1!");
+                    JOptionPane.showMessageDialog(settings, "Number of bombs must be greater than 1!");
                 }
 
                 //otherwise, inputs should be valid (if not thrown to catch statement)
@@ -291,8 +291,7 @@ public class GameWindow extends JFrame implements ActionListener{
         firstClick = true;  //resets firstClick to true
 
         //resets size of window, according to new dimensions (if applicable - stays the same otherwise)
-        setSize((20 * numCols) + 40,(30 * numRows) + 40);
-
+        setSize(numCols*24,115 + (numRows*22));
     }
 
     /*SETTINGS FRAME*/

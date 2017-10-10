@@ -9,8 +9,8 @@ public class GameBoard {
 
     private int numRows, numCols, numBombs;
 
-    private boolean isCleared[][];  //all set to false by default
-    private boolean isVisited[][];
+    private boolean isCleared[][];  //stores which position have been cleared (criteria: all buttons around this one have been shown)
+    private boolean isVisited[][];  //stores which positions have been visited (criteria: this position has been shown)
 
     private int clearedCounter;
 
@@ -23,6 +23,7 @@ public class GameBoard {
 
         clearedCounter = 0;
 
+        //reset boolean matrics
         isCleared = new boolean[numRows][numCols];
         isVisited = new boolean[numRows][numCols];
 
@@ -42,16 +43,6 @@ public class GameBoard {
         setNumbers(row, col);
         setImages(AL);
 
-
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                //     buttonsMatrix[i][j].setText(String.valueOf(buttonsMatrix[i][j].getSurroundingBombs()));
-                System.out.print(buttonsMatrix[i][j].getSurroundingBombs() + " ");
-            }
-            System.out.println();
-        }
-
-
     }
 
 
@@ -66,7 +57,6 @@ public class GameBoard {
 
 
     //randomly sets bombs across board
-    //5x5 grid contains 5 bombs, 8x8 contains 15, 15x15 contains 30
     public void setBombs(int rows, int columns, int bombs) {
 
         //initialize all positions of matrix to have 0 surrounding bombs
@@ -93,7 +83,7 @@ public class GameBoard {
         }
     }
 
-
+    //sets number of surrounding bombs to each button
     public void setNumbers(int rows, int columns) {
 
         //iterate through all positions in matrix
@@ -102,7 +92,7 @@ public class GameBoard {
 
                 if (buttonsMatrix[i][j].getSurroundingBombs() == -1) {  //if there is a bomb in the position
 
-                    //look at surround positions
+                    //look at surrounding positions
                     for (int m = i - 1; m < i + 2; m++) {
                         for (int n = j - 1; n < j + 2; n++) {
 
@@ -112,7 +102,7 @@ public class GameBoard {
                             if (isValidPosition(m) && isValidPosition(n)) {
                                 int prevNum = buttonsMatrix[m][n].getSurroundingBombs();  //gets previous number of surrounding bombs
 
-                                if (prevNum != -1) {  //if surround position is also a bomb - leave it at -1
+                                if (prevNum != -1) {  //if surrounding position is also a bomb - leave it at -1
                                     buttonsMatrix[m][n].setSurroundingBombs(prevNum + 1);  //notifies (adds) that another bomb is touching position
 
                                 }
@@ -151,7 +141,7 @@ public class GameBoard {
 
                 //resize images to fit buttons
                 Image storeImg = img.getImage();
-                Image resizeImg = storeImg.getScaledInstance(28, 20, Image.SCALE_SMOOTH);
+                Image resizeImg = storeImg.getScaledInstance(30, 20, Image.SCALE_SMOOTH);
                 img = new ImageIcon(resizeImg);
 
                 //create a new button -- identical to current one but set with front image
@@ -189,8 +179,8 @@ public class GameBoard {
 
                 if (buttonsMatrix[i][j] == current) {  //find position of current button
 
-                    isCleared[i][j] = true;  //state that the position has been cleared (meaning it's surrounding positions have been flipped)
-                    isVisited[i][j] = true; //
+                    isCleared[i][j] = true;  //state that the position has been cleared (meaning it's surrounding positions have been shown)
+                    isVisited[i][j] = true; //state that the position has been visited
 
                     //look at surrounding positions
                     for (int m = i - 1; m < i + 2; m++) {
@@ -200,7 +190,7 @@ public class GameBoard {
                             if (isValidPosition(m) && isValidPosition(n)) {
 
                                 buttonsMatrix[m][n].showBack();  //show back of all surrounding positions
-                                isVisited[m][n] = true;
+                                isVisited[m][n] = true;  //state all surrounding positions have been visited
 
                                 if(buttonsMatrix[m][n].getSurroundingBombs() == 0){  //if surrounding bomb also has 0 surrounding bombs
                                    if(isCleared[m][n] == false){  //if it hasn't been cleared yet
@@ -218,6 +208,7 @@ public class GameBoard {
     }
 
 
+    //state current button has been visited
     public void visited(GameButton current){
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++) {
@@ -228,6 +219,7 @@ public class GameBoard {
         }
     }
 
+    //if ALL positions left (not visited) are bombs, return true
     public boolean gameOver(){
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
@@ -244,18 +236,4 @@ public class GameBoard {
         return true;
     }
 
-
- /*   public int numCleared(GameButton current){
-        for(int i = 0; i < numRows; i++){
-            for(int j = 0; j < numCols; j++) {
-                //if(buttonsMatrix[i][j] == current){
-                    if(isVisited[i][j] = true){
-                        clearedCounter++;
-                    }
-                //}
-            }
-        }
-        return clearedCounter;
-    }
-*/
 }

@@ -25,7 +25,7 @@ public class GameButton extends JButton {  //object in form of buttons
 
         //resize image to fit button
         Image frontImg = front.getImage();
-        Image resizeImg = frontImg.getScaledInstance(20,20,Image.SCALE_SMOOTH);
+        Image resizeImg = frontImg.getScaledInstance(24,22,Image.SCALE_SMOOTH);
         front = new ImageIcon(resizeImg);
 
         //set image to "front" image
