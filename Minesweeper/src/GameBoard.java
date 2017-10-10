@@ -7,20 +7,24 @@ public class GameBoard {
     private GameButton buttonsMatrix[][];
     private ClassLoader loader = getClass().getClassLoader();
 
-    private int numRows, numCols;
-    private int numBombs;
+    private int numRows, numCols, numBombs;
 
     private boolean isCleared[][];  //all set to false by default
+    private boolean isVisited[][];
 
-    private int clearedCounter = 0;
+    private int clearedCounter;
 
-    public GameBoard(int row, int col, ActionListener AL) {
+    public GameBoard(int row, int col, int bom, ActionListener AL) {
 
         //makes data accessible
         numRows = row;
         numCols = col;
+        numBombs = bom;
+
+        clearedCounter = 0;
 
         isCleared = new boolean[numRows][numCols];
+        isVisited = new boolean[numRows][numCols];
 
         //creates empty matrix of row x col size -- expecting GameButton object
         buttonsMatrix = new GameButton[row][col];
@@ -34,7 +38,7 @@ public class GameBoard {
             }
         }
 
-        setBombs(row, col);
+        setBombs(row, col, bom);
         setNumbers(row, col);
         setImages(AL);
 
@@ -63,16 +67,7 @@ public class GameBoard {
 
     //randomly sets bombs across board
     //5x5 grid contains 5 bombs, 8x8 contains 15, 15x15 contains 30
-    public void setBombs(int rows, int columns) {
-
-        //set total number of bombs throughout board
-        if (rows == 5) {
-            numBombs = 5;
-        } else if (rows == 8) {
-            numBombs = 15;
-        } else if (rows == 15) {
-            numBombs = 30;
-        }
+    public void setBombs(int rows, int columns, int bombs) {
 
         //initialize all positions of matrix to have 0 surrounding bombs
         for (int i = 0; i < rows; i++) {
@@ -83,7 +78,7 @@ public class GameBoard {
 
         //set numBombs amount of random bombs throughout the matrix (id of -1 will indicate this)
         int bombCount = 0;
-        while (bombCount < numBombs) {
+        while (bombCount < bombs) {
 
             //set random number for row and random number for col -- used to randomize position of bomb
             int randomRow = (int) (Math.random() * rows);
@@ -156,7 +151,7 @@ public class GameBoard {
 
                 //resize images to fit buttons
                 Image storeImg = img.getImage();
-                Image resizeImg = storeImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+                Image resizeImg = storeImg.getScaledInstance(28, 20, Image.SCALE_SMOOTH);
                 img = new ImageIcon(resizeImg);
 
                 //create a new button -- identical to current one but set with front image
@@ -195,6 +190,7 @@ public class GameBoard {
                 if (buttonsMatrix[i][j] == current) {  //find position of current button
 
                     isCleared[i][j] = true;  //state that the position has been cleared (meaning it's surrounding positions have been flipped)
+                    isVisited[i][j] = true; //
 
                     //look at surrounding positions
                     for (int m = i - 1; m < i + 2; m++) {
@@ -204,6 +200,7 @@ public class GameBoard {
                             if (isValidPosition(m) && isValidPosition(n)) {
 
                                 buttonsMatrix[m][n].showBack();  //show back of all surrounding positions
+                                isVisited[m][n] = true;
 
                                 if(buttonsMatrix[m][n].getSurroundingBombs() == 0){  //if surrounding bomb also has 0 surrounding bombs
                                    if(isCleared[m][n] == false){  //if it hasn't been cleared yet
@@ -221,13 +218,44 @@ public class GameBoard {
     }
 
 
-/*    public int getClearedCounter(){
+    public void visited(GameButton current){
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++) {
+                if(buttonsMatrix[i][j] == current){
+                    isVisited[i][j] = true;
+                }
+            }
+        }
+    }
+
+    public boolean gameOver(){
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++){
+                if(isVisited[i][j] == false){
+                    if(buttonsMatrix[i][j].getSurroundingBombs() == -1){
+                        continue;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+ /*   public int numCleared(GameButton current){
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++) {
+                //if(buttonsMatrix[i][j] == current){
+                    if(isVisited[i][j] = true){
+                        clearedCounter++;
+                    }
+                //}
+            }
+        }
         return clearedCounter;
     }
-
-    public void resetClearedCounter(){
-        clearedCounter = 0;
-    }
 */
-
 }

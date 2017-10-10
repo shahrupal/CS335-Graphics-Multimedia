@@ -5,20 +5,19 @@ import javax.swing.*;
 public class GameWindow extends JFrame implements ActionListener{
 
     private JPanel gridButtons;
-    private JPanel topPanel;  //will hold "game" and "help" drop-downs
     private JPanel middlePanel;  //will hold time, number of buttons cleared, and reset
 
     private JButton reset;
-    private JLabel timerLabel, clearedLabel;
+    private JLabel timerLabel;
     private Timer timer;
 
-    private int timeCounter = 0, clearedCounter = 0;
+    private int timeCounter = 0;
 
     private boolean firstClick = true;  //will allow to start timer at first click
 
     private GameBoard board;
 
-    private int numRows, numCols;
+    private int numRows, numCols, numBombs;
 
     // ------------ JMENU STUFF --------------- //
     private JMenuBar menuBar;
@@ -28,14 +27,21 @@ public class GameWindow extends JFrame implements ActionListener{
 
     private JFrame settings;
     private JPanel difficulty;
+    private JPanel custom;
+    private JPanel options;
     private JButton easy, medium, hard;
+    private JButton apply;
+    private JLabel userRowLabel, userColLabel, userBombLabel;
+    private JTextField userRows, userColumns, userBombs;
+    private String rowsInput, colsInput, bombsInput;
 
     public GameWindow(){
 
         super("Minesweeper");
 
-        numRows = 15;
-        numCols = 15;
+        numRows = 10;
+        numCols = 10;
+        numBombs = 25;
 
         menuBar = new JMenuBar();
         menu1 = new JMenu("Game");
@@ -60,21 +66,18 @@ public class GameWindow extends JFrame implements ActionListener{
 
         middlePanel = new JPanel();
 
+        reset = new JButton("Reset");
         timerLabel = new JLabel("Timer: 0");
-        clearedLabel = new JLabel("Cleared: 0");
-        reset = new JButton("RESET");
 
         reset.addActionListener(this);
 
-        middlePanel.add(timerLabel);
         middlePanel.add(reset);
-        middlePanel.add(clearedLabel);
-
+        middlePanel.add(timerLabel);
 
         gridButtons = new JPanel();
         gridButtons.setLayout(new GridLayout(numRows, numCols, 0, 0));
 
-        board = new GameBoard(numRows, numCols, this);
+        board = new GameBoard(numRows, numCols, numBombs,this);
         board.fillBoard(gridButtons);
 
         //creates timer that counts every 1 second
@@ -85,7 +88,8 @@ public class GameWindow extends JFrame implements ActionListener{
         c.add(middlePanel, BorderLayout.NORTH);
         c.add(gridButtons);
 
-        setSize((20 * numCols),(25 * numRows));
+        setSize((20 * numCols)+40,(30 * numRows)+40);
+        setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -117,18 +121,68 @@ public class GameWindow extends JFrame implements ActionListener{
             easy.setForeground(Color.blue);
             medium.setForeground(Color.black);
             hard.setForeground(Color.black);
+
+            userRows.setText("5");
+            userColumns.setText("5");
+            userBombs.setText("5");
         }
 
         else if(e.getSource() == medium){
             easy.setForeground(Color.black);
             medium.setForeground(Color.blue);
             hard.setForeground(Color.black);
+
+            userRows.setText("8");
+            userColumns.setText("8");
+            userBombs.setText("15");
         }
 
         else if(e.getSource() == hard){
             easy.setForeground(Color.black);
             medium.setForeground(Color.black);
             hard.setForeground(Color.blue);
+
+            userRows.setText("10");
+            userColumns.setText("10");
+            userBombs.setText("30");
+        }
+
+        else if(e.getSource() == apply){
+
+            rowsInput = userRows.getText();
+            colsInput = userColumns.getText();
+            bombsInput = userBombs.getText();
+
+            System.out.println(rowsInput + " " + colsInput + " " + bombsInput);
+
+            try{
+                int r = Integer.parseInt(rowsInput.trim());
+                int c = Integer.parseInt(colsInput.trim());
+                int b = Integer.parseInt(bombsInput.trim());
+                System.out.println(r + " " + c + " " + b);
+
+                if((r < 5 ) || (r > 10) || (c < 5) || (c > 10)){
+                    JOptionPane.showMessageDialog(settings, "Number of rows and columns must be between 5 and 10!");
+                } else if(b > ((r * c)/2)){
+                    JOptionPane.showMessageDialog(settings, "Number of bombs should be less than (row*column)/2");
+                }
+                else if(b < 1){
+                    JOptionPane.showMessageDialog(settings, "Number of bomb must be greater than 1!");
+                }
+                else{
+                    numRows = r;
+                    numCols = c;
+                    numBombs = b;
+
+                    resetGame();
+
+                }
+
+            }
+            catch (NumberFormatException nfe){
+                JOptionPane.showMessageDialog(settings, "Only integer inputs are accepted!");
+            }
+
         }
 
         else {
@@ -145,6 +199,7 @@ public class GameWindow extends JFrame implements ActionListener{
             if (currButton.getSurroundingBombs() == -1) {
                 board.showAllBombs();  //show all the bombs on the board
                 currButton.showError();  //show bomb user clicked in red
+                JOptionPane.showMessageDialog(settings, "U LOST UGH THE HUMAN RACE WAS COUNTING ON U - ARE U KIDDING ME????");
                 if (firstClick == false) {
                     timer.stop();  //stops timer
                 }
@@ -153,7 +208,16 @@ public class GameWindow extends JFrame implements ActionListener{
 
                 //if bomb has no surrounding bombs, show its neighbors
                 if (currButton.getSurroundingBombs() == 0) {
-                    board.clearNeighbors(currButton);
+                    board.clearNeighbors(currButton);  //function states all cleared buttons have been visited
+                }
+                else{
+                    board.visited(currButton);  //states that button clicked is considered visited
+                }
+
+              //  System.out.println(board.numCleared(currButton));
+
+                if(board.gameOver()){
+                    JOptionPane.showMessageDialog(settings, "WOWOW U WON SWAG NAILED IT!!!!!!");
                 }
 
             }
@@ -163,22 +227,31 @@ public class GameWindow extends JFrame implements ActionListener{
     private void resetGame(){
 
         timeCounter = 0;
-        clearedCounter = 0;
-       // board.resetClearedCounter();
 
         timer.stop();
         timerLabel.setText("Timer: 0");
-        clearedLabel.setText("Cleared: 0");
 
         gridButtons.removeAll();
-        board = new GameBoard(numRows, numCols, this);
+
+        board = new GameBoard(numRows, numCols, numBombs, this);
+        gridButtons.setLayout(new GridLayout(numRows, numCols,0,0));
         board.fillBoard(gridButtons);
+
+        gridButtons.revalidate();
+        gridButtons.repaint();
         firstClick = true;
+
+        setSize((20 * numCols)+40,(30 * numRows)+40);
 
     }
 
     public void settingsFrame(){
         settings = new JFrame("Settings");
+
+        difficulty = new JPanel();
+        custom = new JPanel();
+        custom.setLayout(new GridLayout(3,2));
+        options = new JPanel();
 
         easy = new JButton("easy");
         medium = new JButton("medium");
@@ -188,14 +261,40 @@ public class GameWindow extends JFrame implements ActionListener{
         medium.addActionListener(this);
         hard.addActionListener(this);
 
-        difficulty = new JPanel();
+        userRows = new JTextField("8");
+        userColumns = new JTextField("8");
+        userBombs = new JTextField("15");
+
+        userRowLabel = new JLabel();
+        userColLabel = new JLabel();
+        userBombLabel = new JLabel();
+
+        userRowLabel.setText("  Enter # of Rows: ");
+        userColLabel.setText("  Enter # of Rows: ");
+        userBombLabel.setText("  Enter # of Bombs: ");
+
+        apply = new JButton("apply");
+        apply.addActionListener(this);
 
         difficulty.add(easy);
         difficulty.add(medium);
         difficulty.add(hard);
 
-        settings.add(difficulty);
+        custom.add(userRowLabel);
+        custom.add(userRows);
+        custom.add(userColLabel);
 
+        custom.add(userColumns);
+        custom.add(userBombLabel);
+        custom.add(userBombs);
+
+        options.add(apply);
+
+        settings.add(difficulty,BorderLayout.NORTH);
+        settings.add(custom);
+        settings.add(options,BorderLayout.SOUTH);
+
+        settings.setLocationRelativeTo(null);
         settings.setSize(300,200);
         settings.setVisible(true);
 
