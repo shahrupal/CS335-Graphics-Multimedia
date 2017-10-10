@@ -21,7 +21,8 @@ public class GameWindow extends JFrame implements ActionListener{
 
     // ------------ JMENU STUFF --------------- //
     private JMenuBar menuBar;
-    private JMenu menu1, menu2;
+    private JMenu menu1;
+    private JMenuItem menu2;
     private JMenuItem newItem, setupItem, exitItem;
     // ---------------------------------------- //
 
@@ -48,7 +49,8 @@ public class GameWindow extends JFrame implements ActionListener{
         //creates menu buttons
         menuBar = new JMenuBar();
         menu1 = new JMenu("Game");
-        menu2 = new JMenu("Help");
+        menu2 = new JMenuItem("Help");
+        menu2.addActionListener(this);
 
         //creates drop-down on menu buttons
         newItem = new JMenuItem("New");
@@ -120,6 +122,11 @@ public class GameWindow extends JFrame implements ActionListener{
         //if user presses reset button, call reset function
         else if(e.getSource() == reset){
             resetGame();
+        }
+
+        //if user presses help button, show instructions
+        else if(e.getSource() == menu2){
+            JOptionPane.showMessageDialog(null, helpHTML());
         }
 
         //if user presses new button, call reset function
@@ -359,6 +366,20 @@ public class GameWindow extends JFrame implements ActionListener{
         settings.setSize(300,200);  //sets dimensions of "pop-up" window
         settings.setVisible(true);  //allows user to see window
 
+    }
+
+
+    //instructions on how to play the game
+    public String helpHTML(){
+        String helpmsg = "<html>" +
+                "How To Play:" +
+                "<ul>" +
+                "  <li>Each square on the board is a button. When clicked, some will contain bombs.</li>" +
+                "  <li>The squares not containing bombs will contain numbers - these indicate the number of bombs that specific square is touching.</li>" +
+                "  <li>If a bomb is clicked, the game is over. To win, you must click on ALL squares of the board, EXCEPT ones with the bombs. </li>" +
+                "</ul>" +
+                "</html>";
+        return helpmsg;
     }
 
     /*MAIN - CREATES NEW GAME*/
