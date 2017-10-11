@@ -236,4 +236,14 @@ public class GameBoard {
         return true;
     }
 
+
+    //make buttons unclickable (used for end of game)
+    public void removeGridAL(ActionListener AL){
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numRows; j++){
+                buttonsMatrix[i][j].removeActionListener(AL);
+            }
+        }
+    }
+
 }

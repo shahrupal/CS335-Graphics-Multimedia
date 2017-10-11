@@ -261,6 +261,8 @@ public class GameWindow extends JFrame implements ActionListener{
                     timer.stop();
                 }
 
+                //after bomb is clicked, does not allow user to continue playing game
+                board.removeGridAL(this);
             }
             else {
 
