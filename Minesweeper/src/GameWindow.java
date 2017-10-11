@@ -241,6 +241,25 @@ public class GameWindow extends JFrame implements ActionListener{
             GameButton currButton = (GameButton) e.getSource();  //cast button clicked as a GameButton
             currButton.showBack();  //when user clicks button, it shows number/bomb
 
+
+            //store position of first click
+            int firstRowPos = board.getRowPosition(currButton);
+            int firstColPos = board.getColPosition(currButton);
+
+            //PREVENTS FIRST CLICK BEING A BOMB
+           while((firstClick == true) && (currButton.getSurroundingBombs() == -1)){  //if first click is a bomb
+                if(!board.isFirstBomb(currButton, firstRowPos, firstColPos)){  //if new current position is NOT a bomb
+                    currButton = board.newCurrent();  //make this the new current position
+                    currButton.showBack();  //show the back of this button
+                    break;
+                }
+
+                //reset - this will create a new board
+               //do this until the position of the first click is not a bomb
+                resetGame();
+            }
+
+
             //if first click of game (and if it's not a bomb), start timer
             if ((firstClick == true) && (currButton.getSurroundingBombs() != -1)) {
                 timer.start();

@@ -12,7 +12,7 @@ public class GameBoard {
     private boolean isCleared[][];  //stores which position have been cleared (criteria: all buttons around this one have been shown)
     private boolean isVisited[][];  //stores which positions have been visited (criteria: this position has been shown)
 
-    private int clearedCounter;
+    private int cPosition, rPosition;
 
     public GameBoard(int row, int col, int bom, ActionListener AL) {
 
@@ -20,8 +20,6 @@ public class GameBoard {
         numRows = row;
         numCols = col;
         numBombs = bom;
-
-        clearedCounter = 0;
 
         //reset boolean matrics
         isCleared = new boolean[numRows][numCols];
@@ -42,6 +40,13 @@ public class GameBoard {
         setBombs(row, col, bom);
         setNumbers(row, col);
         setImages(AL);
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                System.out.print(buttonsMatrix[i][j].getSurroundingBombs() + " ");
+            }
+            System.out.println();
+        }
 
     }
 
@@ -244,6 +249,51 @@ public class GameBoard {
                 buttonsMatrix[i][j].removeActionListener(AL);
             }
         }
+    }
+
+    /**PREVENTING FIRST CLICK FROM BEING A BOMB - RESET BOARD AND USE FOLLOWING FUNCTIONS TO DO SO**/
+    //find row position - used for first click of user
+    public int getRowPosition(GameButton firstButton){
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++){
+                if(buttonsMatrix[i][j] == firstButton){
+                    return i;
+                }
+            }
+        }
+        return 0;
+    }
+
+    //find col position - used for first click of user
+    public int getColPosition(GameButton firstButton){
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++){
+                if(buttonsMatrix[i][j] == firstButton){
+                    return j;
+                }
+            }
+        }
+        return 0;
+    }
+
+
+    //if the position of the first click - but of the new board - is not a bomb, return false
+    public boolean isFirstBomb(GameButton current, int rowPos, int colPos){
+
+        rPosition = rowPos;
+        cPosition = colPos;
+
+        if(buttonsMatrix[rowPos][colPos].getSurroundingBombs() == -1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    //first click position of new board
+    public GameButton newCurrent(){
+        return buttonsMatrix[rPosition][cPosition];
     }
 
 }
