@@ -141,7 +141,7 @@ public class GameBoard {
 
                 //resize images to fit buttons
                 Image storeImg = img.getImage();
-                Image resizeImg = storeImg.getScaledInstance(30, 20, Image.SCALE_SMOOTH);
+                Image resizeImg = storeImg.getScaledInstance(25, 20, Image.SCALE_SMOOTH);
                 img = new ImageIcon(resizeImg);
 
                 //create a new button -- identical to current one but set with front image

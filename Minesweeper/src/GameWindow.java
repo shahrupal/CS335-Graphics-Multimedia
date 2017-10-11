@@ -8,6 +8,8 @@ public class GameWindow extends JFrame implements ActionListener{
     private JPanel middlePanel;  //will hold time, number of buttons cleared, and reset
 
     private JButton reset;
+    private ClassLoader loader = getClass().getClassLoader();
+
     private JLabel timerLabel;
     private Timer timer;
 
@@ -75,8 +77,10 @@ public class GameWindow extends JFrame implements ActionListener{
         //creates new panel - will hold reset and timer
         middlePanel = new JPanel();
 
-        //creates a reset button and timer label
-        reset = new JButton("Reset");
+        //creates reset button
+        btnResetImg();
+
+        //creates timer label
         timerLabel = new JLabel("Timer: 0");
 
         //adds action listener to reset button
@@ -147,7 +151,7 @@ public class GameWindow extends JFrame implements ActionListener{
         //if user presses "easy" difficulty (on settings pop-up)
         else if(e.getSource() == easy){
 
-            easy.setForeground(Color.red);  //show text on easy button to be red
+            easy.setForeground(Color.blue);  //show text on easy button to be blue
             medium.setForeground(Color.black);  //reset text on medium button to be black
             hard.setForeground(Color.black);  //reset text on hard button to be black
 
@@ -160,7 +164,7 @@ public class GameWindow extends JFrame implements ActionListener{
         //if user presses "medium" difficulty (on settings pop-up)
         else if(e.getSource() == medium){
             easy.setForeground(Color.black);  //reset text on easy button to be black
-            medium.setForeground(Color.red);  //show text on medium button to be red
+            medium.setForeground(Color.blue);  //show text on medium button to be blue
             hard.setForeground(Color.black);  //reset text on hard button to be black
 
             //automatically fill custom fields with pre-determined dimensions of medium difficulty
@@ -173,7 +177,7 @@ public class GameWindow extends JFrame implements ActionListener{
         else if(e.getSource() == hard){
             easy.setForeground(Color.black);  //reset text on easy button to be black
             medium.setForeground(Color.black);  //reset text on medium button to be black
-            hard.setForeground(Color.red);  //show text on hard button to be red
+            hard.setForeground(Color.blue);  //show text on hard button to be blue
 
             //automatically fill custom fields with pre-determined dimensions of hard difficulty
             userRows.setText("10");
@@ -250,7 +254,7 @@ public class GameWindow extends JFrame implements ActionListener{
                 currButton.showError();  //show bomb user clicked in red
 
                 //output game over message
-                JOptionPane.showMessageDialog(settings, "U LOST UGH THE HUMAN RACE WAS COUNTING ON U - ARE U KIDDING ME????");
+                JOptionPane.showMessageDialog(settings, "You lost!");
 
                 //stop timer
                 if (firstClick == false) {
@@ -270,7 +274,7 @@ public class GameWindow extends JFrame implements ActionListener{
 
                 //if the only non-visited buttons that are left are bombs, output win pop-up
                 if(board.gameOver()){
-                    JOptionPane.showMessageDialog(settings, "WOWOW U WON SWAG NAILED IT!!!!!!");
+                    JOptionPane.showMessageDialog(settings, "You won!");
                 }
 
             }
@@ -319,6 +323,11 @@ public class GameWindow extends JFrame implements ActionListener{
         medium = new JButton("medium");
         hard = new JButton("hard");
 
+        //set background colors of the buttons
+        easy.setBackground(new Color(247,98,98));
+        medium.setBackground(new Color(247,98,98));
+        hard.setBackground(new Color(247,98,98));
+
         //adds action listeners to each difficulty button
         easy.addActionListener(this);
         medium.addActionListener(this);
@@ -334,9 +343,9 @@ public class GameWindow extends JFrame implements ActionListener{
         userColLabel = new JLabel();
         userBombLabel = new JLabel();
 
-        userRowLabel.setText("  Enter # of Rows: ");
-        userColLabel.setText("  Enter # of Rows: ");
-        userBombLabel.setText("  Enter # of Bombs: ");
+        userRowLabel.setText("    Enter # of Rows: ");
+        userColLabel.setText("    Enter # of Rows: ");
+        userBombLabel.setText("   Enter # of Bombs: ");
 
         //creates apply button and adds action listener to it
         apply = new JButton("apply");
@@ -363,11 +372,25 @@ public class GameWindow extends JFrame implements ActionListener{
         settings.add(options, BorderLayout.SOUTH);  //adds panel to bottom of window
 
         settings.setLocationRelativeTo(null);  //sets window to appear in middle of screen
-        settings.setSize(300,200);  //sets dimensions of "pop-up" window
+        settings.setSize(250,200);  //sets dimensions of "pop-up" window
         settings.setVisible(true);  //allows user to see window
 
     }
 
+    //adds smiley image to reset button
+    public void btnResetImg(){
+        //add smiley image to reset button
+        ImageIcon img = new ImageIcon(loader.getResource("images/smiley.jpg"));
+
+        //resize image to fit button
+        Image storeImg = img.getImage();
+        Image resizeImg = storeImg.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        img = new ImageIcon(resizeImg);
+
+        //adds image to button and resizes button
+        reset = new JButton(img);
+        reset.setPreferredSize(new Dimension(40,40));
+    }
 
     //instructions on how to play the game
     public String helpHTML(){
