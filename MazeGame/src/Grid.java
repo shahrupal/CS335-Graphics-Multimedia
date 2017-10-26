@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Grid extends JPanel {
+public class Grid {
 
     private int numRows, numCols;
     private Cell cellMatrix[][];
@@ -23,18 +23,20 @@ public class Grid extends JPanel {
 
     }
 
-
-
-    public void fillGrid(){
+    public void fillGrid(JPanel panel){
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
-                add(cellMatrix[i][j]);
+                panel.add(cellMatrix[i][j]);
             }
         }
     }
 
+    public void setNumRows(int r){
+        numRows = r;
+    }
 
-
-
+    public void setNumCols(int c){
+        numCols = c;
+    }
 
 }

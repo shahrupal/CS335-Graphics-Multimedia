@@ -4,6 +4,8 @@ import javax.swing.*;
 
 public class MazeWindow extends JFrame implements ActionListener {
 
+    Container c = getContentPane();
+
     private Grid grid;
     private JPanel maze;
     private JPanel options;
@@ -19,6 +21,7 @@ public class MazeWindow extends JFrame implements ActionListener {
         int col = 25;
 
         options = new JPanel(new GridLayout(8,1));
+        maze = new JPanel();
 
         generateButton = new JButton("Generate");
         solveButton = new JButton("Solve");
@@ -32,8 +35,8 @@ public class MazeWindow extends JFrame implements ActionListener {
         solveCheck = new JCheckBox("Show Solver");
 
         speedSlider = new JSlider(JSlider.HORIZONTAL);
-        rowSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 25);
-        columnSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 25);
+        rowSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);
+        columnSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);
 
         options.add(generateButton);
         options.add(generateCheck);
@@ -44,27 +47,42 @@ public class MazeWindow extends JFrame implements ActionListener {
         options.add(columnSlider);
         options.add(stopButton);
 
-        Grid grid = new Grid(row, col);
-        grid.fillGrid();
-        grid.setLayout(new GridLayout(row, col));
+        grid = new Grid(row, col);
+        grid.fillGrid(maze);
+        maze.setLayout(new GridLayout(row, col));
 
-        Container c = getContentPane();
         c.add(options, BorderLayout.EAST);
-        c.add(grid);
+        c.add(maze);
 
         /**DO NOT ALLOW USER TO RESIZE WINDOW**/
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600,600);
+        setSize(600,500);
         setVisible(true);
 
     }
 
 
+    @Override
     public void actionPerformed(ActionEvent e){
+
         if(e.getSource() == generateButton){
+            restart();
 
         }
+
+    }
+
+    public void restart(){
+
+        maze.removeAll();
+
+        grid = new Grid(5,5);
+        grid.fillGrid(maze);
+        maze.setLayout(new GridLayout(5, 5));
+        maze.repaint();
+        setVisible(true);
+
     }
 
     public static void main(String args[]){
