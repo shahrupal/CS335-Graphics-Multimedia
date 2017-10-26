@@ -38,10 +38,14 @@ public class MazeWindow extends JFrame implements ActionListener {
         options.add(columnSlider);
         options.add(stopButton);
 
+        Grid test = new Grid(5,5);
+
         Container c = getContentPane();
 
         c.add(options, BorderLayout.EAST);
-        c.add(maze, BorderLayout.WEST);
+        c.add(test);
+
+        /**DO NOT ALLOW USER TO RESIZE WINDOW**/
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600,600);
