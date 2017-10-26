@@ -4,6 +4,8 @@ import javax.swing.*;
 
 public class MazeWindow extends JFrame implements ActionListener {
 
+    private Box box = Box.createHorizontalBox();
+
     private JPanel maze;
     private JPanel options;
 
@@ -14,7 +16,7 @@ public class MazeWindow extends JFrame implements ActionListener {
     public MazeWindow(){
 
         maze = new JPanel();
-        options = new JPanel();
+        options = new JPanel(new GridLayout(8,1));
 
         generateButton = new JButton("Generate");
         solveButton = new JButton("Solve");
@@ -34,16 +36,15 @@ public class MazeWindow extends JFrame implements ActionListener {
         options.add(speedSlider);
         options.add(rowSlider);
         options.add(columnSlider);
+        options.add(stopButton);
 
         Container c = getContentPane();
 
-        c.setLayout(new BoxLayout(c, BoxLayout.Y_AXIS));
         c.add(options, BorderLayout.EAST);
         c.add(maze, BorderLayout.WEST);
 
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(500,600);
+        setSize(600,600);
         setVisible(true);
 
     }
