@@ -20,6 +20,11 @@ public class Cell extends JPanel {
 
     public void setCellColumn(int c){ column = c; }
 
+    public void setDimensions(int r, int c) {
+        row = r;
+        column = c;
+    }
+
     public int getCellRow(){ return row; }
 
     public int getCellColumn(){ return column; }
