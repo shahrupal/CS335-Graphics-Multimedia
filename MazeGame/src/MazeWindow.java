@@ -45,6 +45,17 @@ public class MazeWindow extends JFrame implements ActionListener {
         rowSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);
         columnSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);
 
+        //add tick marks to sliders
+        rowSlider.setMajorTickSpacing(10);
+        rowSlider.setMinorTickSpacing(5);
+        rowSlider.setPaintTicks(true);
+        rowSlider.setPaintLabels(true);
+        columnSlider.setMajorTickSpacing(10);
+        columnSlider.setMinorTickSpacing(5);
+        columnSlider.setPaintTicks(true);
+        columnSlider.setPaintLabels(true);
+
+
         setOptionColors();
 
         options.add(generateButton);
@@ -59,14 +70,14 @@ public class MazeWindow extends JFrame implements ActionListener {
         options.add(columnSlider);
         options.add(stopButton);
 
+        //add grid to maze panel
         grid = new Grid(row, col);
         grid.fillGrid(maze);
         maze.setLayout(new GridLayout(row, col));
+        maze.setBackground(Color.BLACK);
 
         c.add(options, BorderLayout.EAST);
         c.add(maze);
-
-        /**DO NOT ALLOW USER TO RESIZE WINDOW**/
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600,500);
@@ -83,6 +94,7 @@ public class MazeWindow extends JFrame implements ActionListener {
             rowInput = rowSlider.getValue();
             colInput = columnSlider.getValue();
             restart();
+            grid.generateMaze();
 
         }
 
