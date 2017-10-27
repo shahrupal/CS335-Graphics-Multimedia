@@ -12,15 +12,18 @@ public class MazeWindow extends JFrame implements ActionListener {
 
     private JButton generateButton, solveButton, stopButton;
     private JCheckBox generateCheck, solveCheck;
+    private JLabel speedLabel, rowsLabel, colsLabel;
     private JSlider speedSlider, rowSlider, columnSlider;
+
+    private int rowInput, colInput;
 
 
     public MazeWindow(){
 
-        int row = 25;
-        int col = 25;
+        int row = 30;
+        int col = 30;
 
-        options = new JPanel(new GridLayout(8,1));
+        options = new JPanel(new GridLayout(11,1));
         maze = new JPanel();
 
         generateButton = new JButton("Generate");
@@ -34,16 +37,25 @@ public class MazeWindow extends JFrame implements ActionListener {
         generateCheck = new JCheckBox("Show Generation");
         solveCheck = new JCheckBox("Show Solver");
 
+        speedLabel = new JLabel("Speed: ");
+        rowsLabel = new JLabel("Rows: 30");
+        colsLabel = new JLabel("Columns: 30");
+
         speedSlider = new JSlider(JSlider.HORIZONTAL);
         rowSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);
         columnSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);
+
+        setOptionColors();
 
         options.add(generateButton);
         options.add(generateCheck);
         options.add(solveButton);
         options.add(solveCheck);
+        options.add(speedLabel);
         options.add(speedSlider);
+        options.add(rowsLabel);
         options.add(rowSlider);
+        options.add(colsLabel);
         options.add(columnSlider);
         options.add(stopButton);
 
@@ -67,6 +79,9 @@ public class MazeWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e){
 
         if(e.getSource() == generateButton){
+
+            rowInput = rowSlider.getValue();
+            colInput = columnSlider.getValue();
             restart();
 
         }
@@ -75,13 +90,37 @@ public class MazeWindow extends JFrame implements ActionListener {
 
     public void restart(){
 
+        //remove previous panel
+        //reset panel to new grid with values from slider
         maze.removeAll();
-
-        grid = new Grid(5,5);
+        grid = new Grid(rowInput, colInput);
         grid.fillGrid(maze);
-        maze.setLayout(new GridLayout(5, 5));
+        maze.setLayout(new GridLayout(rowInput, colInput));
+
+        //recreate and make viewable
         maze.repaint();
         setVisible(true);
+
+    }
+
+    public void setOptionColors(){
+
+        options.setBackground(new Color(186, 230, 252));
+
+        speedSlider.setBackground(new Color(186, 230, 252));
+        rowSlider.setBackground(new Color(186, 230, 252));
+        columnSlider.setBackground(new Color(186, 230, 252));
+
+        generateCheck.setBackground(new Color(186, 230, 252));
+        solveCheck.setBackground(new Color(186, 230, 252));
+
+        speedLabel.setBackground(new Color(186, 230, 252));
+        rowsLabel.setBackground(new Color(186, 230, 252));
+        colsLabel.setBackground(new Color(186, 230, 252));
+
+        generateButton.setBackground(new Color(255, 232, 160));
+        solveButton.setBackground(new Color(255, 232, 160));
+        stopButton.setBackground(new Color(255, 232, 160));
 
     }
 
