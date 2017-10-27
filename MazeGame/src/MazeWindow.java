@@ -20,8 +20,8 @@ public class MazeWindow extends JFrame implements ActionListener {
 
     public MazeWindow(){
 
-        int row = 30;
-        int col = 30;
+        int row = 10;
+        int col = 10;
 
         options = new JPanel(new GridLayout(11,1));
         maze = new JPanel();
@@ -42,8 +42,8 @@ public class MazeWindow extends JFrame implements ActionListener {
         colsLabel = new JLabel("Columns: 30");
 
         speedSlider = new JSlider(JSlider.HORIZONTAL);
-        rowSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);
-        columnSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 30);
+        rowSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 10);
+        columnSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 10);
 
         //add tick marks to sliders
         rowSlider.setMajorTickSpacing(10);

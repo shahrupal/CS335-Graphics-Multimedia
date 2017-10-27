@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.Stack;
 import javax.swing.*;
 
@@ -10,7 +12,8 @@ public class Grid {
     private Cell cellMatrix[][];
     private boolean visited[][];
 
-    private Stack stack;
+    private int newRow = 0, newCol = 0;
+
 
     public Grid(int rows, int columns){
 
@@ -42,93 +45,48 @@ public class Grid {
     /** DFS FOR GENERATING MAZE **/
     public void generateMaze(){
 
+        // Initialize starting values.
+        LinkedList<Cell> queue = new LinkedList<>();
+        Random rand = new Random();
+        Cell neighbor = null;
+
         Cell current = new Cell();  //create new cell to store current cell
 
-        current = cellMatrix[0][0];  //force first cell to be top left -- position (0, 0)
-
+        // Initialize `current` to be top-left cell and then adjust internal row- and column-variables.
+        current = cellMatrix[0][0];
         current.setCellRow(0);
         current.setCellColumn(0);
+        current.setBackground(Color.ORANGE);
+        current.repaint();
 
+        // Mark the top-left spot as visited.
         visited[current.getCellRow()][current.getCellColumn()] = true;
 
- /**    stack.push(current);  //add first cell to stack      **/
-
         //while all the cells have not been visited, continue with loop
-        while(allCellsVisited() == false){
+        while (!allCellsVisited()) {
 
-            //if all the neighbors of the current cell are NOT visited
-            if(allNeighborsVisited(current.getCellRow(), current.getCellColumn())){
+            //add current cell to queue
+            queue.add(current);
 
-
+            LinkedList<Cell> neighbors = getNeighbors(current); // Return neighbors that have not been visited.
+            if (neighbors.size() > 0)
+                neighbor = neighbors.get(rand.nextInt(neighbors.size()));
+            else {  //IF ALL NEIGHBORS HAVE BEEN VISITED
+                boolean keepGoing = true;
+                while (queue.size() > 0 && keepGoing) {
+                    Cell temp = queue.pop();
+                    neighbors = getNeighbors(temp);
+                    if (neighbors.size() > 0) {
+                        neighbor = temp;
+                        keepGoing = false;  //acts as break
+                    }
+                }
             }
-
-            //IF ALL NEIGHBORS OF CURRENT CELL ARE VISITED, POP FROM STACK???
-            else{ }
+            // break the wall between current and neighbor
+            current = neighbor;
+            visited[current.getCellRow()][current.getCellColumn()] = true;
 
         }
-
-
-        // TESTING ALL NEIGHBORS VISITED FUNCTION
-/*      visited[0][1] = true;
-        visited[1][0] = true;
-        System.out.println(allNeighborsVisited(current.getCellRow(), current.getCellColumn()));
-*/
-
-
-    }
-
-    //"erases" border by coloring given border black
-    public void eraseBorder(){
-
-    }
-
-    //if (valid) positions are not ALL visited, return false
-    //if (valid) positions are all visited, return true
-    public boolean allNeighborsVisited(int currentRow, int currentColumn){
-
-        if((positionIsValid(currentRow, currentColumn, "TOP") == true) && (visited[currentRow - 1][currentColumn] == false)){
-            return false;
-        }
-
-        if((positionIsValid(currentRow, currentColumn, "BOTTOM") == true) && (visited[currentRow + 1][currentColumn] == false)){
-            return false;
-        }
-
-        if((positionIsValid(currentRow, currentColumn, "RIGHT") == true) && (visited[currentRow][currentColumn + 1] == false)){
-            return false;
-        }
-
-        if((positionIsValid(currentRow, currentColumn, "LEFT") == true) && (visited[currentRow][currentColumn - 1] == false)){
-            return false;
-        }
-
-        return true;
-    }
-
-    //given which position (relative to current cell) to test, return if position is valid or not
-    public boolean positionIsValid(int currentRow, int currentColumn, String choice){
-
-        //if top cell is invalid, return false
-        if((choice == "TOP") && ((currentRow - 1) < 0)){
-            return false;
-        }
-
-        //if bottom cell is invalid, return false
-        if((choice == "BOTTOM") && ((currentRow + 1) >= numRows)){
-           return false;
-        }
-
-        //if right cell is invalid, return false
-        if((choice == "RIGHT") && ((currentColumn + 1) >= numCols)){
-            return false;
-        }
-
-        //if left cell is invalid, return false
-        if((choice == "LEFT") && ((currentColumn - 1) < 0)){
-            return false;
-        }
-
-        return true;
 
     }
 
@@ -145,6 +103,76 @@ public class Grid {
 
         return true;
     }
+
+    //returns linked list of all (valid) neighbors of current cell
+    public LinkedList<Cell> getNeighbors(Cell c){
+
+        LinkedList<Cell> neighbors = new LinkedList<>();
+
+        int cellRow = c.getCellRow();
+        int cellColumn = c.getCellColumn();
+
+        //TOP
+        int topX = cellColumn;
+        int topY = cellRow - 1;
+        if(isValid(topX, topY)){
+            if(visited[topX][topY] == false){
+                Cell c1 = new Cell();
+                c1.setCellRow(topX);
+                c1.setCellColumn(topY);
+                neighbors.add(c1);
+            }
+        }
+
+        //RIGHT
+        int rightX = cellColumn + 1;
+        int rightY = cellRow;
+        if(isValid(rightX, rightY)){
+            if(visited[rightX][rightY] == false){
+                Cell c2 = new Cell();
+                c2.setCellRow(rightX);
+                c2.setCellColumn(rightY);
+                neighbors.add(c2);
+            }
+        }
+
+        //BOTTOM
+        int bottomX = cellColumn;
+        int bottomY = cellRow + 1;
+        if(isValid(bottomX, bottomY)){
+            if(visited[bottomX][bottomY]){
+                Cell c3 = new Cell();
+                c3.setCellRow(bottomX);
+                c3.setCellColumn(bottomY);
+                neighbors.add(c3);
+            }
+        }
+
+        //LEFT
+        int leftX = cellColumn - 1;
+        int leftY = cellRow;
+        if(isValid(leftX, leftY)){
+            if(visited[leftX][leftY]){
+                Cell c4 = new Cell();
+                c4.setCellRow(leftX);
+                c4.setCellRow(leftY);
+                neighbors.add(c4);
+            }
+        }
+
+        return neighbors;
+
+    }
+
+    //checks if position is valid
+    public boolean isValid(int row, int col){
+        if((row >= 0) && (row < numRows) && (col >= 0)  && (col < numCols)){
+            return true;
+        }
+        return false;
+    }
+
+
 
 
 } /** END OF CLASS **/

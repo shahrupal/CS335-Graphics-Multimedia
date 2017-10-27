@@ -12,6 +12,9 @@ public class Cell extends JPanel {
         super.setBorder(BorderFactory.createLineBorder(Color.WHITE));  //sets cell borders to white
     }
 
+    public void fillPanel(){
+        setBackground(Color.ORANGE);
+    }
 
     public void setCellRow(int r){ row = r; }
 
@@ -21,5 +24,9 @@ public class Cell extends JPanel {
 
     public int getCellColumn(){ return column; }
 
+ /*   //"erases" border by coloring given border black
+    public void eraseBorder(){
 
+    }
+*/
 }
