@@ -40,7 +40,6 @@ public class Cell extends JPanel {
         edges[3] = choice4;
     }
 
-
     public void drawBorders(Cell current){
 
         int edgeCopy[] = {1, 1, 1, 1}; //all borders set to existent
@@ -54,7 +53,7 @@ public class Cell extends JPanel {
 
         }
 
-        current.setBorder(BorderFactory.createMatteBorder(edgeCopy[0], edgeCopy[1], edgeCopy[2], edgeCopy[3], Color.WHITE));
+        current.setBorder(BorderFactory.createMatteBorder(edgeCopy[0], edgeCopy[3],edgeCopy[2], edgeCopy[1], Color.WHITE)); //top, LEFT, bottom, RIGHT
     }
 
 }

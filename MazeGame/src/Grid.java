@@ -137,7 +137,7 @@ public class Grid {
         }
 
         //if neighbor is the left cell
-        if((neighborRow == currentRow) && (neighborRow == currentRow - 1)){
+        if((neighborRow == currentRow) && (neighborColumn == currentColumn - 1)){
             current.setLeftEdge(false);
             neighbor.setRightEdge(false);
         }
