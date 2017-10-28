@@ -63,17 +63,21 @@ public class Grid {
 
             LinkedList<Cell> neighbors = getNeighbors(current); // Return neighbors that have not been visited.
 
-            System.out.println(neighbors.size());
-
             if (neighbors.isEmpty()) {  //if no neighbors (all have been visited)
                 boolean keepGoing = true;
+
                 while (queue.size() > 0 && keepGoing) {
+
                     Cell temp = queue.pop();
                     neighbors = getNeighbors(temp);
+
+                    //if there are unvisited neighbors
                     if (neighbors.size() > 0) {
                         current = temp;
                         keepGoing = false;  //acts as break
                     }
+
+                    //if queue is empty
                     if (temp == null) {
                         keepGoing = false;
                     }
@@ -81,15 +85,19 @@ public class Grid {
 
             }
 
-
+            //if neighbors is still empty, quit loop
             if (neighbors.isEmpty()) {
                 lol = false;
                 continue;
             }
 
-            // break the wall between current and neighbor
+            //find a random neighbor from neighbors linked list
             Cell neighbor = neighbors.get(rand.nextInt(neighbors.size()));
-            // break walls
+
+            // break the wall between current and neighbor
+
+            removeEdge(current, neighbor);
+
             current = neighbor;
             current.setBackground(Color.ORANGE);
 
@@ -98,6 +106,48 @@ public class Grid {
         System.out.println("NOICE");
 
     }
+
+    public void removeEdge(Cell current, Cell neighbor){
+
+        int currentRow = current.getCellRow();
+        int currentColumn = current.getCellColumn();
+        int neighborRow =  neighbor.getCellRow();
+        int neighborColumn = neighbor.getCellColumn();
+
+        //if the neighbor is the top cell
+        if((neighborRow == currentRow - 1) && (neighborColumn == currentColumn)){
+
+            //erase top border of current cell
+            current.setTopEdge(false);
+            //erase bottom border of neighbor cell
+            neighbor.setBottomEdge(false);
+
+        }
+
+        //if the neighbor is the right cell
+        if((neighborRow == currentRow) && (neighborColumn == currentColumn + 1)){
+            current.setRightEdge(false);
+            neighbor.setLeftEdge(false);
+        }
+
+        //if neighbor is the bottom cell
+        if((neighborRow == currentRow + 1) && (neighborColumn == currentColumn)){
+            current.setBottomEdge(false);
+            neighbor.setTopEdge(false);
+        }
+
+        //if neighbor is the left cell
+        if((neighborRow == currentRow) && (neighborRow == currentRow - 1)){
+            current.setLeftEdge(false);
+            neighbor.setRightEdge(false);
+        }
+
+        current.drawBorders(current);
+        neighbor.drawBorders(neighbor);
+
+    }
+
+
 
     //returns false if not ALL cells have been visited
     public boolean allCellsVisited(){
