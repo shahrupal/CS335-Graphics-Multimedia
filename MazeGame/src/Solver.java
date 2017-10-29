@@ -65,14 +65,13 @@ public class Solver {
                             //if there are unvisited neighbors
                             if (neighbors.size() > 0) {
                                 current = temp;
-                                current.setBackground(Color.GRAY);
+ //                               current.setBackground(Color.GRAY);
                                 keepGoing = false;  //acts as break
                             }
                             else{
                                /* Cell temp2 = stack.peek();
                                 temp2.setBackground(Color.PINK);*/
-                                temp.setBackground(Color.DARK_GRAY);
-                                current.setBackground(Color.PINK);
+                                temp.setBackground(Color.GRAY);
                             }
 
                             //if stack is empty
