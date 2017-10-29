@@ -31,7 +31,7 @@ public class Solver {
     public void solveMaze(){
 
         // Initialize starting values.
-        Stack<Cell> queue = new Stack<>();
+        Stack<Cell> stack = new Stack<>();
 
         // Initialize `current` to be top-left cell and then adjust internal row- and column-variables.
         current = cellMatrix[0][0];
@@ -46,8 +46,8 @@ public class Solver {
             public void actionPerformed(ActionEvent e) {
                 if (!allCellsVisited() && neighborsLeft && end) {
 
-                    //add current cell to queue
-                    queue.add(current);
+                    //add current cell to stack
+                    stack.add(current);
 
                     // Mark the top-left spot as visited.
                     visited[current.getCellRow()][current.getCellColumn()] = true;
@@ -57,20 +57,25 @@ public class Solver {
                     if (neighbors.isEmpty()) {  //if no neighbors (all have been visited)
                         boolean keepGoing = true;
 
-                        while (queue.size() > 0 && keepGoing) {
+                        while (stack.size() > 0 && keepGoing) {
 
-                            Cell temp = queue.pop();
-//                  temp.setBackground(Color.DARK_GRAY);
+                            Cell temp = stack.pop();
                             neighbors = getAccessibleNeighbors(temp);
 
                             //if there are unvisited neighbors
                             if (neighbors.size() > 0) {
                                 current = temp;
-  //                              current.setBackground(Color.DARK_GRAY);
+                                current.setBackground(Color.GRAY);
                                 keepGoing = false;  //acts as break
                             }
+                            else{
+                               /* Cell temp2 = stack.peek();
+                                temp2.setBackground(Color.PINK);*/
+                                temp.setBackground(Color.DARK_GRAY);
+                                current.setBackground(Color.PINK);
+                            }
 
-                            //if queue is empty
+                            //if stack is empty
                             if (temp == null) {
                                 keepGoing = false;
                             }
@@ -79,7 +84,7 @@ public class Solver {
                     }
 
 
-                    //if neighbors is empty after queue is empty, quit loop
+                    //if neighbors is empty after stack is empty, quit loop
                     if (neighbors.isEmpty()) {
                         neighborsLeft = false;
 //                        continue;
@@ -109,7 +114,7 @@ public class Solver {
             }
         };
 
-        gameTimer = new Timer(200, timer);
+        gameTimer = new Timer(5, timer);
         gameTimer.start();
         System.out.println("NOICE 2");
 

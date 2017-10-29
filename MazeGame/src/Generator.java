@@ -103,7 +103,7 @@ public class Generator {
             }
         }; //end of actionperformed
 
-        gameTimer = new Timer(200, timer);
+        gameTimer = new Timer(5, timer);
         gameTimer.start();
         System.out.println("NOICE");
 
