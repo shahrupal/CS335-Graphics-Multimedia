@@ -30,6 +30,13 @@ public class Grid {
 
     }
 
+    public void solveMaze(){
+
+        Solver solve = new Solver(cellMatrix, numRows, numCols);
+        solve.solveMaze();
+
+    }
+
     //adds matrix of cells to given panel
     public void fillGrid(JPanel panel){
         for(int i = 0; i < numRows; i++){
@@ -52,8 +59,8 @@ public class Grid {
         current.repaint();
 
         //while all the cells have not been visited, continue with loop
-        boolean lol = true;
-        while (!allCellsVisited() || lol) {
+        boolean neighborsLeft = true;
+        while (!allCellsVisited() || neighborsLeft) {
 
             //add current cell to queue
             queue.add(current);
@@ -85,9 +92,9 @@ public class Grid {
 
             }
 
-            //if neighbors is still empty, quit loop
+            //if neighbors is empty after queue is empty, quit loop
             if (neighbors.isEmpty()) {
-                lol = false;
+                neighborsLeft = false;
                 continue;
             }
 
@@ -99,13 +106,14 @@ public class Grid {
             removeEdge(current, neighbor);
 
             current = neighbor;
-            current.setBackground(Color.ORANGE);
+//            current.setBackground(Color.ORANGE);
 
         }
 
         System.out.println("NOICE");
 
     }
+
 
     public void removeEdge(Cell current, Cell neighbor){
 
@@ -147,10 +155,8 @@ public class Grid {
 
     }
 
-
-
     //returns false if not ALL cells have been visited
-    public boolean allCellsVisited(){
+    private boolean allCellsVisited(){
 
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){

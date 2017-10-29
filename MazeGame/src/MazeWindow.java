@@ -7,6 +7,7 @@ public class MazeWindow extends JFrame implements ActionListener {
     Container c = getContentPane();
 
     private Grid grid;
+    private Solver gridSolver;
     private JPanel maze;
     private JPanel options;
 
@@ -96,6 +97,10 @@ public class MazeWindow extends JFrame implements ActionListener {
             restart();
             grid.generateMaze();
 
+        }
+
+        if(e.getSource() == solveButton){
+            grid.solveMaze();
         }
 
     }
