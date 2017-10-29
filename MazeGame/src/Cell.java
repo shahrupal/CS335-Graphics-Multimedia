@@ -10,7 +10,7 @@ public class Cell extends JPanel {
     public Cell(){
         super();
         super.setBackground(Color.BLACK);  //sets cell color to black
-    //    super.setBorder(BorderFactory.createLineBorder(Color.WHITE));  //sets cell borders to white
+        super.setBorder(BorderFactory.createLineBorder(Color.WHITE));  //sets cell borders to white
     }
 
     public void setDimensions(int r, int c) {

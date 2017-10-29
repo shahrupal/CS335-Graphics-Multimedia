@@ -27,10 +27,11 @@ public class Solver {
 
     }
 
+    /** USES LEFT-HAND RULE **/
     public void solveMaze(){
 
         // Initialize starting values.
-        Stack<Cell> queue = new Stack();
+        Stack<Cell> queue = new Stack<>();
 
         // Initialize `current` to be top-left cell and then adjust internal row- and column-variables.
         current = cellMatrix[0][0];
@@ -65,7 +66,7 @@ public class Solver {
                             //if there are unvisited neighbors
                             if (neighbors.size() > 0) {
                                 current = temp;
-                                current.setBackground(Color.DARK_GRAY);
+  //                              current.setBackground(Color.DARK_GRAY);
                                 keepGoing = false;  //acts as break
                             }
 
@@ -94,6 +95,7 @@ public class Solver {
                     System.out.println("Row Check: " + (numRows - 1) + ", Col Check: " + (numCols - 1));
                     if ((current.getCellRow() == numRows - 1) && (current.getCellColumn() == numCols - 1)) {
                         end = false;
+                        current.setBackground(Color.CYAN);
                         System.out.println("WHAT THE HECK");
 //                        continue;
                     }
