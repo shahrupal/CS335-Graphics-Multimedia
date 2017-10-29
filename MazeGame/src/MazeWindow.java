@@ -7,7 +7,6 @@ public class MazeWindow extends JFrame implements ActionListener {
     Container c = getContentPane();
 
     private Grid grid;
-    private Solver gridSolver;
     private JPanel maze;
     private JPanel options;
 
@@ -56,7 +55,6 @@ public class MazeWindow extends JFrame implements ActionListener {
         columnSlider.setPaintTicks(true);
         columnSlider.setPaintLabels(true);
 
-
         setOptionColors();
 
         options.add(generateButton);
@@ -95,12 +93,12 @@ public class MazeWindow extends JFrame implements ActionListener {
             rowInput = rowSlider.getValue();
             colInput = columnSlider.getValue();
             restart();
-            grid.generateMaze();
+            grid.generate();
 
         }
 
         if(e.getSource() == solveButton){
-            grid.solveMaze();
+            grid.solve();
         }
 
     }

@@ -1,14 +1,19 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.util.LinkedList;
-import java.util.Random;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class Solver {
 
     private boolean visited[][];
     private Cell cellMatrix[][];
     private int numRows, numCols;
+    boolean neighborsLeft, end;
+    Cell current;
+    private Timer gameTimer;
+
 
     public Solver(Cell[][] cells, int rows, int cols){
 
@@ -25,70 +30,85 @@ public class Solver {
     public void solveMaze(){
 
         // Initialize starting values.
-        LinkedList<Cell> queue = new LinkedList<>();
+        Stack<Cell> queue = new Stack();
 
         // Initialize `current` to be top-left cell and then adjust internal row- and column-variables.
-        Cell current = cellMatrix[0][0];
+        current = cellMatrix[0][0];
         current.setBackground(Color.ORANGE);
         current.repaint();
 
         //while all the cells have not been visited, continue with loop
-        boolean neighborsLeft = true;
-        boolean end = true;
-        while (!allCellsVisited() && neighborsLeft && end) {
+        neighborsLeft = true;
+        end = true;
 
-            //add current cell to queue
-            queue.add(current);
+        ActionListener timer = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (!allCellsVisited() && neighborsLeft && end) {
 
-            // Mark the top-left spot as visited.
-            visited[current.getCellRow()][current.getCellColumn()] = true;
+                    //add current cell to queue
+                    queue.add(current);
 
-            LinkedList<Cell> neighbors = getAccessibleNeighbors(current); // Return neighbors that have not been visited.
+                    // Mark the top-left spot as visited.
+                    visited[current.getCellRow()][current.getCellColumn()] = true;
 
-            if (neighbors.isEmpty()) {  //if no neighbors (all have been visited)
-                boolean keepGoing = true;
+                    LinkedList<Cell> neighbors = getAccessibleNeighbors(current); // Return neighbors that have not been visited.
 
-                while (queue.size() > 0 && keepGoing) {
+                    if (neighbors.isEmpty()) {  //if no neighbors (all have been visited)
+                        boolean keepGoing = true;
 
-                    Cell temp = queue.pop();
-                    temp.setBackground(Color.ORANGE);
-                    neighbors = getAccessibleNeighbors(temp);
+                        while (queue.size() > 0 && keepGoing) {
 
-                    //if there are unvisited neighbors
-                    if (neighbors.size() > 0) {
-                        current = temp;
-                        keepGoing = false;  //acts as break
+                            Cell temp = queue.pop();
+//                  temp.setBackground(Color.DARK_GRAY);
+                            neighbors = getAccessibleNeighbors(temp);
+
+                            //if there are unvisited neighbors
+                            if (neighbors.size() > 0) {
+                                current = temp;
+                                current.setBackground(Color.DARK_GRAY);
+                                keepGoing = false;  //acts as break
+                            }
+
+                            //if queue is empty
+                            if (temp == null) {
+                                keepGoing = false;
+                            }
+                        }
+
                     }
 
-                    //if queue is empty
-                    if (temp == null) {
-                        keepGoing = false;
+
+                    //if neighbors is empty after queue is empty, quit loop
+                    if (neighbors.isEmpty()) {
+                        neighborsLeft = false;
+//                        continue;
                     }
+
+                    //use first value from neighbors
+                    Cell neighbor = neighbors.get(0);
+
+                    current = neighbor;
+                    current.setBackground(Color.ORANGE);
+
+                    System.out.println("Row: " + current.getCellRow() + ", Col: " + current.getCellColumn());
+                    System.out.println("Row Check: " + (numRows - 1) + ", Col Check: " + (numCols - 1));
+                    if ((current.getCellRow() == numRows - 1) && (current.getCellColumn() == numCols - 1)) {
+                        end = false;
+                        System.out.println("WHAT THE HECK");
+//                        continue;
+                    }
+
+
+                }
+                else{
+                    gameTimer.stop();
                 }
 
             }
+        };
 
-
-            //if neighbors is empty after queue is empty, quit loop
-            if (neighbors.isEmpty()) {
-                neighborsLeft = false;
-                continue;
-            }
-
-            if(current == cellMatrix[numRows - 1][numCols - 1]){
-                end = false;
-                System.out.println("WHAT THE HECK");
-                continue;
-            }
-
-            //use first value from neighbors
-            Cell neighbor = neighbors.get(0);
-
-            current = neighbor;
-            current.setBackground(Color.ORANGE);
-
-        }
-
+        gameTimer = new Timer(200, timer);
+        gameTimer.start();
         System.out.println("NOICE 2");
 
     }
@@ -121,7 +141,6 @@ public class Solver {
                 }
             }
 
-            /**IF DOESNT WORK, DO TOP LEFT BOTTOM RIGHT**/
             if(c.getRightEdge() == false){
                 if(visited[i][j + 1] == false){
                     neighbors.add(cellMatrix[i][j + 1]);
