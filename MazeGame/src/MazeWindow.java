@@ -30,6 +30,8 @@ public class MazeWindow extends JFrame implements ActionListener {
         maze = new JPanel();
         options = new JPanel(new GridLayout(11,1));
         statistics = new JPanel();
+        statistics.setBackground(new Color(185, 252, 151));
+        statistics.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         generateButton = new JButton("Generate");
         solveButton = new JButton("Solve");
@@ -110,6 +112,8 @@ public class MazeWindow extends JFrame implements ActionListener {
             rowInput = rowSlider.getValue();
             colInput = columnSlider.getValue();
             restart();
+
+            visitedLabel.setText("Percent Visited: 0%");
 
             //if check box is selected, use value from speed slider to determine amount of time
             if(generateCheck.isSelected()){
