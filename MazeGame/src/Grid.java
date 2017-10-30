@@ -6,9 +6,6 @@ public class Grid {
 
     private Cell cellMatrix[][];
 
-    private Solver solve;
-    private Generator generate;
-
     public Grid(int rows, int columns){
 
         numRows = rows;
@@ -26,17 +23,17 @@ public class Grid {
 
     }
 
-    public void solve(){
+    public void solve(int solveTime, JLabel percentLabel){
 
         Solver solve = new Solver(cellMatrix, numRows, numCols);
-        solve.solveMaze();
+        solve.solveMaze(solveTime, percentLabel);
 
     }
 
-    public void generate(){
+    public void generate(int generateTime){
 
         Generator generate = new Generator(cellMatrix, numRows, numCols);
-        generate.generateMaze();
+        generate.generateMaze(generateTime);
 
     }
 

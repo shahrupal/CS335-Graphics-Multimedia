@@ -9,10 +9,12 @@ public class MazeWindow extends JFrame implements ActionListener {
     private Grid grid;
     private JPanel maze;
     private JPanel options;
+    private JPanel statistics;
 
     private JButton generateButton, solveButton, stopButton;
     private JCheckBox generateCheck, solveCheck;
     private JLabel speedLabel, rowsLabel, colsLabel;
+    private JLabel visitedLabel;
     private JSlider speedSlider, rowSlider, columnSlider;
 
     private int rowInput, colInput;
@@ -20,11 +22,14 @@ public class MazeWindow extends JFrame implements ActionListener {
 
     public MazeWindow(){
 
+        super("Maze Generator & Solver");
+
         int row = 10;
         int col = 10;
 
-        options = new JPanel(new GridLayout(11,1));
         maze = new JPanel();
+        options = new JPanel(new GridLayout(11,1));
+        statistics = new JPanel();
 
         generateButton = new JButton("Generate");
         solveButton = new JButton("Solve");
@@ -37,15 +42,23 @@ public class MazeWindow extends JFrame implements ActionListener {
         generateCheck = new JCheckBox("Show Generation");
         solveCheck = new JCheckBox("Show Solver");
 
+        generateCheck.addActionListener(this);
+        solveCheck.addActionListener(this);
+
         speedLabel = new JLabel("Speed: ");
         rowsLabel = new JLabel("Rows: 30");
         colsLabel = new JLabel("Columns: 30");
+        visitedLabel = new JLabel("Percent Visited: 0%");
 
-        speedSlider = new JSlider(JSlider.HORIZONTAL);
+        speedSlider = new JSlider(JSlider.HORIZONTAL,0,1000,200);
         rowSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 10);
         columnSlider = new JSlider(JSlider.HORIZONTAL, 10, 50, 10);
 
         //add tick marks to sliders
+        speedSlider.setMajorTickSpacing(200);
+        speedSlider.setMinorTickSpacing(100);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setPaintLabels(true);
         rowSlider.setMajorTickSpacing(10);
         rowSlider.setMinorTickSpacing(5);
         rowSlider.setPaintTicks(true);
@@ -69,14 +82,18 @@ public class MazeWindow extends JFrame implements ActionListener {
         options.add(columnSlider);
         options.add(stopButton);
 
+        statistics.add(visitedLabel);
+
         //add grid to maze panel
         grid = new Grid(row, col);
         grid.fillGrid(maze);
         maze.setLayout(new GridLayout(row, col));
         maze.setBackground(Color.BLACK);
 
+        c.add(statistics, BorderLayout.SOUTH);
         c.add(options, BorderLayout.EAST);
         c.add(maze);
+
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600,500);
@@ -93,13 +110,28 @@ public class MazeWindow extends JFrame implements ActionListener {
             rowInput = rowSlider.getValue();
             colInput = columnSlider.getValue();
             restart();
-            grid.generate();
+
+            //if check box is selected, use value from speed slider to determine amount of time
+            if(generateCheck.isSelected()){
+                grid.generate(speedSlider.getValue());
+            }
+            //if check box is not selected, automatically create maze - do not show animation
+            else {
+                grid.generate(0);
+            }
 
         }
 
         if(e.getSource() == solveButton){
-            grid.solve();
+
+            if(solveCheck.isSelected()){
+                grid.solve(speedSlider.getValue(), visitedLabel);
+            }
+            else{
+                grid.solve(0, visitedLabel);
+            }
         }
+
 
     }
 

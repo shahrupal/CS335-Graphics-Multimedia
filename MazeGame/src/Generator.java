@@ -28,7 +28,7 @@ public class Generator {
     }
 
     /** DFS FOR GENERATING MAZE **/
-    public void generateMaze(){
+    public void generateMaze(int userTime){
 
         // Initialize starting values.
         LinkedList<Cell> queue = new LinkedList<>();
@@ -100,8 +100,9 @@ public class Generator {
             }
         }; //end of actionperformed
 
-        gameTimer = new Timer(5, timer);
+        gameTimer = new Timer(userTime, timer);
         gameTimer.start();
+
         System.out.println("NOICE");
 
     }

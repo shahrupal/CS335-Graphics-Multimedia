@@ -28,14 +28,16 @@ public class Solver {
     }
 
     /** USES LEFT-HAND RULE **/
-    public void solveMaze(){
+    public void solveMaze(int userTime, JLabel percentLabel){
+
+    //    percentVisited = 0;
 
         // Initialize starting values.
         Stack<Cell> stack = new Stack<>();
 
         // Initialize `current` to be top-left cell and then adjust internal row- and column-variables.
         current = cellMatrix[0][0];
-        current.setBackground(Color.ORANGE);
+        current.setBackground(Color.GREEN);
         current.repaint();
 
         //while all the cells have not been visited, continue with loop
@@ -46,7 +48,16 @@ public class Solver {
             public void actionPerformed(ActionEvent e) {
                 if (!allCellsVisited() && neighborsLeft && end) {
 
-                    current.setBackground(Color.PINK);
+                    System.out.println("Percent Visited: " + percentVisited());
+                    updatePercentLabel(percentLabel);
+
+
+                    if(current.getCellRow() == 0 && current.getCellColumn() == 0){
+                        current.setBackground(Color.GREEN);
+                    }
+                    else{
+                        current.setBackground(Color.PINK);
+                    }
 
                     //add current cell to stack
                     stack.add(current);
@@ -62,21 +73,13 @@ public class Solver {
 
                         while (stack.size() > 0 && keepGoing) {
 
-//                            current.setBackground(Color.PINK);        DEAD EBD
                             Cell temp = stack.pop();
 
                             neighbors = getAccessibleNeighbors(temp);
 
-                            System.out.println(neighbors.size());
-                            System.out.println("Rows: " + temp.getCellRow() + ", Cols: " + temp.getCellColumn());
-
-
-
                             //if there are unvisited neighbors
                             if (neighbors.size() > 0) {
-                                if(visited[current.getCellRow()][current.getCellColumn()]) {
-                                    current.setBackground(Color.gray);
-                                }
+
                                 current = temp;
                                 stack.add(current);
                                 keepGoing = false;  //acts as break
@@ -98,7 +101,6 @@ public class Solver {
                     //if neighbors is empty after stack is empty, quit loop
                     if (neighbors.isEmpty()) {
                         neighborsLeft = false;
-//                        continue;
                     }
 
                     //use first value from neighbors
@@ -107,17 +109,9 @@ public class Solver {
                     current = neighbor;
                     visited[current.getCellRow()][current.getCellColumn()] = true;
 
-//                    current.setBackground(Color.ORANGE);
-
-
-
-                    System.out.println("Row: " + current.getCellRow() + ", Col: " + current.getCellColumn());
-                    System.out.println("Row Check: " + (numRows - 1) + ", Col Check: " + (numCols - 1));
                     if ((current.getCellRow() == numRows - 1) && (current.getCellColumn() == numCols - 1)) {
                         end = false;
                         current.setBackground(Color.RED);
-                        System.out.println("YAAAAAAAAAS");
-//                        continue;
                     }
 
 
@@ -129,7 +123,7 @@ public class Solver {
             }
         };
 
-        gameTimer = new Timer(10, timer);
+        gameTimer = new Timer(userTime, timer);
         gameTimer.start();
         System.out.println("NOICE 2");
 
@@ -183,6 +177,30 @@ public class Solver {
 
             return neighbors;
 
+    }
+
+    private double percentVisited(){
+
+        int total = 0;
+        double visitedCounter = 0;
+
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++){
+                if(visited[i][j] == true){
+                    visitedCounter++;
+                }
+                total++;
+            }
+        }
+
+        visitedCounter = (visitedCounter / total) * 100;
+        visitedCounter = Math.round((visitedCounter * 1000) / 1000);
+        return visitedCounter;
+
+    }
+
+    public void updatePercentLabel(JLabel label){
+        label.setText("Percent Visited: " + percentVisited() + "%");
     }
 
 }
