@@ -48,8 +48,8 @@ public class Solver {
             public void actionPerformed(ActionEvent e) {
                 if (!allCellsVisited() && neighborsLeft && end) {
 
-                    System.out.println("Percent Visited: " + percentVisited());
-                    updatePercentLabel(percentLabel);
+//                    System.out.println("Percent Visited: " + percentVisited());
+//                    updatePercentLabel(percentLabel);
 
 
                     if(current.getCellRow() == 0 && current.getCellColumn() == 0){
@@ -108,6 +108,10 @@ public class Solver {
 
                     current = neighbor;
                     visited[current.getCellRow()][current.getCellColumn()] = true;
+
+                    System.out.println("Percent Visited: " + percentVisited());
+                    updatePercentLabel(percentLabel);
+
 
                     if ((current.getCellRow() == numRows - 1) && (current.getCellColumn() == numCols - 1)) {
                         end = false;
