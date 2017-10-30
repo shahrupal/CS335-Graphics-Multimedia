@@ -46,6 +46,8 @@ public class Solver {
             public void actionPerformed(ActionEvent e) {
                 if (!allCellsVisited() && neighborsLeft && end) {
 
+                    current.setBackground(Color.PINK);
+
                     //add current cell to stack
                     stack.add(current);
 
@@ -57,20 +59,30 @@ public class Solver {
                     if (neighbors.isEmpty()) {  //if no neighbors (all have been visited)
                         boolean keepGoing = true;
 
+
                         while (stack.size() > 0 && keepGoing) {
 
+//                            current.setBackground(Color.PINK);        DEAD EBD
                             Cell temp = stack.pop();
+
                             neighbors = getAccessibleNeighbors(temp);
+
+                            System.out.println(neighbors.size());
+                            System.out.println("Rows: " + temp.getCellRow() + ", Cols: " + temp.getCellColumn());
+
+
 
                             //if there are unvisited neighbors
                             if (neighbors.size() > 0) {
+                                if(visited[current.getCellRow()][current.getCellColumn()]) {
+                                    current.setBackground(Color.gray);
+                                }
                                 current = temp;
- //                               current.setBackground(Color.GRAY);
+                                stack.add(current);
                                 keepGoing = false;  //acts as break
+
                             }
                             else{
-                               /* Cell temp2 = stack.peek();
-                                temp2.setBackground(Color.PINK);*/
                                 temp.setBackground(Color.GRAY);
                             }
 
@@ -93,14 +105,18 @@ public class Solver {
                     Cell neighbor = neighbors.get(0);
 
                     current = neighbor;
-                    current.setBackground(Color.ORANGE);
+                    visited[current.getCellRow()][current.getCellColumn()] = true;
+
+//                    current.setBackground(Color.ORANGE);
+
+
 
                     System.out.println("Row: " + current.getCellRow() + ", Col: " + current.getCellColumn());
                     System.out.println("Row Check: " + (numRows - 1) + ", Col Check: " + (numCols - 1));
                     if ((current.getCellRow() == numRows - 1) && (current.getCellColumn() == numCols - 1)) {
                         end = false;
-                        current.setBackground(Color.CYAN);
-                        System.out.println("WHAT THE HECK");
+                        current.setBackground(Color.RED);
+                        System.out.println("YAAAAAAAAAS");
 //                        continue;
                     }
 
@@ -113,7 +129,7 @@ public class Solver {
             }
         };
 
-        gameTimer = new Timer(5, timer);
+        gameTimer = new Timer(10, timer);
         gameTimer.start();
         System.out.println("NOICE 2");
 
@@ -133,7 +149,7 @@ public class Solver {
         return true;
     }
 
-    //returns a list of valid, accessible neighbors that have not already been visited
+    //returns a list of accessible neighbors that have not already been visited
     public LinkedList<Cell> getAccessibleNeighbors(Cell c){
 
             LinkedList<Cell> neighbors = new LinkedList<>();

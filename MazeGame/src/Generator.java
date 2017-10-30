@@ -89,12 +89,9 @@ public class Generator {
                     Cell neighbor = neighbors.get(rand.nextInt(neighbors.size()));
 
                     // break the wall between current and neighbor
-
                     removeEdge(current, neighbor);
 
                     current = neighbor;
-//                  current.setBackground(Color.ORANGE);
-
                 }
                 else{
                     gameTimer.stop();
