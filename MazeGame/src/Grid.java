@@ -23,17 +23,29 @@ public class Grid {
 
     }
 
-    public void solve(int solveTime, JLabel percentLabel){
+    public void solve(int solveTime, JLabel percentLabel, String animationChoice){
 
         Solver solve = new Solver(cellMatrix, numRows, numCols);
-        solve.solveMaze(solveTime, percentLabel);
+
+        if(animationChoice == "ANIMATED") {
+            solve.solveMazeAnimated(solveTime, percentLabel);
+        }
+        else{
+            solve.solveMazeNotAnimated(percentLabel);
+        }
 
     }
 
-    public void generate(int generateTime){
+    public void generate(int generateTime, String animationChoice){
 
         Generator generate = new Generator(cellMatrix, numRows, numCols);
-        generate.generateMaze(generateTime);
+
+        if(animationChoice == "ANIMATED") {
+            generate.generateMazeAnimated(generateTime);
+        }
+        else{
+            generate.generateMazeNotAnimated();
+        }
 
     }
 

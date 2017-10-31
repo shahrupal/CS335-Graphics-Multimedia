@@ -28,7 +28,7 @@ public class Generator {
     }
 
     /** DFS FOR GENERATING MAZE **/
-    public void generateMaze(int userTime){
+    public void generateMazeAnimated(int userTime){
 
         // Initialize starting values.
         LinkedList<Cell> queue = new LinkedList<>();
@@ -42,8 +42,6 @@ public class Generator {
 
         //while all the cells have not been visited, continue with loop
         neighborsLeft = true;  //initialized in beginning
-
-        //ACTION LISTENER FUNCTION
 
         ActionListener timer = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -104,6 +102,70 @@ public class Generator {
         gameTimer.start();
 
         System.out.println("NOICE");
+
+    }
+
+    public void generateMazeNotAnimated(){
+
+        // Initialize starting values.
+        LinkedList<Cell> queue = new LinkedList<>();
+        Random rand = new Random();
+
+        // Initialize `current` to be top-left cell and then adjust internal row- and column-variables.
+        current = cellMatrix[0][0];  //initialized in beginning
+        current.setBackground(Color.ORANGE);
+        current.repaint();
+
+
+        //while all the cells have not been visited, continue with loop
+        neighborsLeft = true;  //initialized in beginning
+
+        while (!allCellsVisited() || neighborsLeft) {
+
+                //add current cell to queue
+                queue.add(current);
+
+                // Mark the top-left spot as visited.
+                visited[current.getCellRow()][current.getCellColumn()] = true;
+
+                LinkedList<Cell> neighbors = getNeighbors(current); // Return neighbors that have not been visited.
+
+                if (neighbors.isEmpty()) {  //if no neighbors (all have been visited)
+                    boolean keepGoing = true;
+
+                    while (queue.size() > 0 && keepGoing) {
+
+                        Cell temp = queue.pop();
+                        neighbors = getNeighbors(temp);
+
+                        //if there are unvisited neighbors
+                        if (neighbors.size() > 0) {
+                            current = temp;
+                            keepGoing = false;  //acts as break
+                        }
+
+                        //if queue is empty
+                        if (temp == null) {
+                            keepGoing = false;
+                        }
+                    }
+
+                }
+
+                //if neighbors is empty after queue is empty, quit loop
+                if (neighbors.isEmpty()) {
+                    neighborsLeft = false;
+                    //continue;
+                }
+
+                //find a random neighbor from neighbors linked list
+                Cell neighbor = neighbors.get(rand.nextInt(neighbors.size()));
+
+                // break the wall between current and neighbor
+                removeEdge(current, neighbor);
+
+                current = neighbor;
+            }
 
     }
 

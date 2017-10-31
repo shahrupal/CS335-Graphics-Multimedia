@@ -96,7 +96,6 @@ public class MazeWindow extends JFrame implements ActionListener {
         c.add(options, BorderLayout.EAST);
         c.add(maze);
 
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(600,500);
         setVisible(true);
@@ -117,11 +116,11 @@ public class MazeWindow extends JFrame implements ActionListener {
 
             //if check box is selected, use value from speed slider to determine amount of time
             if(generateCheck.isSelected()){
-                grid.generate(speedSlider.getValue());
+                grid.generate(speedSlider.getValue(), "ANIMATED");
             }
             //if check box is not selected, automatically create maze - do not show animation
             else {
-                grid.generate(0);
+                grid.generate(0, "NOT ANIMATED");
             }
 
         }
@@ -129,13 +128,14 @@ public class MazeWindow extends JFrame implements ActionListener {
         if(e.getSource() == solveButton){
 
             if(solveCheck.isSelected()){
-                grid.solve(speedSlider.getValue(), visitedLabel);
+                grid.solve(speedSlider.getValue(), visitedLabel, "ANIMATED");
             }
             else{
-                grid.solve(0, visitedLabel);
+                grid.solve(0, visitedLabel, "NOT ANIMATED");
             }
         }
 
+        
 
     }
 

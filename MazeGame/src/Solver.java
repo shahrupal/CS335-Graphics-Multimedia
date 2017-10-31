@@ -28,7 +28,7 @@ public class Solver {
     }
 
     /** USES LEFT-HAND RULE **/
-    public void solveMaze(int userTime, JLabel percentLabel){
+    public void solveMazeAnimated(int userTime, JLabel percentLabel){
 
     //    percentVisited = 0;
 
@@ -47,10 +47,6 @@ public class Solver {
         ActionListener timer = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!allCellsVisited() && neighborsLeft && end) {
-
-//                    System.out.println("Percent Visited: " + percentVisited());
-//                    updatePercentLabel(percentLabel);
-
 
                     if(current.getCellRow() == 0 && current.getCellColumn() == 0){
                         current.setBackground(Color.GREEN);
@@ -130,6 +126,94 @@ public class Solver {
         gameTimer = new Timer(userTime, timer);
         gameTimer.start();
         System.out.println("NOICE 2");
+
+    }
+
+    public void solveMazeNotAnimated(JLabel percentLabel){
+
+        // Initialize starting values.
+        Stack<Cell> stack = new Stack<>();
+
+        // Initialize `current` to be top-left cell and then adjust internal row- and column-variables.
+        current = cellMatrix[0][0];
+        current.setBackground(Color.GREEN);
+        current.repaint();
+
+        //while all the cells have not been visited, continue with loop
+        neighborsLeft = true;
+        end = true;
+
+
+        while (!allCellsVisited() && neighborsLeft && end) {
+
+            if(current.getCellRow() == 0 && current.getCellColumn() == 0){
+                    current.setBackground(Color.GREEN);
+                }
+                else{
+                    current.setBackground(Color.PINK);
+                }
+
+                //add current cell to stack
+                stack.add(current);
+
+                // Mark the top-left spot as visited.
+                visited[current.getCellRow()][current.getCellColumn()] = true;
+
+                LinkedList<Cell> neighbors = getAccessibleNeighbors(current); // Return neighbors that have not been visited.
+
+                if (neighbors.isEmpty()) {  //if no neighbors (all have been visited)
+                    boolean keepGoing = true;
+
+
+                    while (stack.size() > 0 && keepGoing) {
+
+                        Cell temp = stack.pop();
+
+                        neighbors = getAccessibleNeighbors(temp);
+
+                        //if there are unvisited neighbors
+                        if (neighbors.size() > 0) {
+
+                            current = temp;
+                            stack.add(current);
+                            keepGoing = false;  //acts as break
+
+                        }
+                        else{
+                            temp.setBackground(Color.GRAY);
+                        }
+
+                        //if stack is empty
+                        if (temp == null) {
+                            keepGoing = false;
+                        }
+                    }
+
+                }
+
+
+                //if neighbors is empty after stack is empty, quit loop
+                if (neighbors.isEmpty()) {
+                    neighborsLeft = false;
+                }
+
+                //use first value from neighbors
+                Cell neighbor = neighbors.get(0);
+
+                current = neighbor;
+                visited[current.getCellRow()][current.getCellColumn()] = true;
+
+                System.out.println("Percent Visited: " + percentVisited());
+                updatePercentLabel(percentLabel);
+
+
+                if ((current.getCellRow() == numRows - 1) && (current.getCellColumn() == numCols - 1)) {
+                    end = false;
+                    current.setBackground(Color.RED);
+                }
+
+
+            }
 
     }
 
