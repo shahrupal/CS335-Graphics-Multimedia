@@ -217,6 +217,14 @@ public class Solver {
 
     }
 
+    public void stopSolverTimer(){
+        gameTimer.stop();
+    }
+
+    public void startSolverTimer(){
+        gameTimer.start();
+    }
+
     //returns false if not ALL cells have been visited
     private boolean allCellsVisited() {
 

@@ -11,7 +11,7 @@ public class MazeWindow extends JFrame implements ActionListener {
     private JPanel options;
     private JPanel statistics;
 
-    private JButton generateButton, solveButton, stopButton;
+    private JButton generateButton, solveButton, stopStartButton;
     private JCheckBox generateCheck, solveCheck;
     private JLabel speedLabel, rowsLabel, colsLabel;
     private JLabel visitedLabel;
@@ -19,6 +19,7 @@ public class MazeWindow extends JFrame implements ActionListener {
 
     private int rowInput, colInput;
 
+    public boolean isGenerating = false, isSolving = false;
 
     public MazeWindow(){
 
@@ -35,11 +36,11 @@ public class MazeWindow extends JFrame implements ActionListener {
 
         generateButton = new JButton("Generate");
         solveButton = new JButton("Solve");
-        stopButton = new JButton("Stop");
+        stopStartButton = new JButton("Stop");
 
         generateButton.addActionListener(this);
         solveButton.addActionListener(this);
-        stopButton.addActionListener(this);
+        stopStartButton.addActionListener(this);
 
         generateCheck = new JCheckBox("Show Generation");
         solveCheck = new JCheckBox("Show Solver");
@@ -82,7 +83,7 @@ public class MazeWindow extends JFrame implements ActionListener {
         options.add(rowSlider);
         options.add(colsLabel);
         options.add(columnSlider);
-        options.add(stopButton);
+        options.add(stopStartButton);
 
         statistics.add(visitedLabel);
 
@@ -112,10 +113,13 @@ public class MazeWindow extends JFrame implements ActionListener {
             colInput = columnSlider.getValue();
             restart();
 
+            stopStartButton.setText("Stop");
             visitedLabel.setText("Percent Visited: 0%");
 
             //if check box is selected, use value from speed slider to determine amount of time
             if(generateCheck.isSelected()){
+                isGenerating = true;
+                isSolving = false;
                 grid.generate(speedSlider.getValue(), "ANIMATED");
             }
             //if check box is not selected, automatically create maze - do not show animation
@@ -128,11 +132,46 @@ public class MazeWindow extends JFrame implements ActionListener {
         if(e.getSource() == solveButton){
 
             if(solveCheck.isSelected()){
+                isSolving = true;
+                isGenerating = false;
                 grid.solve(speedSlider.getValue(), visitedLabel, "ANIMATED");
             }
             else{
                 grid.solve(0, visitedLabel, "NOT ANIMATED");
             }
+        }
+
+        if(e.getSource() == stopStartButton){
+
+            System.out.println(isGenerating);
+
+            if(stopStartButton.getText() == "Stop") {
+
+                if(isGenerating) {
+                    grid.stopGenerator();
+                }
+                else if(isSolving){
+                    grid.stopSolver();
+                }
+
+                stopStartButton.setText("Start");
+
+            }
+
+             else if(stopStartButton.getText() == "Start"){
+
+                if(isGenerating) {
+                    grid.startGenerator();
+                }
+                 else if(isSolving){
+                    grid.startSolver();
+                }
+
+                stopStartButton.setText("Stop");
+
+
+            }
+
         }
 
         
@@ -171,7 +210,7 @@ public class MazeWindow extends JFrame implements ActionListener {
 
         generateButton.setBackground(new Color(255, 232, 160));
         solveButton.setBackground(new Color(255, 232, 160));
-        stopButton.setBackground(new Color(255, 232, 160));
+        stopStartButton.setBackground(new Color(255, 232, 160));
 
     }
 

@@ -6,6 +6,9 @@ public class Grid {
 
     private Cell cellMatrix[][];
 
+    private Generator generate;
+    private Solver solve;
+
     public Grid(int rows, int columns){
 
         numRows = rows;
@@ -25,7 +28,7 @@ public class Grid {
 
     public void solve(int solveTime, JLabel percentLabel, String animationChoice){
 
-        Solver solve = new Solver(cellMatrix, numRows, numCols);
+        solve = new Solver(cellMatrix, numRows, numCols);
 
         if(animationChoice == "ANIMATED") {
             solve.solveMazeAnimated(solveTime, percentLabel);
@@ -38,7 +41,7 @@ public class Grid {
 
     public void generate(int generateTime, String animationChoice){
 
-        Generator generate = new Generator(cellMatrix, numRows, numCols);
+        generate = new Generator(cellMatrix, numRows, numCols);
 
         if(animationChoice == "ANIMATED") {
             generate.generateMazeAnimated(generateTime);
@@ -48,6 +51,24 @@ public class Grid {
         }
 
     }
+
+    public void stopGenerator(){
+        generate.stopGeneratorTimer();
+    }
+
+    public void startGenerator(){
+        generate.startGeneratorTimer();
+    }
+
+
+    public void stopSolver(){
+        solve.stopSolverTimer();
+    }
+
+    public void startSolver(){
+        solve.startSolverTimer();
+    }
+
 
     //adds matrix of cells to given panel
     public void fillGrid(JPanel panel){

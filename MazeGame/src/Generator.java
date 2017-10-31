@@ -90,6 +90,7 @@ public class Generator {
                     removeEdge(current, neighbor);
 
                     current = neighbor;
+
                 }
                 else{
                     gameTimer.stop();
@@ -169,7 +170,15 @@ public class Generator {
 
     }
 
-    public void removeEdge(Cell current, Cell neighbor){
+    public void stopGeneratorTimer(){
+        gameTimer.stop();
+    }
+
+    public void startGeneratorTimer(){
+        gameTimer.start();
+    }
+
+    private void removeEdge(Cell current, Cell neighbor){
 
         int currentRow = current.getCellRow();
         int currentColumn = current.getCellColumn();
@@ -224,7 +233,7 @@ public class Generator {
     }
 
     //returns linked list of all (valid) neighbors of current cell
-    public LinkedList<Cell> getNeighbors(Cell c){
+    private LinkedList<Cell> getNeighbors(Cell c){
 
         LinkedList<Cell> neighbors = new LinkedList<>();
 
@@ -266,12 +275,13 @@ public class Generator {
     }
 
     //checks if position is valid
-    public boolean isValid(int row, int col){
+    private boolean isValid(int row, int col){
         if((row >= 0) && (row < numRows) && (col >= 0)  && (col < numCols)){
             return true;
         }
         return false;
     }
+
 
 
 
