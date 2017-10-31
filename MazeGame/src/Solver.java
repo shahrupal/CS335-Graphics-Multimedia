@@ -289,8 +289,8 @@ public class Solver {
             }
         }
 
-        visitedCounter = (visitedCounter / total) * 100;
-        visitedCounter = Math.round((visitedCounter * 1000) / 1000);
+        visitedCounter = (visitedCounter / total) * 100;  //calculates percentage
+        visitedCounter = Math.round((visitedCounter * 1000) / 1000);  //rounds to the nearest decimal
         return visitedCounter;
 
     }
