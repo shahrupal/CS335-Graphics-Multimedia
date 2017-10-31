@@ -9,9 +9,9 @@ import java.util.Random;
 public class Generator {
 
     private int numRows, numCols;  // to store number of rows and columns
-
     private Cell cellMatrix[][];  // to store 2D array of cells
     private boolean visited[][];  // to store 2D array of booleans - if visited: true
+
     private Timer gameTimer;  // create timer
 
     boolean neighborsLeft;  // to store if there are any existent neighbors of cell
@@ -36,6 +36,7 @@ public class Generator {
 
 
     /** GENERATES MAZE WITH ANIMATION - TIMER INCLUDED **/
+    /** IMPLEMENTS DFS + LEFT-HAND RULE **/
     public void generateMazeAnimated(int userTime){
 
         LinkedList<Cell> queue = new LinkedList<>();  // initialize queue
@@ -116,6 +117,7 @@ public class Generator {
 
 
     /** GENERATES MAZE WITHOUT ANIMATION - NO TIMER INCLUDED **/
+    /** IMPLEMENTS DFS + LEFT-HAND RULE **/
     public void generateMazeNotAnimated(){
 
         LinkedList<Cell> queue = new LinkedList<>();  // initialize queue

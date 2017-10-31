@@ -87,6 +87,7 @@ public class Grid {
         solve.stopSolverTimer();  // stops solver timer
     }
 
+
     /** STARTS ANIMATION OF SOLVER FROM WHERE IT LEFT OFF **/
     public void startSolver(){
         solve.startSolverTimer();  // starts solver timer
