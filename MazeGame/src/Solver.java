@@ -277,42 +277,51 @@ public class Solver {
 
     /** RETURNS A LINKED LIST OF ACCESSIBLE NEIGHBORS **/
     /** ACCESSIBLE NEIGHBORS: DO NOT HAVE A BORDER TOUCHING CURRENT CELL, HAVE NOT BEEN VISITED**/
+    /** add to list in order (top, right, bottom, left) to create left-hand rule **/
     public LinkedList<Cell> getAccessibleNeighbors(Cell c){
 
-        
+            // initialize linked list to hold accessible neighbors
             LinkedList<Cell> neighbors = new LinkedList<>();
 
+            // store current cell's row and col number
             int i = c.getCellRow();
             int j = c.getCellColumn();
 
+            // TOP - if the current cell does not have a top edge and the top neighbor is not visited, add to list
             if(c.getTopEdge() == false){
                 if(visited[i - 1][j] == false){
                     neighbors.add(cellMatrix[i - 1][j]);
                 }
             }
 
-            if(c.getRightEdge() == false){
+        // RIGHT - if the current cell does not have a right edge and the right neighbor is not visited, add to list
+        if(c.getRightEdge() == false){
                 if(visited[i][j + 1] == false){
                     neighbors.add(cellMatrix[i][j + 1]);
                 }
             }
 
-            if(c.getBottomEdge() == false){
+        // BOTTOM - if the current cell does not have a bottom edge and the bottom neighbor is not visited, add to list
+        if(c.getBottomEdge() == false){
                 if(visited[i + 1][j] == false){
                     neighbors.add(cellMatrix[i + 1][j]);
                 }
             }
 
-            if(c.getLeftEdge() == false){
+        // LEFT - if the current cell does not have a left edge and the left neighbor is not visited, add to list
+        if(c.getLeftEdge() == false){
                 if(visited[i][j - 1] == false){
                     neighbors.add(cellMatrix[i][j - 1]);
                 }
             }
 
+            // return list
             return neighbors;
 
     }
 
+
+    /** RETURNS PERCENT OF CELLS VISITED DURING SOLUTION **/
     private double percentVisited(){
 
         int total = 0;
@@ -333,6 +342,8 @@ public class Solver {
 
     }
 
+
+    /** OUTPUTS PERCENT VISITED ON GIVEN LABEL **/
     public void updatePercentLabel(JLabel label){
         label.setText("Percent Visited: " + percentVisited() + "%");
     }
