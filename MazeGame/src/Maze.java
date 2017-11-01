@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class MazeWindow extends JFrame implements ActionListener {
+public class Maze extends JFrame implements ActionListener {
 
     // store content pane in container
     Container c = getContentPane();
@@ -13,7 +13,7 @@ public class MazeWindow extends JFrame implements ActionListener {
     // create grid object
     private Grid grid;
 
-    // create jpanels to layout content
+    // create panels to layout content
     private JPanel maze;
     private JPanel options;
     private JPanel statistics;
@@ -32,7 +32,7 @@ public class MazeWindow extends JFrame implements ActionListener {
     public boolean isGenerating = false, isSolving = false;
 
     /** CONSTRUCTOR **/
-    public MazeWindow(){
+    public Maze(){
 
         // set title of window
         super("Maze Generator & Solver");
@@ -127,7 +127,7 @@ public class MazeWindow extends JFrame implements ActionListener {
 
         // set frame to exit on close, dimensions, and visibility
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600,500);
+        setSize(600,550);
         setVisible(true);
 
     }
@@ -161,6 +161,7 @@ public class MazeWindow extends JFrame implements ActionListener {
             // if check box is not selected, automatically create maze - do not show animation
             else {
                 grid.generate(0, "NOT ANIMATED");
+
             }
 
         }
@@ -262,7 +263,7 @@ public class MazeWindow extends JFrame implements ActionListener {
 
     /** MAIN FUNCTION **/
     public static void main(String args[]){
-        MazeWindow newMaze = new MazeWindow();
+        Maze newMaze = new Maze();
     }
 
 }
