@@ -90,14 +90,19 @@ public class Generator {
                         neighborsLeft = false;  // acts as break
                     }
 
-                    // find a random neighbor from 'neighbors' linked list
-                    Cell neighbor = neighbors.get(rand.nextInt(neighbors.size()));
+                    // if the current cell has at least one neighbor
+                    if(neighbors.size() > 0) {
 
-                    // break the wall between current and neighbor
-                    removeEdge(current, neighbor);
+                        // find a random neighbor from 'neighbors' linked list
+                        Cell neighbor = neighbors.get(rand.nextInt(neighbors.size()));
 
-                    // neighbor is not the current cell
-                    current = neighbor;
+                        // break the wall between current and neighbor
+                        removeEdge(current, neighbor);
+
+                        // neighbor is not the current cell
+                        current = neighbor;
+
+                    }
 
                 }
                 else{
@@ -167,14 +172,19 @@ public class Generator {
                 neighborsLeft = false;  // acts as break
             }
 
-            // find a random neighbor from 'neighbors' linked list
-            Cell neighbor = neighbors.get(rand.nextInt(neighbors.size()));
+            // if the current cell has at least one neighbor
+            if(neighbors.size() > 0) {
 
-            // break the wall between current and neighbor
-            removeEdge(current, neighbor);
+                // find a random neighbor from 'neighbors' linked list
+                Cell neighbor = neighbors.get(rand.nextInt(neighbors.size()));
 
-            // neighbor is not the current cell
-            current = neighbor;
+                // break the wall between current and neighbor
+                removeEdge(current, neighbor);
+
+                // neighbor is not the current cell
+                current = neighbor;
+
+            }
 
         }
 
