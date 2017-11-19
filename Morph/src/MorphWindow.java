@@ -24,6 +24,8 @@ public class MorphWindow extends JFrame implements ActionListener{
             menu = new JMenu("Menu");
             imageItem1 = new JMenuItem("Load Image 1");
             imageItem2 = new JMenuItem("Load Image 2");
+            imageItem1.addActionListener(this);
+            imageItem2.addActionListener(this);
 
             menuBar.add(menu);
             menu.add(imageItem1);
@@ -48,12 +50,23 @@ public class MorphWindow extends JFrame implements ActionListener{
             c.add(imagePanel);
 
 
-            setSize(850,700);  //sets dimension of window
+            setSize(850,500);  //sets dimension of window
+            setResizable(false);
             setVisible(true);  //allows user to see window
 
     }
 
     public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource() == imageItem1){
+            image1.selectImage();
+            System.out.println("boooooop bitches");
+        }
+
+        if(e.getSource() == imageItem2){
+
+        }
+
     }
 
     public static void main(String a[]){
