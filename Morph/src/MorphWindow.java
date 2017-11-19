@@ -60,11 +60,10 @@ public class MorphWindow extends JFrame implements ActionListener{
 
         if(e.getSource() == imageItem1){
             image1.selectImage();
-            System.out.println("boooooop bitches");
         }
 
         if(e.getSource() == imageItem2){
-
+            image2.selectImage();
         }
 
     }
