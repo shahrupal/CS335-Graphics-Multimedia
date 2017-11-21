@@ -3,6 +3,10 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -16,11 +20,47 @@ public class Images extends JPanel {
     private int numRows, numCols;
     private int imageWidth, imageHeight;
     private BufferedImage buffer;
+    private boolean isDragging = false;
+    Point temp;
+    // OFFSET = 2
+    // DIAMETER = 4
 
     public Images(){
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
         setBackground(Color.PINK);
+        this.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+
+                if(!isDragging){
+                    for(int i = 0; i < numRows; i++){
+                        for(int j = 0; j < numCols; j++){
+                            if((e.getX() > (controlPointsMatrix[i][j].getX() - 2)) && (e.getX() < (controlPointsMatrix[i][j].getX() + 2)) && (e.getY() > (controlPointsMatrix[i][j].getY() - 2)) && (e.getY() < (controlPointsMatrix[i][j].getY() + 2))){
+                                temp = controlPointsMatrix[i][j];
+                                isDragging = true;
+                            }
+                        }
+                    }
+                }
+
+                if(isDragging){
+                    //set new point coordinates
+                    temp.setLocation(e.getX(), e.getY());
+                    repaint();
+
+                }
+
+
+              // System.out.println(e.getX() + "   " + e.getY());
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                isDragging = false;
+            }
+        });
 
     }
 
@@ -98,14 +138,12 @@ public class Images extends JPanel {
         // draws control points
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
-                g2d.drawOval((int)controlPointsMatrix[i][j].getX(),(int)controlPointsMatrix[i][j].getY(),5,5);
-                g2d.fillOval((int)controlPointsMatrix[i][j].getX(),(int)controlPointsMatrix[i][j].getY(),5,5);
+                g2d.draw(new Ellipse2D.Double(controlPointsMatrix[i][j].getX()-2, controlPointsMatrix[i][j].getY()-2, 4,4));
             }
         }
 
         // draws lines between control points
         // m = x, n = y
-        // drawLine(x1,y1,x2,y2)
         for(int m = 0; m < numRows; m++){
             for(int n = 0; n < numCols; n++){
 
@@ -134,6 +172,47 @@ public class Images extends JPanel {
 
     }
 
+
+
+
+    /*@Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        System.out.println(e.getX());
+        System.out.println(e.getY());
+        System.out.println("Hello, World!");
+
+        for(int i = 0; i < numRows; i++){
+            for(int j = 0; j < numCols; j++){
+                System.out.println(controlPointsMatrix[i][j]);
+                System.out.println(e.getX());
+                System.out.println(e.getY());
+              //  if()
+                if((e.getX() > (controlPointsMatrix[i][j].getX() - 2)) && (e.getX() < (controlPointsMatrix[i][j].getX() + 2)) && (e.getY() > (controlPointsMatrix[i][j].getY() - 2)) && (e.getY() < (controlPointsMatrix[i][j].getY() + 2))){
+                    System.out.println("YES");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }*/
 }
 
 
