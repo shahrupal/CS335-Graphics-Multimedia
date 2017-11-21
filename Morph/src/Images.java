@@ -7,11 +7,11 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-
+import java.lang.Math.*;
 
 public class Images extends JPanel {
 
-    private ControlPoint controlPointsMatrix[][];
+    private Point controlPointsMatrix[][];
     private int numControlPoints;
     private int numRows, numCols;
     private int imageWidth, imageHeight;
@@ -54,7 +54,7 @@ public class Images extends JPanel {
 
     public void drawControlPoints(){
 
-        ControlGrid(100,1000,1000);  // use width and height of image
+        ControlGrid(100,450,450);  // use width and height of image
         setVisible(true);
 
     }
@@ -67,16 +67,15 @@ public class Images extends JPanel {
         imageWidth = width;
         imageHeight = height;
 
-        numRows = numControlPoints / 2;
-        numCols = numControlPoints / 2;
+        numRows = (int)Math.sqrt(numControlPoints);
+        numCols = (int)Math.sqrt(numControlPoints);
 
-        controlPointsMatrix  = new ControlPoint[numControlPoints/2][numControlPoints/2];
+        controlPointsMatrix  = new Point[(int)Math.sqrt(numControlPoints)][(int)Math.sqrt(numControlPoints)];
 
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
-                ControlPoint cp = new ControlPoint(i*(imageWidth/numControlPoints),j*(imageHeight/numControlPoints),5);
-                cp.setX(i * (imageWidth / numControlPoints));
-                cp.setY(j * (imageHeight / numControlPoints));
+                Point cp = new Point(i,j);
+                cp.setLocation(i * (imageWidth / numRows), j * (imageHeight / numCols));
                 controlPointsMatrix[i][j] = cp;
             }
         }
@@ -96,11 +95,40 @@ public class Images extends JPanel {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.drawImage(buffer, 0,0, this);
 
-
+        // draws control points
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
-                g2d.drawOval(controlPointsMatrix[i][j].getX(),controlPointsMatrix[i][j].getY(),5,5);
-                g2d.fillOval(controlPointsMatrix[i][j].getX(),controlPointsMatrix[i][j].getY(),5,5);
+                g2d.drawOval((int)controlPointsMatrix[i][j].getX(),(int)controlPointsMatrix[i][j].getY(),5,5);
+                g2d.fillOval((int)controlPointsMatrix[i][j].getX(),(int)controlPointsMatrix[i][j].getY(),5,5);
+            }
+        }
+
+        // draws lines between control points
+        // m = x, n = y
+        // drawLine(x1,y1,x2,y2)
+        for(int m = 0; m < numRows; m++){
+            for(int n = 0; n < numCols; n++){
+
+                // current point to top point
+                if(n - 1 > -1){
+                    g2d.drawLine((int)controlPointsMatrix[m][n].getX(), (int)controlPointsMatrix[m][n].getY(), (int)controlPointsMatrix[m][n - 1].getX(),(int)controlPointsMatrix[m][n - 1].getY());
+                }
+
+                // current point to right point
+                if(m + 1 < numCols){
+                    g2d.drawLine((int)controlPointsMatrix[m][n].getX(), (int)controlPointsMatrix[m][n].getY(), (int)controlPointsMatrix[m + 1][n].getX(),(int)controlPointsMatrix[m + 1][n].getY());
+                }
+
+                // current point to bottom point
+                if((n + 1) < numRows){
+                    g2d.drawLine((int)controlPointsMatrix[m][n].getX(), (int)controlPointsMatrix[m][n].getY(), (int)controlPointsMatrix[m][n + 1].getX(),(int)controlPointsMatrix[m][n + 1].getY());
+                }
+
+               // current point to left point
+                if((m - 1) > -1){
+                    g2d.drawLine((int)controlPointsMatrix[m][n].getX(), (int)controlPointsMatrix[m][n].getY(), (int)controlPointsMatrix[m - 1][n].getX(),(int)controlPointsMatrix[m - 1][n].getY());
+                }
+
             }
         }
 
