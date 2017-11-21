@@ -22,6 +22,7 @@ public class Images extends JPanel {
     private BufferedImage buffer;
     private boolean isDragging = false;
     Point temp;
+
     // OFFSET = 2
     // DIAMETER = 4
 
@@ -46,13 +47,13 @@ public class Images extends JPanel {
 
                 if(isDragging){
                     //set new point coordinates
-                    temp.setLocation(e.getX(), e.getY());
-                    repaint();
+
+                    if(createPolygon(temp).contains(e.getPoint())){
+                        temp.setLocation(e.getX(), e.getY());
+                        repaint();
+                    }
 
                 }
-
-
-              // System.out.println(e.getX() + "   " + e.getY());
 
             }
 
@@ -80,12 +81,10 @@ public class Images extends JPanel {
 
                 File selected = browse.getSelectedFile();
                 buffer = ImageIO.read(selected);
-
                 drawControlPoints();
 
             }
             catch(IOException e) {
-
             }
 
         }
@@ -172,47 +171,61 @@ public class Images extends JPanel {
 
     }
 
+//    public double getDistance(Point current, Point neighbor){
+//
+//        double x1 = current.getX();
+//        double x2 = current.getY();
+//        double y1 = neighbor.getX();
+//        double y2 = neighbor.getY();
+//
+//        double distance = Math.sqrt((Math.pow((x2 - x1),2)) + (Math.pow((y2 - y1),2)));
+//        return distance;
+//
+//    }
 
 
+    // create polygon based on neighboring coordinates
+    // this is to use to disallow current point being dragged across its neighbors, using contain method
+    public Polygon createPolygon(Point current){
 
-    /*@Override
-    public void mouseClicked(MouseEvent e) {
+        int x[] = new int[8];
+        int y[] = new int[8];
 
-    }
+        for(int m = 0; m < numRows; m++){
+            for(int n = 0; n < numCols; n++){
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        System.out.println(e.getX());
-        System.out.println(e.getY());
-        System.out.println("Hello, World!");
+                if(controlPointsMatrix[m][n] == current) {
 
-        for(int i = 0; i < numRows; i++){
-            for(int j = 0; j < numCols; j++){
-                System.out.println(controlPointsMatrix[i][j]);
-                System.out.println(e.getX());
-                System.out.println(e.getY());
-              //  if()
-                if((e.getX() > (controlPointsMatrix[i][j].getX() - 2)) && (e.getX() < (controlPointsMatrix[i][j].getX() + 2)) && (e.getY() > (controlPointsMatrix[i][j].getY() - 2)) && (e.getY() < (controlPointsMatrix[i][j].getY() + 2))){
-                    System.out.println("YES");
+                    if(((m - 1) > -1) && ((n - 1) > -1) && ((m + 1) < numRows) && ((n + 1) < numCols)){
+
+                        x[0] = controlPointsMatrix[m - 1][n - 1].x;
+                        x[1] = controlPointsMatrix[m][n - 1].x;
+                        x[2] = controlPointsMatrix[m + 1][n - 1].x;
+                        x[3] = controlPointsMatrix[m + 1][n].x;
+                        x[4] = controlPointsMatrix[m + 1][n + 1].x;
+                        x[5] = controlPointsMatrix[m][n + 1].x;
+                        x[6] = controlPointsMatrix[m - 1][n + 1].x;
+                        x[7] = controlPointsMatrix[m - 1][n].x;
+
+                        y[0] = controlPointsMatrix[m - 1][n - 1].y;
+                        y[1] = controlPointsMatrix[m][n - 1].y;
+                        y[2] = controlPointsMatrix[m + 1][n - 1].y;
+                        y[3] = controlPointsMatrix[m + 1][n].y;
+                        y[4] = controlPointsMatrix[m + 1][n + 1].y;
+                        y[5] = controlPointsMatrix[m][n + 1].y;
+                        y[6] = controlPointsMatrix[m - 1][n + 1].y;
+                        y[7] = controlPointsMatrix[m - 1][n].y;
+
+                    }
+
                 }
             }
         }
+
+        Polygon p = new Polygon(x,y,8);
+        return p;
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }*/
 }
 
 
