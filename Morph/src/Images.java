@@ -18,8 +18,8 @@ public class Images extends JPanel{
     private boolean isDragging = false;
     Point temp;
 
-    // OFFSET = 2
-    // DIAMETER = 4
+    int DIAMETER = 6;
+    int OFFSET = DIAMETER / 2;
 
     public Images(){
 
@@ -32,7 +32,7 @@ public class Images extends JPanel{
                 if(!isDragging){
                     for(int i = 0; i < numRows; i++){
                         for(int j = 0; j < numCols; j++){
-                            if((e.getX() > (controlPointsMatrix[i][j].getX() - 2)) && (e.getX() < (controlPointsMatrix[i][j].getX() + 2)) && (e.getY() > (controlPointsMatrix[i][j].getY() - 2)) && (e.getY() < (controlPointsMatrix[i][j].getY() + 2))){
+                            if((e.getX() > (controlPointsMatrix[i][j].getX() - OFFSET)) && (e.getX() < (controlPointsMatrix[i][j].getX() + OFFSET)) && (e.getY() > (controlPointsMatrix[i][j].getY() - OFFSET)) && (e.getY() < (controlPointsMatrix[i][j].getY() + OFFSET))){
                                 temp = controlPointsMatrix[i][j];
                                 isDragging = true;
                             }
@@ -132,8 +132,8 @@ public class Images extends JPanel{
         // draws control points
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
-                g2d.drawOval(controlPointsMatrix[i][j].x-2, controlPointsMatrix[i][j].y-2, 4,4);
-                g2d.fillOval(controlPointsMatrix[i][j].x-2, controlPointsMatrix[i][j].y-2, 4,4);
+                g2d.drawOval(controlPointsMatrix[i][j].x - OFFSET, controlPointsMatrix[i][j].y - OFFSET, DIAMETER,DIAMETER);
+                g2d.fillOval(controlPointsMatrix[i][j].x - OFFSET, controlPointsMatrix[i][j].y - OFFSET, DIAMETER,DIAMETER);
 
             }
         }

@@ -15,7 +15,7 @@
       <file leaf-file-name="MorphWindow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MorphWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1700">
+            <state relative-caret-position="642">
               <caret line="100" column="29" lean-forward="false" selection-start-line="100" selection-start-column="29" selection-end-line="100" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -27,16 +27,16 @@
       <file leaf-file-name="Images.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Images.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="166" column="9" lean-forward="true" selection-start-line="142" selection-start-column="8" selection-end-line="166" selection-end-column="9" />
+            <state relative-caret-position="238">
+              <caret line="20" column="20" lean-forward="false" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1894#1895#0" expanded="true" />
-                <element signature="e#1944#1945#0" expanded="true" />
+                <element signature="e#1929#1930#0" expanded="true" />
+                <element signature="e#1979#1980#0" expanded="true" />
                 <element signature="method#selectImage#0;class#Images#0" expanded="false" />
-                <element signature="e#5300#5363#0" expanded="false" />
-                <element signature="e#7405#7406#0" expanded="true" />
-                <element signature="e#7447#7448#0" expanded="true" />
+                <element signature="e#5391#5454#0" expanded="false" />
+                <element signature="e#7496#7497#0" expanded="true" />
+                <element signature="e#7538#7539#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -45,8 +45,8 @@
       <file leaf-file-name="PopUp.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/PopUp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="73" column="44" lean-forward="true" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
+            <state relative-caret-position="255">
+              <caret line="15" column="20" lean-forward="false" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -70,6 +70,7 @@
       <find>-2</find>
       <find>ELLIPSE</find>
       <find>n</find>
+      <find>morph</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -96,9 +97,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="76" />
-    <option name="y" value="-13" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-56" />
+    <option name="y" value="-19" />
     <option name="width" value="1087" />
     <option name="height" value="658" />
   </component>
@@ -267,7 +268,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -352,12 +353,12 @@
           <caret line="78" column="0" lean-forward="false" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1894#1895#0" expanded="true" />
-            <element signature="e#1944#1945#0" expanded="true" />
+            <element signature="e#1929#1930#0" expanded="true" />
+            <element signature="e#1979#1980#0" expanded="true" />
             <element signature="method#selectImage#0;class#Images#0" expanded="false" />
-            <element signature="e#5300#5363#0" expanded="false" />
-            <element signature="e#7405#7406#0" expanded="true" />
-            <element signature="e#7447#7448#0" expanded="true" />
+            <element signature="e#5391#5454#0" expanded="false" />
+            <element signature="e#7496#7497#0" expanded="true" />
+            <element signature="e#7538#7539#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -386,7 +387,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MorphWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1700">
+        <state relative-caret-position="642">
           <caret line="100" column="29" lean-forward="false" selection-start-line="100" selection-start-column="29" selection-end-line="100" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -396,24 +397,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Images.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="166" column="9" lean-forward="true" selection-start-line="142" selection-start-column="8" selection-end-line="166" selection-end-column="9" />
+        <state relative-caret-position="238">
+          <caret line="20" column="20" lean-forward="false" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1894#1895#0" expanded="true" />
-            <element signature="e#1944#1945#0" expanded="true" />
+            <element signature="e#1929#1930#0" expanded="true" />
+            <element signature="e#1979#1980#0" expanded="true" />
             <element signature="method#selectImage#0;class#Images#0" expanded="false" />
-            <element signature="e#5300#5363#0" expanded="false" />
-            <element signature="e#7405#7406#0" expanded="true" />
-            <element signature="e#7447#7448#0" expanded="true" />
+            <element signature="e#5391#5454#0" expanded="false" />
+            <element signature="e#7496#7497#0" expanded="true" />
+            <element signature="e#7538#7539#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PopUp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="73" column="44" lean-forward="true" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
+        <state relative-caret-position="255">
+          <caret line="15" column="20" lean-forward="false" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
