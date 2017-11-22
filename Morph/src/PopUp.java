@@ -50,12 +50,13 @@ public class PopUp extends JPanel {
                             else{
                                 time = 0;
                             }
-                            
+
                         }
                     }
                 }
             }
         };
+
         gameTimer = new Timer(1000, timer);
         gameTimer.start();
 
@@ -74,6 +75,11 @@ public class PopUp extends JPanel {
                 for (int b = 0; b < size; b++) {
                     g2d.drawOval(start[a][b].x - 2, start[a][b].y - 2, 4, 4);
                     g2d.fillOval(start[a][b].x - 2, start[a][b].y - 2, 4, 4);
+                    if(b - 1 > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b - 1].x, start[a][b - 1].y); }
+                    if(a + 1 < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a + 1][b].x, start[a + 1][b].y); }
+                    if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
+                    if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
+
                 }
             }
             beginning = false;
@@ -90,8 +96,14 @@ public class PopUp extends JPanel {
                 for (int d = 0; d < size; d++) {
                     g2d.drawOval(start[c][d].x - 2, start[c][d].y - 2, 4, 4);
                     g2d.fillOval(start[c][d].x - 2, start[c][d].y - 2, 4, 4);
+                    if(d - 1 > -1){ g2d.drawLine(start[c][d].x, start[c][d].y, start[c][d - 1].x, start[c][d - 1].y); }
+                    if(c + 1 < size){ g2d.drawLine(start[c][d].x, start[c][d].y, start[c + 1][d].x, start[c + 1][d].y); }
+                    if((d + 1) < size){ g2d.drawLine(start[c][d].x, start[c][d].y, start[c][d + 1].x, start[c][d + 1].y); }
+                    if((c - 1) > -1){ g2d.drawLine(start[c][d].x, start[c][d].y, start[c - 1][d].x, start[c - 1][d].y); }
                 }
             }
+
+
 
         }
 

@@ -27,9 +27,10 @@
       <file leaf-file-name="Images.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Images.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="21" lean-forward="true" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+            <state relative-caret-position="425">
+              <caret line="166" column="9" lean-forward="true" selection-start-line="142" selection-start-column="8" selection-end-line="166" selection-end-column="9" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#1894#1895#0" expanded="true" />
                 <element signature="e#1944#1945#0" expanded="true" />
                 <element signature="method#selectImage#0;class#Images#0" expanded="false" />
@@ -44,8 +45,8 @@
       <file leaf-file-name="PopUp.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/PopUp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="52" column="28" lean-forward="false" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
+            <state relative-caret-position="501">
+              <caret line="73" column="44" lean-forward="true" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -68,6 +69,7 @@
       <find>joption</find>
       <find>-2</find>
       <find>ELLIPSE</find>
+      <find>n</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -349,6 +351,7 @@
         <state relative-caret-position="1326">
           <caret line="78" column="0" lean-forward="false" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#1894#1895#0" expanded="true" />
             <element signature="e#1944#1945#0" expanded="true" />
             <element signature="method#selectImage#0;class#Images#0" expanded="false" />
@@ -393,9 +396,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Images.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="21" lean-forward="true" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+        <state relative-caret-position="425">
+          <caret line="166" column="9" lean-forward="true" selection-start-line="142" selection-start-column="8" selection-end-line="166" selection-end-column="9" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#1894#1895#0" expanded="true" />
             <element signature="e#1944#1945#0" expanded="true" />
             <element signature="method#selectImage#0;class#Images#0" expanded="false" />
@@ -408,8 +412,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PopUp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="52" column="28" lean-forward="false" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
+        <state relative-caret-position="501">
+          <caret line="73" column="44" lean-forward="true" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
