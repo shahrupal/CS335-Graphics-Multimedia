@@ -135,7 +135,9 @@ public class Images extends JPanel{
         // draws control points
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
-                g2d.draw(new Ellipse2D.Double(controlPointsMatrix[i][j].getX()-2, controlPointsMatrix[i][j].getY()-2, 4,4));
+                g2d.drawOval(controlPointsMatrix[i][j].x-2, controlPointsMatrix[i][j].y-2, 4,4);
+                g2d.fillOval(controlPointsMatrix[i][j].x-2, controlPointsMatrix[i][j].y-2, 4,4);
+
             }
         }
 

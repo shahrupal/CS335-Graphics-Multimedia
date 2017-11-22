@@ -42,7 +42,6 @@ public class PopUp extends JPanel {
                             if (time != 1) {
                                 tempI = i;
                                 tempJ = j;
-                                //System.out.println(start[i][j].getX() + " " + start[i][j].getY());
                                 repaint();
                                 revalidate();
                             }
@@ -71,7 +70,8 @@ public class PopUp extends JPanel {
         if (beginning) {
             for (int a = 0; a < size; a++) {
                 for (int b = 0; b < size; b++) {
-                    g2d.draw(new Ellipse2D.Double(start[a][b].getX() - 2, start[a][b].getY() - 2, 4, 4));
+                    g2d.drawOval(start[a][b].x - 2, start[a][b].y - 2, 4, 4);
+                    g2d.fillOval(start[a][b].x - 2, start[a][b].y - 2, 4, 4);
                 }
             }
             beginning = false;
@@ -79,18 +79,15 @@ public class PopUp extends JPanel {
 
             time += 1 / frames;
 
-            System.out.println("i: " + tempI + ", j: " + tempJ);
-
             double x = start[tempI][tempJ].getX() + (time * (end[tempI][tempJ].getX() - start[tempI][tempJ].getX()));
             double y = start[tempI][tempJ].getY() + (time * (end[tempI][tempJ].getY() - start[tempI][tempJ].getY()));
-            System.out.println("x: " + x + ", y: " + y);
 
             start[tempI][tempJ].setLocation(x, y);
-            //g2d.draw(new Ellipse2D.Double(x, y, 4,4));
 
             for (int c = 0; c < size; c++) {
                 for (int d = 0; d < size; d++) {
-                    g2d.draw(new Ellipse2D.Double(start[c][d].getX() - 2, start[c][d].getY() - 2, 4, 4));
+                    g2d.drawOval(start[c][d].x - 2, start[c][d].y - 2, 4, 4);
+                    g2d.fillOval(start[c][d].x - 2, start[c][d].y - 2, 4, 4);
                 }
             }
 
