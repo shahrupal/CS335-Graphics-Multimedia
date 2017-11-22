@@ -226,6 +226,10 @@ public class Images extends JPanel {
         return p;
     }
 
+    public Point[][] getPointMatrix(){
+        return controlPointsMatrix;
+    }
+
 }
 
 

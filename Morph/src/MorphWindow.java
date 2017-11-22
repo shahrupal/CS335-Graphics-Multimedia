@@ -4,6 +4,9 @@ import java.awt.event.*;
 
 public class MorphWindow extends JFrame implements ActionListener{
 
+    private JFrame morphFrame;
+    private PopUp morphPanel;
+
     private JMenuBar menuBar;
     private JMenu menu;
     private JMenuItem imageItem1, imageItem2;
@@ -15,6 +18,7 @@ public class MorphWindow extends JFrame implements ActionListener{
     private JPanel resetPanel;
 
     private JButton resetButton;
+    private JButton morphButton;
 
     public MorphWindow(){
 
@@ -42,7 +46,10 @@ public class MorphWindow extends JFrame implements ActionListener{
             resetPanel = new JPanel();
             resetButton = new JButton("Reset");
             resetButton.addActionListener(this);
+            morphButton = new JButton("Morph");
+            morphButton.addActionListener(this);
             resetPanel.add(resetButton);
+            resetPanel.add(morphButton);
 
             Container c = getContentPane();
             setJMenuBar(menuBar);
@@ -50,6 +57,7 @@ public class MorphWindow extends JFrame implements ActionListener{
             c.add(imagePanel);
 
 
+            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             setSize(850,500);  //sets dimension of window
             setResizable(false);
             setVisible(true);  //allows user to see window
@@ -65,6 +73,25 @@ public class MorphWindow extends JFrame implements ActionListener{
         if(e.getSource() == imageItem2){
             image2.selectImage();
         }
+
+        if(e.getSource() == morphButton){
+            morphWindow();
+        }
+
+    }
+
+    public void morphWindow(){
+
+        morphFrame = new JFrame("Morph");
+        morphPanel = new PopUp();
+
+        morphFrame.add(morphPanel);
+
+        
+
+        morphFrame.setSize(500,500);
+        morphFrame.setVisible(true);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     }
 
