@@ -4,16 +4,14 @@ import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-import java.lang.Math.*;
 
-public class Images extends JPanel {
+public class Images extends JPanel{
 
     private Point controlPointsMatrix[][];
     private int numControlPoints;

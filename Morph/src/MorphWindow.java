@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class MorphWindow extends JFrame implements ActionListener{
 
     private JFrame morphFrame;
-    private PopUp morphPanel;
+    PopUp morphPanel = new PopUp();
 
     private JMenuBar menuBar;
     private JMenu menu;
@@ -80,16 +80,25 @@ public class MorphWindow extends JFrame implements ActionListener{
 
     }
 
+    public void highlight(){
+
+
+
+
+
+    }
+
     public void morphWindow(){
 
         morphFrame = new JFrame("Morph");
-        morphPanel = new PopUp();
-
         morphFrame.add(morphPanel);
 
-        
+        Point[][] img1points = image1.getPointMatrix();
+        Point[][] img2points = image2.getPointMatrix();
 
-        morphFrame.setSize(500,500);
+        morphPanel.createMorph(img1points, img2points, 10);
+
+        morphFrame.setSize(450,450);
         morphFrame.setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
