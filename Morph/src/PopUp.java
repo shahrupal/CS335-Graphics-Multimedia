@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
 
 public class PopUp extends JPanel {
 
@@ -40,15 +39,18 @@ public class PopUp extends JPanel {
                         if ((start[i][j].getX() != end[i][j].getX()) && (start[i][j].getY() != end[i][j].getY())) {
 
                             if (time != 1) {
+
                                 tempI = i;
                                 tempJ = j;
+
                                 repaint();
                                 revalidate();
-                            }
-                            else {
-                                gameTimer.stop();
-                            }
 
+                            }
+                            else{
+                                time = 0;
+                            }
+                            
                         }
                     }
                 }
