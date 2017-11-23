@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Hashtable;
 
 public class MorphWindow extends JFrame implements ActionListener{
 
@@ -19,6 +20,9 @@ public class MorphWindow extends JFrame implements ActionListener{
 
     private JButton resetButton;
     private JButton morphButton;
+
+    JSlider frames;
+    Hashtable label = new Hashtable();
 
     public MorphWindow(){
 
@@ -48,7 +52,12 @@ public class MorphWindow extends JFrame implements ActionListener{
             resetButton.addActionListener(this);
             morphButton = new JButton("Morph");
             morphButton.addActionListener(this);
+            frames = new JSlider(JSlider.HORIZONTAL, 0,30,10);
+            label.put(15,new JLabel("# of frames"));
+            frames.setLabelTable(label);
+            frames.setPaintLabels(true);
             resetPanel.add(resetButton);
+            resetPanel.add(frames);
             resetPanel.add(morphButton);
 
             Container c = getContentPane();
@@ -80,13 +89,6 @@ public class MorphWindow extends JFrame implements ActionListener{
 
     }
 
-    public void highlight(){
-
-
-
-
-
-    }
 
     public void morphWindow(){
 
@@ -96,7 +98,8 @@ public class MorphWindow extends JFrame implements ActionListener{
         Point[][] img1points = image1.getPointMatrix();
         Point[][] img2points = image2.getPointMatrix();
 
-        morphPanel.createMorph(img1points, img2points, 10);
+        morphPanel.createMorph(img1points, img2points, 10, frames.getValue());
+
 
         morphFrame.setSize(450,450);
         morphFrame.setVisible(true);

@@ -17,7 +17,7 @@ public class Images extends JPanel{
     private BufferedImage buffer;
     private boolean isDragging = false;
     Point temp;
-
+    Point current = new Point();
     int DIAMETER = 6;
     int OFFSET = DIAMETER / 2;
 
@@ -45,6 +45,7 @@ public class Images extends JPanel{
 
                     if(createPolygon(temp).contains(e.getPoint())){
                         temp.setLocation(e.getX(), e.getY());
+                        setCurrent(temp);
                         repaint();
                     }
 
@@ -166,19 +167,14 @@ public class Images extends JPanel{
             }
         }
 
+        // highlight control point that is being clicked
+        g2d.setColor(Color.BLUE);
+        g2d.drawOval(getCurrent().x - OFFSET, getCurrent().y - OFFSET, DIAMETER, DIAMETER);
+        g2d.fillOval(getCurrent().x - OFFSET, getCurrent().y - OFFSET, DIAMETER, DIAMETER);
+
     }
 
-//    public double getDistance(Point current, Point neighbor){
-//
-//        double x1 = current.getX();
-//        double x2 = current.getY();
-//        double y1 = neighbor.getX();
-//        double y2 = neighbor.getY();
-//
-//        double distance = Math.sqrt((Math.pow((x2 - x1),2)) + (Math.pow((y2 - y1),2)));
-//        return distance;
-//
-//    }
+
 
 
     // create polygon based on neighboring coordinates
@@ -226,6 +222,10 @@ public class Images extends JPanel{
     public Point[][] getPointMatrix(){
         return controlPointsMatrix;
     }
+
+    public void setCurrent(Point temp){ current = temp; }
+    public Point getCurrent(){ return current; }
+
 
 }
 
