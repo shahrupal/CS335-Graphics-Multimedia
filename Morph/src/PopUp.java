@@ -89,6 +89,8 @@ public class PopUp extends JPanel {
                     if(a + 1 < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a + 1][b].x, start[a + 1][b].y); }
                     if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
                     if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
+                    if(((a - 1) > -1) && ((b - 1) > -1)){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b - 1].x,start[a - 1][b - 1].y); }
+
 
                 }
             }
@@ -115,6 +117,7 @@ public class PopUp extends JPanel {
                     if(a + 1 < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a + 1][b].x, start[a + 1][b].y); }
                     if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
                     if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
+                    if(((a - 1) > -1) && ((b - 1) > -1)){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b - 1].x,start[a - 1][b - 1].y); }
 
                 }
             }

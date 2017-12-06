@@ -164,6 +164,12 @@ public class Images extends JPanel{
                     g2d.drawLine((int)controlPointsMatrix[m][n].getX(), (int)controlPointsMatrix[m][n].getY(), (int)controlPointsMatrix[m - 1][n].getX(),(int)controlPointsMatrix[m - 1][n].getY());
                 }
 
+                // current point to top left point (diagonal)
+                if(((m - 1) > -1) && ((n - 1) > -1)){
+                    g2d.drawLine((int)controlPointsMatrix[m][n].getX(), (int)controlPointsMatrix[m][n].getY(), (int)controlPointsMatrix[m - 1][n - 1].getX(),(int)controlPointsMatrix[m - 1][n - 1].getY());
+
+                }
+
             }
         }
 
@@ -193,21 +199,17 @@ public class Images extends JPanel{
 
                         x[0] = controlPointsMatrix[m - 1][n - 1].x;
                         x[1] = controlPointsMatrix[m][n - 1].x;
-                        x[2] = controlPointsMatrix[m + 1][n - 1].x;
-                        x[3] = controlPointsMatrix[m + 1][n].x;
-                        x[4] = controlPointsMatrix[m + 1][n + 1].x;
-                        x[5] = controlPointsMatrix[m][n + 1].x;
-                        x[6] = controlPointsMatrix[m - 1][n + 1].x;
-                        x[7] = controlPointsMatrix[m - 1][n].x;
+                        x[2] = controlPointsMatrix[m + 1][n].x;
+                        x[3] = controlPointsMatrix[m + 1][n + 1].x;
+                        x[4] = controlPointsMatrix[m][n + 1].x;
+                        x[5] = controlPointsMatrix[m - 1][n].x;
 
                         y[0] = controlPointsMatrix[m - 1][n - 1].y;
                         y[1] = controlPointsMatrix[m][n - 1].y;
-                        y[2] = controlPointsMatrix[m + 1][n - 1].y;
-                        y[3] = controlPointsMatrix[m + 1][n].y;
-                        y[4] = controlPointsMatrix[m + 1][n + 1].y;
-                        y[5] = controlPointsMatrix[m][n + 1].y;
-                        y[6] = controlPointsMatrix[m - 1][n + 1].y;
-                        y[7] = controlPointsMatrix[m - 1][n].y;
+                        y[2] = controlPointsMatrix[m + 1][n].y;
+                        y[3] = controlPointsMatrix[m + 1][n + 1].y;
+                        y[4] = controlPointsMatrix[m][n + 1].y;
+                        y[5] = controlPointsMatrix[m - 1][n].y;
 
                     }
 
@@ -215,7 +217,7 @@ public class Images extends JPanel{
             }
         }
 
-        Polygon p = new Polygon(x,y,8);
+        Polygon p = new Polygon(x,y,6);
         return p;
     }
 
