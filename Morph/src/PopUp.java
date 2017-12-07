@@ -49,12 +49,12 @@ public class PopUp extends JPanel {
                 // right triangle
                 Triangle t1 = new Triangle(start[i][j].x, start[i][j].y, start[i+1][j].x, start[i+1][j].y, start[i+1][j+1].x, start[i+1][j+1].y);
                 Triangle t2 = new Triangle(end[i][j].x, end[i][j].y, end[i+1][j].x, end[i+1][j].y, end[i+1][j+1].x, end[i+1][j+1].y);
-                MorphTools.warpTriangle(image2, image1, t1, t2, null, null);
+                MorphTools.warpTriangle(image2, image1, t2, t1, null, null);
 
                 // left triangle
                 Triangle t3 = new Triangle(start[i][j].x, start[i][j].y, start[i][j+1].x, start[i][j+1].y, start[i+1][j+1].x, start[i+1][j+1].y);
                 Triangle t4 = new Triangle(end[i][j].x, end[i][j].y, end[i][j+1].x, end[i][j+1].y, end[i+1][j+1].x, end[i+1][j+1].y);
-                MorphTools.warpTriangle(image2, image1, t3, t4, null, null);
+                MorphTools.warpTriangle(image2, image1, t4, t3, null, null);
 
                 if ((start[i][j].getX() != end[i][j].getX()) && (start[i][j].getY() != end[i][j].getY())) {
 
@@ -131,22 +131,24 @@ public class PopUp extends JPanel {
                     // right triangle
                     Triangle t1 = new Triangle(start[a][b].x, start[a][b].y, start[a+1][b].x, start[a+1][b].y, start[a+1][b+1].x, start[a+1][b+1].y);
                     Triangle t2 = new Triangle(end[a][b].x, end[a][b].y, end[a+1][b].x, end[a+1][b].y, end[a+1][b+1].x, end[a+1][b+1].y);
-                    MorphTools.warpTriangle(image2, image1, t1, t2, null, null);
+                    MorphTools.warpTriangle(image2, image1, t2, t1, null, null);
 
                     // left triangle
                     Triangle t3 = new Triangle(start[a][b].x, start[a][b].y, start[a][b+1].x, start[a][b+1].y, start[a+1][b+1].x, start[a+1][b+1].y);
                     Triangle t4 = new Triangle(end[a][b].x, end[a][b].y, end[a][b+1].x, end[a][b+1].y, end[a+1][b+1].x, end[a+1][b+1].y);
-                    MorphTools.warpTriangle(image2, image1, t3, t4, null, null);
+                    MorphTools.warpTriangle(image2, image1, t4, t3, null, null);
 
                     g2d.drawImage(image1,0,0,this);
 
-                    g2d.drawOval(start[a][b].x - OFFSET, start[a][b].y - OFFSET, DIAMETER, DIAMETER);
-                    g2d.fillOval(start[a][b].x - OFFSET, start[a][b].y - OFFSET, DIAMETER, DIAMETER);
-                    if(b - 1 > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b - 1].x, start[a][b - 1].y); }
-                    if(a + 1 < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a + 1][b].x, start[a + 1][b].y); }
-                    if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
-                    if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
-                    if(((a - 1) > -1) && ((b - 1) > -1)){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b - 1].x,start[a - 1][b - 1].y); }
+//                    g2d.drawOval(start[a][b].x - OFFSET, start[a][b].y - OFFSET, DIAMETER, DIAMETER);
+//                    g2d.fillOval(start[a][b].x - OFFSET, start[a][b].y - OFFSET, DIAMETER, DIAMETER);
+//                    if(b - 1 > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b - 1].x, start[a][b - 1].y); }
+//                    if(a + 1 < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a + 1][b].x, start[a + 1][b].y); }
+//                    if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
+//                    if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
+//                    if(((a - 1) > -1) && ((b - 1) > -1)){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b - 1].x,start[a - 1][b - 1].y); }
+
+
                 }
             }
 
