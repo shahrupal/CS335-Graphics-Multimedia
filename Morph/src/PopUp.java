@@ -43,20 +43,18 @@ public class PopUp extends JPanel {
 
     public void generate() {
 
-        Point p1start = start[1][1];
-        Point p2start = start[1][2];
-        Point p3start = start[2][2];
-
-        Point p1end = end[1][1];
-        Point p2end = end[1][2];
-        Point p3end = end[2][2];
-
-        Triangle t1 = new Triangle(p1start.x, p1start.y, p2start.x, p2start.y, p3start.x, p3start.y);
-        Triangle t2 = new Triangle(p1end.x, p1end.y, p2end.x, p2end.y, p3end.x, p3end.y);
-        MorphTools.warpTriangle(image1, image2, t1, t2, null, null);
-
-        /*        for (int i = 0; i < size - 1; i++) {
+        for (int i = 0; i < size - 1; i++) {
             for (int j = 0; j < size - 1; j++) {
+
+                // right triangle
+                Triangle t1 = new Triangle(start[i][j].x, start[i][j].y, start[i+1][j].x, start[i+1][j].y, start[i+1][j+1].x, start[i+1][j+1].y);
+                Triangle t2 = new Triangle(end[i][j].x, end[i][j].y, end[i+1][j].x, end[i+1][j].y, end[i+1][j+1].x, end[i+1][j+1].y);
+                MorphTools.warpTriangle(image1, image2, t2, t1, null, null);
+
+                // left triangle
+                Triangle t3 = new Triangle(start[i][j].x, start[i][j].y, start[i][j+1].x, start[i][j+1].y, start[i+1][j+1].x, start[i+1][j+1].y);
+                Triangle t4 = new Triangle(end[i][j].x, end[i][j].y, end[i][j+1].x, end[i][j+1].y, end[i+1][j+1].x, end[i+1][j+1].y);
+                MorphTools.warpTriangle(image1, image2, t4, t3, null, null);
 
                 if ((start[i][j].getX() != end[i][j].getX()) && (start[i][j].getY() != end[i][j].getY())) {
 
@@ -64,6 +62,8 @@ public class PopUp extends JPanel {
                     morphPointsEnd.add(end[i][j]);
                     morphPointsX.add(i);
                     morphPointsY.add(j);
+
+
 
                     ActionListener timer = new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
@@ -87,7 +87,6 @@ public class PopUp extends JPanel {
             }
         }
 
-    */
     }
 
 
@@ -97,9 +96,6 @@ public class PopUp extends JPanel {
         Graphics2D g2d = (Graphics2D) g.create();
 
         g2d.drawImage(image2,0,0,this);
-        //g2d.drawImage(image1,0,0,null);
-
-
 
         if (beginning) {
 
