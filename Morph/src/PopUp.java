@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class PopUp extends JPanel {
@@ -20,17 +21,20 @@ public class PopUp extends JPanel {
     private ArrayList<Point> morphPointsEnd = new ArrayList<Point>();
     private ArrayList<Integer> morphPointsX = new ArrayList<Integer>();
     private ArrayList<Integer> morphPointsY = new ArrayList<Integer>();
+    private BufferedImage image1, image2;
 
     public PopUp() {
-        setBackground(Color.ORANGE);
+        //setBackground(Color.ORANGE);
     }
 
-    public void createMorph(Point[][] s, Point[][] e, int length, double numFrames) {
+    public void createMorph(Point[][] s, Point[][] e, int length, double numFrames, BufferedImage img1, BufferedImage img2) {
 
         frames = numFrames;
         start = s;
         end = e;
         size = length;
+        image1 = img1;
+        image2 = img2;
 
         generate();
 
@@ -39,8 +43,19 @@ public class PopUp extends JPanel {
 
     public void generate() {
 
+        Point p1start = start[1][1];
+        Point p2start = start[1][2];
+        Point p3start = start[2][2];
 
-        for (int i = 0; i < size - 1; i++) {
+        Point p1end = end[1][1];
+        Point p2end = end[1][2];
+        Point p3end = end[2][2];
+
+        Triangle t1 = new Triangle(p1start.x, p1start.y, p2start.x, p2start.y, p3start.x, p3start.y);
+        Triangle t2 = new Triangle(p1end.x, p1end.y, p2end.x, p2end.y, p3end.x, p3end.y);
+        MorphTools.warpTriangle(image1, image2, t1, t2, null, null);
+
+        /*        for (int i = 0; i < size - 1; i++) {
             for (int j = 0; j < size - 1; j++) {
 
                 if ((start[i][j].getX() != end[i][j].getX()) && (start[i][j].getY() != end[i][j].getY())) {
@@ -71,6 +86,8 @@ public class PopUp extends JPanel {
                  }
             }
         }
+
+    */
     }
 
 
@@ -78,6 +95,11 @@ public class PopUp extends JPanel {
 
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
+
+        g2d.drawImage(image2,0,0,this);
+        //g2d.drawImage(image1,0,0,null);
+
+
 
         if (beginning) {
 
@@ -90,8 +112,6 @@ public class PopUp extends JPanel {
                     if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
                     if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
                     if(((a - 1) > -1) && ((b - 1) > -1)){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b - 1].x,start[a - 1][b - 1].y); }
-
-
                 }
             }
 
@@ -118,7 +138,6 @@ public class PopUp extends JPanel {
                     if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
                     if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
                     if(((a - 1) > -1) && ((b - 1) > -1)){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b - 1].x,start[a - 1][b - 1].y); }
-
                 }
             }
 

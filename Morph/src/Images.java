@@ -225,6 +225,8 @@ public class Images extends JPanel{
         return controlPointsMatrix;
     }
 
+    public BufferedImage getImage() { return buffer; }
+
     public void setCurrent(Point temp){ current = temp; }
     public Point getCurrent(){ return current; }
 

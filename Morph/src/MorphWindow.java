@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 public class MorphWindow extends JFrame implements ActionListener{
@@ -97,8 +98,13 @@ public class MorphWindow extends JFrame implements ActionListener{
 
         Point[][] img1points = image1.getPointMatrix();
         Point[][] img2points = image2.getPointMatrix();
+        BufferedImage img1 = image1.getImage();
+        BufferedImage img2 = image2.getImage();
+        System.out.println(img1);
+        System.out.println(img2);
 
-        morphPanel.createMorph(img1points, img2points, 10, frames.getValue());
+
+        morphPanel.createMorph(img1points, img2points, 10, frames.getValue(), img1, img2);
 
 
         morphFrame.setSize(450,450);
