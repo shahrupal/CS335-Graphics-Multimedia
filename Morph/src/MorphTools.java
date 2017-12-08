@@ -26,6 +26,7 @@ public class MorphTools{
          Gaussian Elimination with scaled partial pivoting is the method
          used solve the two systems of linear equations.
          ********************************************************/
+
         if( ALIASING == null )
             ALIASING = RenderingHints.VALUE_ANTIALIAS_ON;
         if( INTERPOLATION == null )

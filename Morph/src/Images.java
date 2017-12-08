@@ -77,7 +77,7 @@ public class Images extends JPanel{
 
                 File selected = browse.getSelectedFile();
                 buffer = ImageIO.read(selected);
-                drawControlPoints();
+                drawControlPoints(100);
 
             }
             catch(IOException e) {
@@ -87,9 +87,9 @@ public class Images extends JPanel{
     }
 
 
-    public void drawControlPoints(){
+    public void drawControlPoints(int numPoints){
 
-        ControlGrid(100,450,450);  // use width and height of image
+        ControlGrid(numPoints,450,450);  // use width and height of image
         setVisible(true);
 
     }

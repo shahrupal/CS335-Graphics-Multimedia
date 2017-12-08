@@ -29,6 +29,8 @@ public class PopUp extends JPanel {
 
     public void createMorph(Point[][] s, Point[][] e, int length, double numFrames, BufferedImage img1, BufferedImage img2) {
 
+        System.out.println("SIZE: " + length);
+
         frames = numFrames;
         start = s;
         end = e;
@@ -67,7 +69,7 @@ public class PopUp extends JPanel {
 
                     ActionListener timer = new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            if (time < 1) {
+                            if (start != end) {
                                 repaint();
                                 revalidate();
 
@@ -115,7 +117,8 @@ public class PopUp extends JPanel {
         }
         else {
 
-            time += 1 / frames;
+            time += 0.005;
+            System.out.println("TIME: " + time);
 
             for (int l = 0; l < morphPointsStart.size(); l++) {
 

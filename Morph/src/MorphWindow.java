@@ -10,8 +10,9 @@ public class MorphWindow extends JFrame implements ActionListener{
     PopUp morphPanel = new PopUp();
 
     private JMenuBar menuBar;
-    private JMenu menu;
+    private JMenu menu1, menu2;
     private JMenuItem imageItem1, imageItem2;
+    private JMenuItem grid3x3, grid5x5, grid10x10;
 
     private Images image1;
     private Images image2;
@@ -22,6 +23,8 @@ public class MorphWindow extends JFrame implements ActionListener{
     private JButton resetButton;
     private JButton morphButton;
 
+    private int numPoints = 100;
+
     JSlider frames;
     Hashtable label = new Hashtable();
 
@@ -30,15 +33,29 @@ public class MorphWindow extends JFrame implements ActionListener{
             setTitle("Morph");
 
             menuBar = new JMenuBar();
-            menu = new JMenu("Menu");
+
+            menu1 = new JMenu("Images");
             imageItem1 = new JMenuItem("Load Image 1");
             imageItem2 = new JMenuItem("Load Image 2");
             imageItem1.addActionListener(this);
             imageItem2.addActionListener(this);
 
-            menuBar.add(menu);
-            menu.add(imageItem1);
-            menu.add(imageItem2);
+            menu2 = new JMenu("Grid");
+            grid3x3 = new JMenuItem("3x3");
+            grid5x5 = new JMenuItem("5x5");
+            grid10x10 = new JMenuItem("10x10");
+            grid3x3.addActionListener(this);
+            grid5x5.addActionListener(this);
+            grid10x10.addActionListener(this);
+
+            menuBar.add(menu1);
+            menu1.add(imageItem1);
+            menu1.add(imageItem2);
+
+            menuBar.add(menu2);
+            menu2.add(grid3x3);
+            menu2.add(grid5x5);
+            menu2.add(grid10x10);
 
             image1 = new Images();
             image2 = new Images();
@@ -84,6 +101,24 @@ public class MorphWindow extends JFrame implements ActionListener{
             image2.selectImage();
         }
 
+        if(e.getSource() == grid3x3){
+            numPoints = 9;
+            image1.drawControlPoints(numPoints);
+            image2.drawControlPoints(numPoints);
+        }
+
+        if(e.getSource() == grid5x5){
+            numPoints = 25;
+            image1.drawControlPoints(numPoints);
+            image2.drawControlPoints(numPoints);
+        }
+
+        if(e.getSource() == grid10x10){
+            numPoints = 100;
+            image1.drawControlPoints(numPoints);
+            image2.drawControlPoints(numPoints);
+        }
+
         if(e.getSource() == morphButton){
             morphWindow();
         }
@@ -104,7 +139,7 @@ public class MorphWindow extends JFrame implements ActionListener{
         System.out.println(img2);
 
 
-        morphPanel.createMorph(img1points, img2points, 10, frames.getValue(), img1, img2);
+        morphPanel.createMorph(img1points, img2points, (int)Math.sqrt(numPoints), frames.getValue(), img1, img2);
 
 
         morphFrame.setSize(450,450);
