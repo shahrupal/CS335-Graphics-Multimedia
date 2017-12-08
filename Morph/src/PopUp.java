@@ -14,24 +14,28 @@ public class PopUp extends JPanel {
     private Timer gameTimer;
     private boolean beginning = true;
     private double time = 0;
-    private double frames = 10.0;
     int DIAMETER = 6;
     int OFFSET = DIAMETER / 2;
     private ArrayList<Point> morphPointsStart = new ArrayList<Point>();
     private ArrayList<Point> morphPointsEnd = new ArrayList<Point>();
     private ArrayList<Integer> morphPointsX = new ArrayList<Integer>();
     private ArrayList<Integer> morphPointsY = new ArrayList<Integer>();
+    private ArrayList<Integer> distanceOfPoints = new ArrayList<>();
     private BufferedImage image1, image2;
+
+    //private int frames = 30;
+    private int frames;
+    private int frameCount = 0;
+    private int delta;
 
     public PopUp() {
         //setBackground(Color.ORANGE);
     }
 
-    public void createMorph(Point[][] s, Point[][] e, int length, double numFrames, BufferedImage img1, BufferedImage img2) {
-
-        System.out.println("SIZE: " + length);
+    public void createMorph(Point[][] s, Point[][] e, int length, int numFrames, BufferedImage img1, BufferedImage img2) {
 
         frames = numFrames;
+
         start = s;
         end = e;
         size = length;
@@ -51,12 +55,15 @@ public class PopUp extends JPanel {
                 // right triangle
                 Triangle t1 = new Triangle(start[i][j].x, start[i][j].y, start[i+1][j].x, start[i+1][j].y, start[i+1][j+1].x, start[i+1][j+1].y);
                 Triangle t2 = new Triangle(end[i][j].x, end[i][j].y, end[i+1][j].x, end[i+1][j].y, end[i+1][j+1].x, end[i+1][j+1].y);
-                MorphTools.warpTriangle(image2, image1, t2, t1, null, null);
+//                MorphTools.warpTriangle(image2, image1, t2, t1, null, null, 1);
 
                 // left triangle
                 Triangle t3 = new Triangle(start[i][j].x, start[i][j].y, start[i][j+1].x, start[i][j+1].y, start[i+1][j+1].x, start[i+1][j+1].y);
                 Triangle t4 = new Triangle(end[i][j].x, end[i][j].y, end[i][j+1].x, end[i][j+1].y, end[i+1][j+1].x, end[i+1][j+1].y);
-                MorphTools.warpTriangle(image2, image1, t4, t3, null, null);
+//                MorphTools.warpTriangle(image2, image1, t4, t3, null, null, 1);
+
+//                distanceOfPoints.add(distance(t1, t2));
+//                distanceOfPoints.add(distance(t3, t4));
 
                 if ((start[i][j].getX() != end[i][j].getX()) && (start[i][j].getY() != end[i][j].getY())) {
 
@@ -69,7 +76,8 @@ public class PopUp extends JPanel {
 
                     ActionListener timer = new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            if (start != end) {
+                            if (frameCount < frames) {
+                                frameCount += 1;
                                 repaint();
                                 revalidate();
 
@@ -77,13 +85,10 @@ public class PopUp extends JPanel {
                             else{
                                 gameTimer.stop();
                             }
-                            //IF YOU WANT CONTINUOUS LOOP OF MORPHING:
-                            //else{
-                            //    time = 0;
-                            //}
+
                         }
                     };
-                    gameTimer = new Timer(1000, timer);
+                    gameTimer = new Timer((1000 * 5)/frames, timer);  // 10 sec
                     gameTimer.start();
                  }
             }
@@ -99,60 +104,38 @@ public class PopUp extends JPanel {
 
         g2d.drawImage(image1,0,0,this);
 
-        if (beginning) {
+        time += (1/(double)frames);
+        System.out.println("TIME: " + time);
 
-            for (int a = 0; a < size; a++) {
-                for (int b = 0; b < size; b++) {
-                    g2d.drawOval(start[a][b].x - OFFSET, start[a][b].y - OFFSET, DIAMETER, DIAMETER);
-                    g2d.fillOval(start[a][b].x - OFFSET, start[a][b].y - OFFSET, DIAMETER, DIAMETER);
-                    if(b - 1 > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b - 1].x, start[a][b - 1].y); }
-                    if(a + 1 < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a + 1][b].x, start[a + 1][b].y); }
-                    if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
-                    if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
-                    if(((a - 1) > -1) && ((b - 1) > -1)){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b - 1].x,start[a - 1][b - 1].y); }
-                }
-            }
+            /*
+                Calculate the distance between each (source, destination) pair of control points and store them in an array.
+             */
+        for (int i = 0; i < morphPointsStart.size(); i++) {
 
-            beginning = false;
+            double x = morphPointsStart.get(i).getX() + (time * (morphPointsEnd.get(i).getX() - morphPointsStart.get(i).getX()));
+            double y = morphPointsStart.get(i).getY() + (time * (morphPointsEnd.get(i).getY() - morphPointsStart.get(i).getY()));
+
+            start[morphPointsX.get(i)][morphPointsY.get(i)].setLocation(x, y);
         }
-        else {
-
-            time += 0.005;
-            System.out.println("TIME: " + time);
-
-            for (int l = 0; l < morphPointsStart.size(); l++) {
-
-                double x = morphPointsStart.get(l).getX() + (time * (morphPointsEnd.get(l).getX() - morphPointsStart.get(l).getX()));
-                double y = morphPointsStart.get(l).getY() + (time * (morphPointsEnd.get(l).getY() - morphPointsStart.get(l).getY()));
-
-                start[morphPointsX.get(l)][morphPointsY.get(l)].setLocation(x, y);
-            }
-
-            for (int a = 0; a < size-1; a++) {
-                for (int b = 0; b < size-1; b++) {
-
-                    // right triangle
-                    Triangle t1 = new Triangle(start[a][b].x, start[a][b].y, start[a+1][b].x, start[a+1][b].y, start[a+1][b+1].x, start[a+1][b+1].y);
-                    Triangle t2 = new Triangle(end[a][b].x, end[a][b].y, end[a+1][b].x, end[a+1][b].y, end[a+1][b+1].x, end[a+1][b+1].y);
-                    MorphTools.warpTriangle(image2, image1, t2, t1, null, null);
-
-                    // left triangle
-                    Triangle t3 = new Triangle(start[a][b].x, start[a][b].y, start[a][b+1].x, start[a][b+1].y, start[a+1][b+1].x, start[a+1][b+1].y);
-                    Triangle t4 = new Triangle(end[a][b].x, end[a][b].y, end[a][b+1].x, end[a][b+1].y, end[a+1][b+1].x, end[a+1][b+1].y);
-                    MorphTools.warpTriangle(image2, image1, t4, t3, null, null);
-
-                    g2d.drawImage(image1,0,0,this);
-
-//                    g2d.drawOval(start[a][b].x - OFFSET, start[a][b].y - OFFSET, DIAMETER, DIAMETER);
-//                    g2d.fillOval(start[a][b].x - OFFSET, start[a][b].y - OFFSET, DIAMETER, DIAMETER);
-//                    if(b - 1 > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b - 1].x, start[a][b - 1].y); }
-//                    if(a + 1 < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a + 1][b].x, start[a + 1][b].y); }
-//                    if((b + 1) < size){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a][b + 1].x, start[a][b + 1].y); }
-//                    if((a - 1) > -1){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b].x, start[a - 1][b].y); }
-//                    if(((a - 1) > -1) && ((b - 1) > -1)){ g2d.drawLine(start[a][b].x, start[a][b].y, start[a - 1][b - 1].x,start[a - 1][b - 1].y); }
 
 
-                }
+        for (int a = 0; a < size-1; a++) {
+            for (int b = 0; b < size-1; b++) {
+
+                float opacity = (float) frameCount / frames;
+
+                // right triangle
+                Triangle t1 = new Triangle(start[a][b].x, start[a][b].y, start[a+1][b].x, start[a+1][b].y, start[a+1][b+1].x, start[a+1][b+1].y);
+                Triangle t2 = new Triangle(end[a][b].x, end[a][b].y, end[a+1][b].x, end[a+1][b].y, end[a+1][b+1].x, end[a+1][b+1].y);
+                MorphTools.warpTriangle(image2, image1, t2, t1, null, null, opacity);
+
+                // left triangle
+                Triangle t3 = new Triangle(start[a][b].x, start[a][b].y, start[a][b+1].x, start[a][b+1].y, start[a+1][b+1].x, start[a+1][b+1].y);
+                Triangle t4 = new Triangle(end[a][b].x, end[a][b].y, end[a][b+1].x, end[a][b+1].y, end[a+1][b+1].x, end[a+1][b+1].y);
+                MorphTools.warpTriangle(image2, image1, t4, t3, null, null, opacity);
+
+                g2d.drawImage(image1,0,0,this);
+
             }
 
         }

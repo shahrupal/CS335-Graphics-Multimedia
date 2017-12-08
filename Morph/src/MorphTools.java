@@ -14,7 +14,8 @@ public class MorphTools{
              Triangle S,
              Triangle D,
              Object ALIASING,
-             Object INTERPOLATION) {
+             Object INTERPOLATION,
+             float alpha) {
 
         /*****************************************************
          solve Xi = sx*xi + shx*yi + tx    for i = 1,2,3 where xi is a point on
@@ -75,7 +76,7 @@ public class MorphTools{
         Graphics2D g2 = dest.createGraphics();
 
         // set up an alpha value for compositing as an example
-        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)0.5);
+        AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
         g2.setComposite(ac);
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, ALIASING);
