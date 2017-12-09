@@ -20,88 +20,117 @@ public class MorphWindow extends JFrame implements ActionListener{
     private Images image2;
 
     private JPanel imagePanel;
-    private JPanel resetPanel;
+    private JPanel settingsPanel;
 
     private JButton resetButton;
     private JButton morphButton;
 
     private int numPoints = 100;
-    private int numOfFrames = 10;
+    private int numOfFrames = 30;
 
     JSlider frames;
     JLabel frameLabel = new JLabel();
-    Hashtable label = new Hashtable();
+
+    JSlider startBrightnessSlider;
+    JLabel startBrightnessLabel = new JLabel();
+    int startBrightness = 50;
+    JSlider endBrightnessSlider;
+    JLabel endBrightnessLabel = new JLabel();
+    int endBrightness = 50;
 
     public MorphWindow(){
 
-            setTitle("Morph");
+        setTitle("Morph");
 
-            menuBar = new JMenuBar();
+        menuBar = new JMenuBar();
 
-            menu1 = new JMenu("Images");
-            imageItem1 = new JMenuItem("Load Image 1");
-            imageItem2 = new JMenuItem("Load Image 2");
-            imageItem1.addActionListener(this);
-            imageItem2.addActionListener(this);
+        menu1 = new JMenu("Images");
+        imageItem1 = new JMenuItem("Load Image 1");
+        imageItem2 = new JMenuItem("Load Image 2");
+        imageItem1.addActionListener(this);
+        imageItem2.addActionListener(this);
 
-            menu2 = new JMenu("Grid");
-            grid5x5 = new JMenuItem("5x5");
-            grid10x10 = new JMenuItem("10x10");
-            grid20x20 = new JMenuItem("20x20");
-            grid5x5.addActionListener(this);
-            grid10x10.addActionListener(this);
-            grid20x20.addActionListener(this);
+        menu2 = new JMenu("Grid");
+        grid5x5 = new JMenuItem("5x5");
+        grid10x10 = new JMenuItem("10x10");
+        grid20x20 = new JMenuItem("20x20");
+        grid5x5.addActionListener(this);
+        grid10x10.addActionListener(this);
+        grid20x20.addActionListener(this);
 
-            menuBar.add(menu1);
-            menu1.add(imageItem1);
-            menu1.add(imageItem2);
+        menuBar.add(menu1);
+        menu1.add(imageItem1);
+        menu1.add(imageItem2);
 
-            menuBar.add(menu2);
-            menu2.add(grid5x5);
-            menu2.add(grid10x10);
-            menu2.add(grid20x20);
+        menuBar.add(menu2);
+        menu2.add(grid5x5);
+        menu2.add(grid10x10);
+        menu2.add(grid20x20);
 
-            image1 = new Images();
-            image2 = new Images();
-            imagePanel = new JPanel();
+        image1 = new Images();
+        image2 = new Images();
+        imagePanel = new JPanel();
 
-            imagePanel.setLayout(new GridLayout(1,2));
-            imagePanel.add(image1);
-            imagePanel.add(image2);
+        imagePanel.setLayout(new GridLayout(1,2));
+        imagePanel.add(image1);
+        imagePanel.add(image2);
 
-            resetPanel = new JPanel();
-            resetButton = new JButton("Reset");
-            resetButton.addActionListener(this);
-            morphButton = new JButton("Morph");
-            morphButton.addActionListener(this);
-            frames = new JSlider(JSlider.HORIZONTAL, 0,100, numOfFrames);
+        settingsPanel = new JPanel(new GridLayout(8,1));
+        resetButton = new JButton("Reset");
+        resetButton.addActionListener(this);
+        morphButton = new JButton("Morph");
+        morphButton.addActionListener(this);
 
-        frameLabel.setText("NumberofFrames: " + numOfFrames);
-            label.put(15, frameLabel);
-            frames.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    numOfFrames = frames.getValue();
-                    frameLabel.setText("Number of frames: " + numOfFrames);
-                }
-            });
+        frames = new JSlider(JSlider.HORIZONTAL, 0,100, numOfFrames);
+        frameLabel.setText("Number of Frames: " + numOfFrames);
+        frames.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                numOfFrames = frames.getValue();
+                frameLabel.setText("Number of Frames: " + numOfFrames);
+            }
+        });
 
-            frames.setLabelTable(label);
-            frames.setPaintLabels(true);
-            resetPanel.add(resetButton);
-            resetPanel.add(frames);
-            resetPanel.add(morphButton);
+        startBrightnessSlider = new JSlider(JSlider.HORIZONTAL, 0,100, startBrightness);
+        startBrightnessLabel.setText("Brightness of Start Image:  " + startBrightness);
+        startBrightnessSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                startBrightness = startBrightnessSlider.getValue();
+                startBrightnessLabel.setText("Brightness of Start Image:  " + startBrightness);
+                image1.setBrightness(startBrightness);
+            }
+        });
 
-            Container c = getContentPane();
-            setJMenuBar(menuBar);
-            c.add(resetPanel, BorderLayout.SOUTH);
-            c.add(imagePanel);
+        endBrightnessSlider = new JSlider(JSlider.HORIZONTAL, 0,100, endBrightness);
+        endBrightnessLabel.setText("Brightness of End Image:  " + endBrightness);
+        endBrightnessSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                endBrightness = endBrightnessSlider.getValue();
+                endBrightnessLabel.setText("Brightness of End Image:  " + endBrightness);
+                image2.setBrightness(endBrightness);
+            }
+        });
+
+        settingsPanel.add(resetButton);
+        settingsPanel.add(frames);
+        settingsPanel.add(frameLabel);
+        settingsPanel.add(startBrightnessSlider);
+        settingsPanel.add(startBrightnessLabel);
+        settingsPanel.add(endBrightnessSlider);
+        settingsPanel.add(endBrightnessLabel);
+        settingsPanel.add(morphButton);
+
+        Container c = getContentPane();
+        setJMenuBar(menuBar);
+        c.add(settingsPanel, BorderLayout.WEST);
+        c.add(imagePanel);
 
 
-            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            setSize(850,500);  //sets dimension of window
-           // setResizable(false);
-            setVisible(true);  //allows user to see window
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(850,500);  //sets dimension of window
+        setVisible(true);  //allows user to see window
 
     }
 

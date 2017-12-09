@@ -78,6 +78,7 @@ public class PopUp extends JPanel {
                         public void actionPerformed(ActionEvent e) {
                             if (frameCount < frames) {
                                 frameCount += 1;
+                                System.out.println("timer ActionListener: frameCount = " + frameCount);
                                 repaint();
                                 revalidate();
 
@@ -88,7 +89,7 @@ public class PopUp extends JPanel {
 
                         }
                     };
-                    gameTimer = new Timer((1000 * 5)/frames, timer);  // 10 sec
+                    gameTimer = new Timer((1000 * 5)/frames, timer);  // 5 sec
                     gameTimer.start();
                  }
             }
@@ -105,7 +106,7 @@ public class PopUp extends JPanel {
         g2d.drawImage(image1,0,0,this);
 
         time += (1/(double)frames);
-        System.out.println("TIME: " + time);
+        System.out.println("paintComponent: " + time);
 
             /*
                 Calculate the distance between each (source, destination) pair of control points and store them in an array.

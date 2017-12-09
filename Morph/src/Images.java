@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.awt.image.RescaleOp;
 import java.io.*;
 
 public class Images extends JPanel{
@@ -124,8 +125,6 @@ public class Images extends JPanel{
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
-        g.setColor(Color.BLACK);
-
 
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.drawImage(buffer, 0,0, this);
@@ -183,6 +182,7 @@ public class Images extends JPanel{
 
 
 
+
     // create polygon based on neighboring coordinates
     // this is to use to disallow current point being dragged across its neighbors, using contain method
     public Polygon createPolygon(Point current){
@@ -230,6 +230,14 @@ public class Images extends JPanel{
     public void setCurrent(Point temp){ current = temp; }
     public Point getCurrent(){ return current; }
 
+    public void setBrightness(float brightness){
+
+        float scaleFactor = 2 * brightness / 100;
+        RescaleOp rescale = new RescaleOp(scaleFactor, 0, null);
+        buffer = rescale.filter(buffer, buffer);
+        repaint();
+
+    }
 
 }
 
