@@ -24,7 +24,7 @@ public class MorphWindow extends JFrame implements ActionListener{
     private JButton resetButton;
     private JButton morphButton;
 
-    private int numPoints = 100;
+    private int numPoints = 11*11;
     private int numOfFrames = 30;
 
     JSlider frames;
@@ -134,7 +134,8 @@ public class MorphWindow extends JFrame implements ActionListener{
 
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(1100,550);  //sets dimension of window
+        setSize(1000,455);  //sets dimension of window
+        setResizable(false);
         setVisible(true);  //allows user to see window
 
     }
@@ -150,19 +151,19 @@ public class MorphWindow extends JFrame implements ActionListener{
         }
 
         if(e.getSource() == grid5x5){
-            numPoints = 25;
+            numPoints = 6*6;
             image1.drawControlPoints(numPoints);
             image2.drawControlPoints(numPoints);
         }
 
         if(e.getSource() == grid10x10){
-            numPoints = 100;
+            numPoints = 11*11;
             image1.drawControlPoints(numPoints);
             image2.drawControlPoints(numPoints);
         }
 
         if(e.getSource() == grid20x20){
-            numPoints = 400;
+            numPoints = 21*21;
             image1.drawControlPoints(numPoints);
             image2.drawControlPoints(numPoints);
         }
@@ -175,7 +176,7 @@ public class MorphWindow extends JFrame implements ActionListener{
                     JOptionPane.showMessageDialog(this,"ERROR: Input must be between 3 and 25.");
                 }
                 else{
-                    numPoints = input*input;
+                    numPoints = (input+1)*(input+1);
                     image1.drawControlPoints(numPoints);
                     image2.drawControlPoints(numPoints);
                 }

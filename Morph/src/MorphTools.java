@@ -83,7 +83,7 @@ public class MorphTools{
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, INTERPOLATION);
         g2.clip(destPath);
         g2.setTransform(af);
-        g2.drawImage(src, 0, 0, null);
+        g2.drawImage(src, 0, 0,null);
         g2.dispose();
 
     }

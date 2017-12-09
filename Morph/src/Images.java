@@ -79,7 +79,7 @@ public class Images extends JPanel{
                 File selected = browse.getSelectedFile();
                 buffer = ImageIO.read(selected);
                 copy = ImageIO.read(selected);
-                drawControlPoints(100);
+                drawControlPoints(11*11);
 
             }
             catch(IOException e) {
@@ -91,7 +91,7 @@ public class Images extends JPanel{
 
     public void drawControlPoints(int numPoints){
 
-        ControlGrid(numPoints,450,450);  // use width and height of image
+        ControlGrid(numPoints,getWidth(),getHeight());  // use width and height of image
         setVisible(true);
 
     }
@@ -112,7 +112,7 @@ public class Images extends JPanel{
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
                 Point cp = new Point(i,j);
-                cp.setLocation(i * (imageWidth / numRows), j * (imageHeight / numCols));
+                cp.setLocation(i * (imageWidth / (numRows-1)), j * (imageHeight / (numCols-1)));
                 controlPointsMatrix[i][j] = cp;
             }
         }
@@ -128,7 +128,7 @@ public class Images extends JPanel{
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.drawImage(buffer, 0,0, this);
+        g2d.drawImage(buffer, 0,0, getWidth(),getHeight(),this);
 
         // draws control points
         for(int i = 0; i < numRows; i++){
@@ -235,7 +235,6 @@ public class Images extends JPanel{
 
         buffer = copy;
         float scaleFactor = 2 * brightness / 100;
-        System.out.println(scaleFactor);
         RescaleOp rescale = new RescaleOp(scaleFactor, 0, null);
         buffer = rescale.filter(buffer, null);
         repaint();

@@ -49,40 +49,37 @@ public class PopUp extends JPanel {
 
     public void generate() {
 
-        for (int i = 0; i < size - 1; i++) {
-            for (int j = 0; j < size - 1; j++) {
+            ActionListener timer = new ActionListener() {
 
-//                distanceOfPoints.add(distance(t1, t2));
-//                distanceOfPoints.add(distance(t3, t4));
+                public void actionPerformed(ActionEvent e) {
 
-                if ((start[i][j].getX() != end[i][j].getX()) && (start[i][j].getY() != end[i][j].getY())) {
+                    for (int i = 0; i < size - 1; i++) {
+                        for (int j = 0; j < size - 1; j++) {
 
-                    morphPointsStart.add(start[i][j]);
-                    morphPointsEnd.add(end[i][j]);
-                    morphPointsX.add(i);
-                    morphPointsY.add(j);
 
-                    ActionListener timer = new ActionListener() {
+                            if ((start[i][j].getX() != end[i][j].getX()) && (start[i][j].getY() != end[i][j].getY())) {
 
-                        public void actionPerformed(ActionEvent e) {
-                            if (frameCount < frames) {
-                                frameCount += 1;
-                                System.out.println("timer ActionListener: frameCount = " + frameCount);
-                                repaint();
-                                revalidate();
+                                morphPointsStart.add(start[i][j]);
+                                morphPointsEnd.add(end[i][j]);
+                                morphPointsX.add(i);
+                                morphPointsY.add(j);
+                                if (frameCount < frames) {
+                                    frameCount += 1;
+                                    System.out.println("timer ActionListener: frameCount = " + frameCount);
+                                    repaint();
+                                    revalidate();
+                                } else {
+                                    gameTimer.stop();
+                                }
                             }
-                            else{
-                                gameTimer.stop();
-                            }
-
                         }
-                    };
+                    }
+                }
 
-                    gameTimer = new Timer((1000 * 5)/frames, timer);  // 5 sec
-                    gameTimer.start();
-                 }
-            }
-        }
+            };
+            
+            gameTimer = new Timer((1000 * 5)/frames, timer);  // 5 sec
+            gameTimer.start();
 
     }
 
@@ -93,7 +90,7 @@ public class PopUp extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
-        g2d.drawImage(image1,0,0,this);
+        g2d.drawImage(image1,0,0,getWidth(),getHeight(),this);
 
         time += (1/(double)frames);
         //time += 0.05;
@@ -126,7 +123,7 @@ public class PopUp extends JPanel {
                 Triangle t4 = new Triangle(end[a][b].x, end[a][b].y, end[a][b+1].x, end[a][b+1].y, end[a+1][b+1].x, end[a+1][b+1].y);
                 MorphTools.warpTriangle(image2, image1, t4, t3, null, null, opacity);
 
-                g2d.drawImage(image1,0,0,this);
+                g2d.drawImage(image1,0,0, getWidth(), getHeight(),this);
 
             }
 
