@@ -52,16 +52,6 @@ public class PopUp extends JPanel {
         for (int i = 0; i < size - 1; i++) {
             for (int j = 0; j < size - 1; j++) {
 
-                // right triangle
-                Triangle t1 = new Triangle(start[i][j].x, start[i][j].y, start[i+1][j].x, start[i+1][j].y, start[i+1][j+1].x, start[i+1][j+1].y);
-                Triangle t2 = new Triangle(end[i][j].x, end[i][j].y, end[i+1][j].x, end[i+1][j].y, end[i+1][j+1].x, end[i+1][j+1].y);
-//                MorphTools.warpTriangle(image2, image1, t2, t1, null, null, 1);
-
-                // left triangle
-                Triangle t3 = new Triangle(start[i][j].x, start[i][j].y, start[i][j+1].x, start[i][j+1].y, start[i+1][j+1].x, start[i+1][j+1].y);
-                Triangle t4 = new Triangle(end[i][j].x, end[i][j].y, end[i][j+1].x, end[i][j+1].y, end[i+1][j+1].x, end[i+1][j+1].y);
-//                MorphTools.warpTriangle(image2, image1, t4, t3, null, null, 1);
-
 //                distanceOfPoints.add(distance(t1, t2));
 //                distanceOfPoints.add(distance(t3, t4));
 
@@ -72,16 +62,14 @@ public class PopUp extends JPanel {
                     morphPointsX.add(i);
                     morphPointsY.add(j);
 
-
-
                     ActionListener timer = new ActionListener() {
+
                         public void actionPerformed(ActionEvent e) {
                             if (frameCount < frames) {
                                 frameCount += 1;
                                 System.out.println("timer ActionListener: frameCount = " + frameCount);
                                 repaint();
                                 revalidate();
-
                             }
                             else{
                                 gameTimer.stop();
@@ -89,6 +77,7 @@ public class PopUp extends JPanel {
 
                         }
                     };
+
                     gameTimer = new Timer((1000 * 5)/frames, timer);  // 5 sec
                     gameTimer.start();
                  }
@@ -98,6 +87,7 @@ public class PopUp extends JPanel {
     }
 
 
+    @Override
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -106,11 +96,12 @@ public class PopUp extends JPanel {
         g2d.drawImage(image1,0,0,this);
 
         time += (1/(double)frames);
+        //time += 0.05;
         System.out.println("paintComponent: " + time);
 
-            /*
-                Calculate the distance between each (source, destination) pair of control points and store them in an array.
-             */
+        /*
+            Calculate the distance between each (source, destination) pair of control points and store them in an array.
+         */
         for (int i = 0; i < morphPointsStart.size(); i++) {
 
             double x = morphPointsStart.get(i).getX() + (time * (morphPointsEnd.get(i).getX() - morphPointsStart.get(i).getX()));

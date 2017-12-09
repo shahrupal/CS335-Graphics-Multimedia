@@ -15,7 +15,7 @@ public class Images extends JPanel{
     private int numControlPoints;
     private int numRows, numCols;
     private int imageWidth, imageHeight;
-    private BufferedImage buffer;
+    private BufferedImage buffer, copy;
     private boolean isDragging = false;
     Point temp;
     Point current = new Point();
@@ -78,6 +78,7 @@ public class Images extends JPanel{
 
                 File selected = browse.getSelectedFile();
                 buffer = ImageIO.read(selected);
+                copy = ImageIO.read(selected);
                 drawControlPoints(100);
 
             }
@@ -232,6 +233,7 @@ public class Images extends JPanel{
 
     public void setBrightness(float brightness){
 
+        buffer = copy;
         float scaleFactor = 2 * brightness / 100;
         System.out.println(scaleFactor);
         RescaleOp rescale = new RescaleOp(scaleFactor, 0, null);
