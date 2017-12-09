@@ -4,7 +4,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.Hashtable;
 
 public class MorphWindow extends JFrame implements ActionListener{
 
@@ -14,7 +13,7 @@ public class MorphWindow extends JFrame implements ActionListener{
     private JMenuBar menuBar;
     private JMenu menu1, menu2;
     private JMenuItem imageItem1, imageItem2;
-    private JMenuItem grid5x5, grid10x10, grid20x20;
+    private JMenuItem grid5x5, grid10x10, grid20x20, gridCustom;
 
     private Images image1;
     private Images image2;
@@ -54,9 +53,11 @@ public class MorphWindow extends JFrame implements ActionListener{
         grid5x5 = new JMenuItem("5x5");
         grid10x10 = new JMenuItem("10x10");
         grid20x20 = new JMenuItem("20x20");
+        gridCustom = new JMenuItem("Custom...");
         grid5x5.addActionListener(this);
         grid10x10.addActionListener(this);
         grid20x20.addActionListener(this);
+        gridCustom.addActionListener(this);
 
         menuBar.add(menu1);
         menu1.add(imageItem1);
@@ -66,6 +67,7 @@ public class MorphWindow extends JFrame implements ActionListener{
         menu2.add(grid5x5);
         menu2.add(grid10x10);
         menu2.add(grid20x20);
+        menu2.add(gridCustom);
 
         image1 = new Images();
         image2 = new Images();
@@ -82,6 +84,7 @@ public class MorphWindow extends JFrame implements ActionListener{
         morphButton.addActionListener(this);
 
         frames = new JSlider(JSlider.HORIZONTAL, 0,100, numOfFrames);
+        frameLabel.setHorizontalAlignment(JLabel.CENTER);
         frameLabel.setText("Number of Frames: " + numOfFrames);
         frames.addChangeListener(new ChangeListener() {
             @Override
@@ -92,6 +95,7 @@ public class MorphWindow extends JFrame implements ActionListener{
         });
 
         startBrightnessSlider = new JSlider(JSlider.HORIZONTAL, 0,100, startBrightness);
+        startBrightnessLabel.setHorizontalAlignment(JLabel.CENTER);
         startBrightnessLabel.setText("Brightness of Start Image:  " + startBrightness);
         startBrightnessSlider.addChangeListener(new ChangeListener() {
             @Override
@@ -103,6 +107,7 @@ public class MorphWindow extends JFrame implements ActionListener{
         });
 
         endBrightnessSlider = new JSlider(JSlider.HORIZONTAL, 0,100, endBrightness);
+        endBrightnessLabel.setHorizontalAlignment(JLabel.CENTER);
         endBrightnessLabel.setText("Brightness of End Image:  " + endBrightness);
         endBrightnessSlider.addChangeListener(new ChangeListener() {
             @Override
@@ -129,7 +134,7 @@ public class MorphWindow extends JFrame implements ActionListener{
 
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(850,500);  //sets dimension of window
+        setSize(1100,550);  //sets dimension of window
         setVisible(true);  //allows user to see window
 
     }
@@ -160,6 +165,25 @@ public class MorphWindow extends JFrame implements ActionListener{
             numPoints = 400;
             image1.drawControlPoints(numPoints);
             image2.drawControlPoints(numPoints);
+        }
+
+        if(e.getSource() == gridCustom){
+
+            try{
+                int input = Integer.parseInt(JOptionPane.showInputDialog("Enter custom number of rows/columns (example input- 5):"));
+                if(input < 3 || input > 25){
+                    JOptionPane.showMessageDialog(this,"ERROR: Input must be between 3 and 25.");
+                }
+                else{
+                    numPoints = input*input;
+                    image1.drawControlPoints(numPoints);
+                    image2.drawControlPoints(numPoints);
+                }
+            }
+            catch(NumberFormatException e1){
+                JOptionPane.showMessageDialog(this,"ERROR: Must input an integer.");
+            }
+
         }
 
         if(e.getSource() == morphButton){

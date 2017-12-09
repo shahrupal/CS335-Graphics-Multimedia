@@ -233,8 +233,9 @@ public class Images extends JPanel{
     public void setBrightness(float brightness){
 
         float scaleFactor = 2 * brightness / 100;
+        System.out.println(scaleFactor);
         RescaleOp rescale = new RescaleOp(scaleFactor, 0, null);
-        buffer = rescale.filter(buffer, buffer);
+        buffer = rescale.filter(buffer, null);
         repaint();
 
     }
