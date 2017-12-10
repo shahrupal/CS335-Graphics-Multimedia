@@ -1,3 +1,5 @@
+// WRITTEN BY DR. BRENT SEALES
+
 import java.awt.image.*;
 import java.awt.*;
 import java.awt.geom.*;

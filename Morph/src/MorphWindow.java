@@ -1,3 +1,4 @@
+// import libraries
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -8,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class MorphWindow extends JFrame implements ActionListener{
 
     private JFrame morphFrame;
-    PopUp morphPanel = new PopUp();
+    private PopUp morphPanel = new PopUp();
 
     private JMenuBar menuBar;
     private JMenu menu1, menu2;
@@ -27,28 +28,34 @@ public class MorphWindow extends JFrame implements ActionListener{
     private int numPoints = 11*11;
     private int numOfFrames = 30;
 
-    JSlider frames;
-    JLabel frameLabel = new JLabel();
+    private JSlider frames;
+    private JLabel frameLabel = new JLabel();
 
-    JSlider startBrightnessSlider;
-    JLabel startBrightnessLabel = new JLabel();
-    int startBrightness = 50;
-    JSlider endBrightnessSlider;
-    JLabel endBrightnessLabel = new JLabel();
-    int endBrightness = 50;
+    private JSlider startBrightnessSlider;
+    private JLabel startBrightnessLabel = new JLabel();
+    private int startBrightness = 50;
+    private JSlider endBrightnessSlider;
+    private JLabel endBrightnessLabel = new JLabel();
+    private int endBrightness = 50;
 
+
+    // constructor
     public MorphWindow(){
 
+        // title of frame
         setTitle("Morph");
 
+        // create menu bar
         menuBar = new JMenuBar();
 
+        // create first menu and its buttons
         menu1 = new JMenu("Images");
         imageItem1 = new JMenuItem("Load Image 1");
         imageItem2 = new JMenuItem("Load Image 2");
         imageItem1.addActionListener(this);
         imageItem2.addActionListener(this);
 
+        // create second menu and its buttons
         menu2 = new JMenu("Grid");
         grid5x5 = new JMenuItem("5x5");
         grid10x10 = new JMenuItem("10x10");
@@ -59,30 +66,36 @@ public class MorphWindow extends JFrame implements ActionListener{
         grid20x20.addActionListener(this);
         gridCustom.addActionListener(this);
 
+        // add menu buttons to menu and and menu to menu bar
         menuBar.add(menu1);
         menu1.add(imageItem1);
         menu1.add(imageItem2);
 
+        // add menu buttons to menu and and menu to menu bar
         menuBar.add(menu2);
         menu2.add(grid5x5);
         menu2.add(grid10x10);
         menu2.add(grid20x20);
         menu2.add(gridCustom);
 
+        // initialize Images objects
         image1 = new Images();
         image2 = new Images();
-        imagePanel = new JPanel();
 
+        // add Images objects to the two panels
+        imagePanel = new JPanel();
         imagePanel.setLayout(new GridLayout(1,2));
         imagePanel.add(image1);
         imagePanel.add(image2);
 
+        // add buttons to left panel
         settingsPanel = new JPanel(new GridLayout(8,1));
         resetButton = new JButton("Reset");
         resetButton.addActionListener(this);
         morphButton = new JButton("Morph");
         morphButton.addActionListener(this);
 
+        // slider bar for frames - stores in real time
         frames = new JSlider(JSlider.HORIZONTAL, 0,100, numOfFrames);
         frameLabel.setHorizontalAlignment(JLabel.CENTER);
         frameLabel.setText("Number of Frames: " + numOfFrames);
@@ -94,6 +107,7 @@ public class MorphWindow extends JFrame implements ActionListener{
             }
         });
 
+        // slider bar for the brightness of left image - stores in real time
         startBrightnessSlider = new JSlider(JSlider.HORIZONTAL, 0,100, startBrightness);
         startBrightnessLabel.setHorizontalAlignment(JLabel.CENTER);
         startBrightnessLabel.setText("Brightness of Start Image:  " + startBrightness);
@@ -106,6 +120,7 @@ public class MorphWindow extends JFrame implements ActionListener{
             }
         });
 
+        // slider bar for the brightness of right image - stores in real time
         endBrightnessSlider = new JSlider(JSlider.HORIZONTAL, 0,100, endBrightness);
         endBrightnessLabel.setHorizontalAlignment(JLabel.CENTER);
         endBrightnessLabel.setText("Brightness of End Image:  " + endBrightness);
@@ -118,6 +133,7 @@ public class MorphWindow extends JFrame implements ActionListener{
             }
         });
 
+        // add buttons and sliders to left panel
         settingsPanel.add(resetButton);
         settingsPanel.add(frames);
         settingsPanel.add(frameLabel);
@@ -127,11 +143,11 @@ public class MorphWindow extends JFrame implements ActionListener{
         settingsPanel.add(endBrightnessLabel);
         settingsPanel.add(morphButton);
 
+        // add panels and menu bar to frame
         Container c = getContentPane();
         setJMenuBar(menuBar);
         c.add(settingsPanel, BorderLayout.WEST);
         c.add(imagePanel);
-
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1000,455);  //sets dimension of window
@@ -168,6 +184,7 @@ public class MorphWindow extends JFrame implements ActionListener{
             image2.drawControlPoints(numPoints);
         }
 
+        // create pop-up that allows user to enter custom grid dimension
         if(e.getSource() == gridCustom){
 
             try{
@@ -195,6 +212,7 @@ public class MorphWindow extends JFrame implements ActionListener{
     }
 
 
+    // create morph pop-up window
     public void morphWindow(){
 
         morphFrame = new JFrame("Morph");
@@ -207,9 +225,7 @@ public class MorphWindow extends JFrame implements ActionListener{
         System.out.println(img1);
         System.out.println(img2);
 
-
         morphPanel.createMorph(img1points, img2points, (int)Math.sqrt(numPoints), numOfFrames, img1, img2);
-
 
         morphFrame.setSize(450,450);
         morphFrame.setVisible(true);

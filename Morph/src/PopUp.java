@@ -12,7 +12,6 @@ public class PopUp extends JPanel {
     private Point end[][];
     private int size;
     private Timer gameTimer;
-    private boolean beginning = true;
     private double time = 0;
     int DIAMETER = 6;
     int OFFSET = DIAMETER / 2;
@@ -20,18 +19,14 @@ public class PopUp extends JPanel {
     private ArrayList<Point> morphPointsEnd = new ArrayList<Point>();
     private ArrayList<Integer> morphPointsX = new ArrayList<Integer>();
     private ArrayList<Integer> morphPointsY = new ArrayList<Integer>();
-    private ArrayList<Integer> distanceOfPoints = new ArrayList<>();
     private BufferedImage image1, image2;
 
-    //private int frames = 30;
     private int frames;
     private int frameCount = 0;
-    private int delta;
 
-    public PopUp() {
-        //setBackground(Color.ORANGE);
-    }
+    public PopUp() { }
 
+    // serves as a constructor
     public void createMorph(Point[][] s, Point[][] e, int length, int numFrames, BufferedImage img1, BufferedImage img2) {
 
         frames = numFrames;
@@ -49,36 +44,48 @@ public class PopUp extends JPanel {
 
     public void generate() {
 
+            // each time timer ticks
             ActionListener timer = new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
 
-                    for (int i = 0; i < size - 1; i++) {
-                        for (int j = 0; j < size - 1; j++) {
+                    if(frameCount == frames){
+                        gameTimer.stop();
+                    }
+                    else{
+                        frameCount++;
+                        for (int i = 0; i < size - 1; i++) {
+                            for (int j = 0; j < size - 1; j++) {
 
-
-                            if ((start[i][j].getX() != end[i][j].getX()) && (start[i][j].getY() != end[i][j].getY())) {
-
+                                // add starting and end point to list
                                 morphPointsStart.add(start[i][j]);
                                 morphPointsEnd.add(end[i][j]);
                                 morphPointsX.add(i);
                                 morphPointsY.add(j);
-                                if (frameCount < frames) {
-                                    frameCount += 1;
-                                    System.out.println("timer ActionListener: frameCount = " + frameCount);
-                                    repaint();
-                                    revalidate();
-                                } else {
-                                    gameTimer.stop();
-                                }
+
+                                float opacity = (float) frameCount / frames;
+
+                                // create right triangle for start and end images, then warp them
+                                Triangle t1 = new Triangle(start[i][j].x, start[i][j].y, start[i + 1][j].x, start[i + 1][j].y, start[i + 1][j + 1].x, start[i + 1][j + 1].y);
+                                Triangle t2 = new Triangle(end[i][j].x, end[i][j].y, end[i + 1][j].x, end[i + 1][j].y, end[i + 1][j + 1].x, end[i + 1][j + 1].y);
+                                MorphTools.warpTriangle(image2, image1, t2, t1, null, null, opacity);
+
+                                // create left triangle for start and end images, then warp them
+                                Triangle t3 = new Triangle(start[i][j].x, start[i][j].y, start[i][j + 1].x, start[i][j + 1].y, start[i + 1][j + 1].x, start[i + 1][j + 1].y);
+                                Triangle t4 = new Triangle(end[i][j].x, end[i][j].y, end[i][j + 1].x, end[i][j + 1].y, end[i + 1][j + 1].x, end[i + 1][j + 1].y);
+                                MorphTools.warpTriangle(image2, image1, t4, t3, null, null, opacity);
+
+                                repaint();
+                                revalidate();
                             }
                         }
                     }
+
                 }
 
             };
-            
-            gameTimer = new Timer((1000 * 5)/frames, timer);  // 5 sec
+
+            gameTimer = new Timer((1000 * 5)/frames, timer);
             gameTimer.start();
 
     }
@@ -90,47 +97,26 @@ public class PopUp extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
-        g2d.drawImage(image1,0,0,getWidth(),getHeight(),this);
+        // re-draw the now morphed image
+        g2d.drawImage(image1,0,0,this);
 
+        // increment 'time', which serves as increment to point placement
         time += (1/(double)frames);
-        //time += 0.05;
-        System.out.println("paintComponent: " + time);
+        System.out.println("inside paint");
 
-        /*
-            Calculate the distance between each (source, destination) pair of control points and store them in an array.
-         */
+        // for each point, use the x = x(i) + t*(x(f) - x(i)) function
+        // this, over time, moves the starting point to the end point
         for (int i = 0; i < morphPointsStart.size(); i++) {
 
             double x = morphPointsStart.get(i).getX() + (time * (morphPointsEnd.get(i).getX() - morphPointsStart.get(i).getX()));
             double y = morphPointsStart.get(i).getY() + (time * (morphPointsEnd.get(i).getY() - morphPointsStart.get(i).getY()));
 
+            // store new point
             start[morphPointsX.get(i)][morphPointsY.get(i)].setLocation(x, y);
-        }
-
-
-        for (int a = 0; a < size-1; a++) {
-            for (int b = 0; b < size-1; b++) {
-
-                float opacity = (float) frameCount / frames;
-
-                // right triangle
-                Triangle t1 = new Triangle(start[a][b].x, start[a][b].y, start[a+1][b].x, start[a+1][b].y, start[a+1][b+1].x, start[a+1][b+1].y);
-                Triangle t2 = new Triangle(end[a][b].x, end[a][b].y, end[a+1][b].x, end[a+1][b].y, end[a+1][b+1].x, end[a+1][b+1].y);
-                MorphTools.warpTriangle(image2, image1, t2, t1, null, null, opacity);
-
-                // left triangle
-                Triangle t3 = new Triangle(start[a][b].x, start[a][b].y, start[a][b+1].x, start[a][b+1].y, start[a+1][b+1].x, start[a+1][b+1].y);
-                Triangle t4 = new Triangle(end[a][b].x, end[a][b].y, end[a][b+1].x, end[a][b+1].y, end[a+1][b+1].x, end[a+1][b+1].y);
-                MorphTools.warpTriangle(image2, image1, t4, t3, null, null, opacity);
-
-                g2d.drawImage(image1,0,0, getWidth(), getHeight(),this);
-
-            }
 
         }
+
     }
-
-
 
 }
 

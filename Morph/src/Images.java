@@ -26,10 +26,13 @@ public class Images extends JPanel{
 
         setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
         setBackground(Color.PINK);
+
+
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
 
+                // if control point is clicked, store which point is being clicked
                 if(!isDragging){
                     for(int i = 0; i < numRows; i++){
                         for(int j = 0; j < numCols; j++){
@@ -41,9 +44,9 @@ public class Images extends JPanel{
                     }
                 }
 
+                // do not allow control points to be dragged across borders
+                // store new points
                 if(isDragging){
-                    //set new point coordinates
-
                     if(createPolygon(temp).contains(e.getPoint())){
                         temp.setLocation(e.getX(), e.getY());
                         setCurrent(temp);
@@ -63,6 +66,7 @@ public class Images extends JPanel{
     }
 
 
+    // allow user to upload image from their computer
     public void selectImage(){
 
         JFileChooser browse = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -89,6 +93,7 @@ public class Images extends JPanel{
     }
 
 
+    // helper function
     public void drawControlPoints(int numPoints){
 
         ControlGrid(numPoints,getWidth(),getHeight());  // use width and height of image
@@ -97,7 +102,7 @@ public class Images extends JPanel{
     }
 
 
-
+    // create a grid of control points with given dimensions
     public void ControlGrid(int num, int width, int height) {
 
         numControlPoints = num;
@@ -122,13 +127,14 @@ public class Images extends JPanel{
 
     }
 
+    // draw grid of control points and lines
     @Override
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.drawImage(buffer, 0,0, getWidth(),getHeight(),this);
+        g2d.drawImage(buffer, 0,0, this);
 
         // draws control points
         for(int i = 0; i < numRows; i++){
@@ -222,15 +228,19 @@ public class Images extends JPanel{
         return p;
     }
 
+    // return grid of control points and their current locations
     public Point[][] getPointMatrix(){
         return controlPointsMatrix;
     }
 
+    // return image uploaded
     public BufferedImage getImage() { return buffer; }
 
+    // set and get point being dragged
     public void setCurrent(Point temp){ current = temp; }
     public Point getCurrent(){ return current; }
 
+    // modify brightness of original image
     public void setBrightness(float brightness){
 
         buffer = copy;
