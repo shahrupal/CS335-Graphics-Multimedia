@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 public class PopUp extends JPanel {
 
     private Point start[][];
@@ -20,7 +22,7 @@ public class PopUp extends JPanel {
     private ArrayList<Integer> morphPointsX = new ArrayList<Integer>();
     private ArrayList<Integer> morphPointsY = new ArrayList<Integer>();
     private BufferedImage image1, image2;
-
+    boolean first = true;
     private int frames;
     private int frameCount = 0;
 
@@ -44,10 +46,18 @@ public class PopUp extends JPanel {
 
     public void generate() {
 
-            // each time timer ticks
+        // each time timer ticks
             ActionListener timer = new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
+
+                    if(first){
+                        try {
+                            sleep(2000);
+                        } catch (InterruptedException p) {
+                        }
+                        first = false;
+                    }
 
                     if(frameCount == frames){
                         gameTimer.stop();
@@ -68,9 +78,7 @@ public class PopUp extends JPanel {
                                 // create right triangle for start and end images, then warp them
                                 Triangle t1 = new Triangle(start[i][j].x, start[i][j].y, start[i + 1][j].x, start[i + 1][j].y, start[i + 1][j + 1].x, start[i + 1][j + 1].y);
                                 Triangle t2 = new Triangle(end[i][j].x, end[i][j].y, end[i + 1][j].x, end[i + 1][j].y, end[i + 1][j + 1].x, end[i + 1][j + 1].y);
-                                MorphTools.warpTriangle(image2, image1, t2, t1, null, null, opacity);
-
-                                // create left triangle for start and end images, then warp them
+                                eate left triangle for start and end images, then warp them
                                 Triangle t3 = new Triangle(start[i][j].x, start[i][j].y, start[i][j + 1].x, start[i][j + 1].y, start[i + 1][j + 1].x, start[i + 1][j + 1].y);
                                 Triangle t4 = new Triangle(end[i][j].x, end[i][j].y, end[i][j + 1].x, end[i][j + 1].y, end[i + 1][j + 1].x, end[i + 1][j + 1].y);
                                 MorphTools.warpTriangle(image2, image1, t4, t3, null, null, opacity);
@@ -80,7 +88,9 @@ public class PopUp extends JPanel {
                             }
                         }
                     }
+                    MorphTools.warpTriangle(image2, image1, t2, t1, null, null, opacity);
 
+                                // cr
                 }
 
             };
@@ -102,7 +112,6 @@ public class PopUp extends JPanel {
 
         // increment 'time', which serves as increment to point placement
         time += (1/(double)frames);
-        System.out.println("inside paint");
 
         // for each point, use the x = x(i) + t*(x(f) - x(i)) function
         // this, over time, moves the starting point to the end point

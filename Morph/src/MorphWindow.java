@@ -222,8 +222,6 @@ public class MorphWindow extends JFrame implements ActionListener{
         Point[][] img2points = image2.getPointMatrix();
         BufferedImage img1 = image1.getImage();
         BufferedImage img2 = image2.getImage();
-        System.out.println(img1);
-        System.out.println(img2);
 
         morphPanel.createMorph(img1points, img2points, (int)Math.sqrt(numPoints), numOfFrames, img1, img2);
 
